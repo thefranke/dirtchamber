@@ -1,0 +1,73 @@
+/* 
+ * idc.h by Tobias Alexander Franke (tob@cyberhead.de) 2013
+ * For copyright and license see copying.txt
+ * http://www.tobias-franke.eu
+ */
+
+/*! \file */
+
+#pragma once
+
+/*! \brief IDs for DXUT GUI elements. */
+enum 
+{
+    IDC_TARGETS, 
+    IDC_TOGGLE_FULLSCREEN, 
+    IDC_SETTINGS,
+    IDC_FPS_COUNTER, 
+    
+    IDC_FLUX_SCALE,
+
+    IDC_LIGHT_DIRECTION, 
+    IDC_LIGHT_POS_X, 
+    IDC_LIGHT_POS_Y, 
+    IDC_LIGHT_POS_Z,
+    IDC_LIGHT_WARMTH,
+
+    IDC_NUM_VPLS,
+    IDC_NUM_VPLS_INFO, 
+    IDC_GI_SCALE,
+    IDC_GI_DEBUG1,
+    IDC_GI_DEBUG2,
+    IDC_GI_PARAMETER1,
+    IDC_GI_PARAMETER2,
+    IDC_GI_PARAMETER3,
+    IDC_GI_INFO1,
+    IDC_GI_INFO2,
+    IDC_GI_INFO3,
+
+    IDC_SSAO_ENABLED,
+    IDC_SSAO_SCALE,
+
+    IDC_FXAA_ENABLED,
+        
+    IDC_BLOOM_ENABLED, 
+    IDC_BLOOM_SIGMA,
+    IDC_BLOOM_TRESHOLD,
+
+    IDC_GODRAYS_ENABLED, 
+    IDC_GODRAYS_TAU,
+
+    IDC_DOF_ENABLED, 
+    IDC_DOF_FOCAL_PLANE, 
+    IDC_DOF_COC_SCALE, 
+
+    IDC_EXPOSURE_ADAPT, 
+    IDC_EXPOSURE_KEY,
+    IDC_EXPOSURE_SPEED,
+
+    IDC_TRACK_TRANSX,
+    IDC_TRACK_TRANSY,
+    IDC_TRACK_TRANSZ,
+    IDC_TRACK_SCALE,
+    IDC_TRACK_ANIMATE,
+
+	IDC_ZFAR,
+	IDC_ZNEAR,
+
+    IDC_CRT_ENABLED,
+    IDC_FILM_GRAIN_ENABLED,
+
+    // HAS TO BE LAST!
+    IDC_DEBUG_INFO,
+};

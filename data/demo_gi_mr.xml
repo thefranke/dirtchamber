@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<camera>
+	<lookat>
+		<x>0</x>
+		<y>0</y>
+		<z>1</z>
+	</lookat>
+	<pos>
+		<x>0</x>
+		<y>0</y>
+		<z>0</z>
+	</pos>
+</camera>
+<gi>
+	<debug>false</debug>
+	<scale>21</scale>
+	<svo>
+		<glossiness>4</glossiness>
+	</svo>
+</gi>
+<light>
+	<direction>
+		<x>0.50256</x>
+		<y>-0.712761</y>
+		<z>0.489291</z>
+	</direction>
+	<flux>
+		<b>1.63</b>
+		<g>1.63</g>
+		<r>1.63</r>
+	</flux>
+	<position>
+		<x>-20.9553</x>
+		<y>86.8186</y>
+		<z>314.676</z>
+	</position>
+</light>
+<postprocessing>
+	<bloom>
+		<enabled>true</enabled>
+		<sigma>0.8</sigma>
+		<treshold>1.5</treshold>
+	</bloom>
+	<crt>
+		<enabled>false</enabled>
+	</crt>
+	<dof>
+		<coc_scale>0.74</coc_scale>
+		<enabled>true</enabled>
+		<focal_plane>844</focal_plane>
+	</dof>
+	<exposure>
+		<adapt>false</adapt>
+		<key>0.05</key>
+		<speed>0.4</speed>
+	</exposure>
+	<film_grain>
+		<enabled>true</enabled>
+	</film_grain>
+	<fxaa>
+		<enabled>true</enabled>
+	</fxaa>
+	<godrays>
+		<enabled>false</enabled>
+		<tau>0.0005</tau>
+	</godrays>
+	<ssao>
+		<enabled>true</enabled>
+		<scale>0.33</scale>
+	</ssao>
+</postprocessing>
