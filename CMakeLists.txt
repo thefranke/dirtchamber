@@ -42,6 +42,7 @@ endif()
     
 add_definitions(-D UNICODE)
 add_definitions(-D NOMINMAX)
+add_definitions(-D _WIN32_WINNT=0x0601)
           
 # dune
 file(GLOB_RECURSE ext_src src/ext/*)

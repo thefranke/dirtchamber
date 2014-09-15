@@ -102,6 +102,8 @@ The first two projects (**lpv** and **vct**) are sample implementations of regul
 
 The other two projects (**dlpv** and **dvct**) are the mixed reality applications which implement Delta Light Propagation Volumes and Delta Voxel Cone Tracing respectively. Similarly to the first two projects, both executables will try to load all command line arguments as files or file patterns. The important bit is that the **last** parameter is the synthetic object, while all other parameters are assumed to be real reconstructed scene geometry.
 
+Once running, you can manipulate rendering settings and the geometric attributes of a main light source. If you repeatedly need to access the same configuration with the same camera position and orientation, you can save these settings with by pressing **p** on your keyboard. Pressing **l** opens a dialog to open the settings again. You can find a sample configuration in **data/demo_gi.xml**.
+
 Understanding the code
 ----------------------
 
@@ -128,6 +130,18 @@ Shaders are explicitely managed from the outside. This means that each object wh
 Objects which feature shader parameters which may be manipulated from the outside come with a member function parameters() which returns the internal cbuffer.
 
 When loading files, each object will make sure that the URI entered is always in absolute relation to the executable path on the disk, not on the execution path.
+
+Debugging the code
+------------------
+
+Dune uses a four-class system to log during runtime. These are:
+
+- **tclog**: Used to log some useful information.
+- **tcout**: Used to log a warning which does not disrupt the flow of execution.
+- **tcerr**: Used to log an error which does does not disrupt the flow of execution.
+- **exception**: Thrown whenever the program cannot continue operating at this point. The main function will catch all remainders.
+
+All logging is routed through a special **logbuf** class which, apart from displaying nice popups, will write each line to a log file. All samples write to **data/log.txt**.
 
 Future Improvements
 ===================
