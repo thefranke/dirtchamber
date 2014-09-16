@@ -232,9 +232,6 @@ namespace dc
             y = start;
             combo_settings->AddItem(L"GI", reinterpret_cast<void*>(&hud_gi));
 
-            hud_gi.AddStatic(IDC_NUM_VPLS_INFO, L"Number of VPLS: 50", x, y += db, w, h);
-            hud_gi.AddSlider(IDC_NUM_VPLS, x, y += dd, w, h, 1, MAX_VPLS, 50);
-
             hud_gi.AddStatic(-1, L"GI scale:", x, y += db, w, h);
             hud_gi.AddSlider(IDC_GI_SCALE, x, y += dd, w, h, 0, 100, 0);
 
