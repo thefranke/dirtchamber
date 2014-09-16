@@ -88,8 +88,11 @@ namespace dune
         desc.Width = width;
         desc.Height = height;
 
+        // save old device
+        auto device = device_;
+
         destroy();
-        create(device_, desc);
+        create(device, desc);
     }
 
     void render_target::destroy()
