@@ -1,42 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <camera>
 	<lookat>
-		<x>-399.635</x>
-		<y>642.485</y>
-		<z>-541.359</z>
+		<x>-0.0624965</x>
+		<y>9.99092</y>
+		<z>-34.3683</z>
 	</lookat>
 	<pos>
-		<x>-400.456</x>
-		<y>642.665</y>
-		<z>-541.902</z>
+		<x>-0.0624965</x>
+		<y>9.99092</y>
+		<z>-35.3683</z>
 	</pos>
 </camera>
 <gi>
 	<debug>false</debug>
-	<svo>
+    <svo>
 		<glossiness>4</glossiness>
 	</svo>
 	<lpv>
-		<flux_amplifier>3.676</flux_amplifier>
+		<flux_amplifier>3.824</flux_amplifier>
 		<num_propagations>32</num_propagations>
 	</lpv>
-	<scale>5</scale>
+	<scale>21</scale>
 </gi>
 <light>
 	<direction>
-		<x>0.617822</x>
-		<y>-0.786318</y>
+		<x>0</x>
+		<y>-1</y>
 		<z>0</z>
 	</direction>
 	<flux>
-		<b>7.7408</b>
-		<g>9.44</g>
-		<r>9.44</r>
+		<b>1</b>
+		<g>1</g>
+		<r>1</r>
 	</flux>
 	<position>
-		<x>88.3151</x>
-		<y>1242.73</y>
-		<z>221.749</z>
+		<x>9.53674e-007</x>
+		<y>20.0297</y>
+		<z>-9.53674e-007</z>
 	</position>
 </light>
 <postprocessing>
@@ -49,13 +49,13 @@
 		<enabled>false</enabled>
 	</crt>
 	<dof>
-		<coc_scale>0.58</coc_scale>
-		<enabled>true</enabled>
-		<focal_plane>3844</focal_plane>
+		<coc_scale>0.8</coc_scale>
+		<enabled>false</enabled>
+		<focal_plane>2000</focal_plane>
 	</dof>
 	<exposure>
-		<adapt>true</adapt>
-		<key>0.028</key>
+		<adapt>false</adapt>
+		<key>0.05</key>
 		<speed>0.4</speed>
 	</exposure>
 	<film_grain>
@@ -65,11 +65,11 @@
 		<enabled>true</enabled>
 	</fxaa>
 	<godrays>
-		<enabled>true</enabled>
-		<tau>0.0003</tau>
+		<enabled>false</enabled>
+		<tau>0.0005</tau>
 	</godrays>
 	<ssao>
 		<enabled>true</enabled>
-		<scale>0.47</scale>
+		<scale>0.1</scale>
 	</ssao>
 </postprocessing>

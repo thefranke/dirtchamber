@@ -267,3 +267,95 @@ float shadow_ao(in float3 P, in float3 L, in float3 N, in float cone_angle)
     
     return saturate(trace_shadow_cone(vP, vL, cone_angle, 2, 8))+0.2;
 }
+
+#ifdef DVCT
+float4 specular_from_vct(in float3 P, in float3 N, in float3 V, float cone_angle, bool is_real)
+#else
+float4 specular_from_vct(in float3 P, in float3 N, in float3 V, float cone_angle)
+#endif
+{
+    float3 R = reflect(-V, N);
+
+    float3 vP = mul(world_to_svo, float4(P, 1.0)).xyz;
+    float3 vR = mul(world_to_svo, float4(R, 0.0)).xyz;
+    float3 vN = mul(world_to_svo, float4(N, 0.0)).xyz;
+
+    // bias a bit to avoid self intersection
+    vP += 4 * normalize(vN) / SVO_SIZE;
+
+    float NdotL = saturate(dot(normalize(N), normalize(R)));
+
+    // get more fingerained specular refs here
+    float3 vvR = normalize(vR) / 0.5;
+
+#ifdef DVCT
+    float4 spec_bounce = trace_cone(vP, vvR, cone_angle, 11, 1, is_real);
+#else
+    float4 spec_bounce = trace_cone(vP, vvR, cone_angle, 11, 1);
+#endif
+
+    // TODO: add actual material properties here
+    float3 f = brdf(R, V, N, 1, 1, 0);
+
+    return float4(spec_bounce.rgb * NdotL * f.rgb, spec_bounce.w);
+}
+
+#ifdef DVCT
+float4 diffuse_from_vct(in float2 tc, in float3 P, in float3 N, in float3 V, bool is_real)
+#else
+float4 diffuse_from_vct(in float2 tc, in float3 P, in float3 N, in float3 V)
+#endif
+{
+    float3 vP = mul(world_to_svo, float4(P, 1.0)).xyz;
+
+    // TODO: generate better cones! This hack will likely fail at some point
+    float3 diffdir = normalize(N.zxy);
+    float3 crossdir = cross(N.xyz, diffdir);
+    float3 crossdir2 = cross(N.xyz, crossdir);
+
+    // jitter cones
+    float j = 1.0 + (frac(sin(dot(tc, float2(12.9898, 78.233))) * 43758.5453)) * 0.2;
+
+    float3 directions[9] =
+    {
+        N,
+        normalize(crossdir   * j + N),
+        normalize(-crossdir  * j + N),
+        normalize(crossdir2  * j + N),
+        normalize(-crossdir2 * j + N),
+        normalize((crossdir + crossdir2)  * j + N),
+        normalize((crossdir - crossdir2)  * j + N),
+        normalize((-crossdir + crossdir2) * j + N),
+        normalize((-crossdir - crossdir2) * j + N),
+    };
+
+    float diff_angle = 0.6f;
+
+    float4 diffuse = float4(0, 0, 0, 0);
+
+#define num_d 9
+
+    for (uint d = 0; d < num_d; ++d)
+    {
+        float3 D = directions[d];
+        float3 vD = mul(world_to_svo, float4(D, 0.0)).xyz;
+        float3 vN = mul(world_to_svo, float4(N, 0.0)).xyz;
+
+        vP += normalize(vN) / SVO_SIZE;
+
+        float NdotL = saturate(dot(normalize(N), normalize(D)));
+
+        // TODO: add actual material properties here
+        float4 f = float4(brdf(normalize(D), V, N, 1, 0, 1), 1);
+
+#ifdef DVCT
+        diffuse += trace_cone(vP, normalize(vD), diff_angle, 5, 20, is_real) * NdotL * f;
+#else
+        diffuse += trace_cone(vP, normalize(vD), diff_angle, 2, 5) * NdotL * f;
+#endif
+    }
+
+    diffuse *= 4.0 * M_PI / num_d;
+
+    return diffuse / M_PI;
+}

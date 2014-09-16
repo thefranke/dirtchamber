@@ -89,7 +89,7 @@ protected:
 
         // mesh shader
         dune::compile_shader(device, L"../../shader/d3d_mesh.hlsl", "vs_5_0", "vs_mesh", shader_flags, nullptr, &vs, &vs_blob);
-        dune::compile_shader(device, L"../../shader/d3d_meshl.hlsl", "ps_5_0", "ps_mesh", shader_flags, nullptr, &ps);
+        dune::compile_shader(device, L"../../shader/d3d_mesh.hlsl", "ps_5_0", "ps_mesh", shader_flags, nullptr, &ps);
         reconstructed_real_scene_.set_shader(device, vs_blob, vs, ps);
         synthetic_object_.set_shader(device, vs_blob, vs, ps);
         cleanup();
@@ -106,8 +106,8 @@ protected:
         cleanup();
 
         // skydome shader
-        dune::compile_shader(device, L"../../shader/dxmesh_skydome.hlsl", "vs_5_0", "vs_skydome", shader_flags, nullptr, &vs, &vs_blob);
-        dune::compile_shader(device, L"../../shader/dxmesh_skydome.hlsl", "ps_5_0", "ps_skydome", shader_flags, nullptr, &ps);
+        dune::compile_shader(device, L"../../shader/d3d_mesh_skydome.hlsl", "vs_5_0", "vs_skydome", shader_flags, nullptr, &vs, &vs_blob);
+        dune::compile_shader(device, L"../../shader/d3d_mesh_skydome.hlsl", "ps_5_0", "ps_skydome", shader_flags, nullptr, &ps);
         sky_.set_shader(device, vs_blob, vs, ps);
         cleanup();
 
@@ -277,7 +277,7 @@ public:
         tracker_.create(L"../../data/camera_parameters.xml");
         tracker_.load_pattern(L"../../data/marker.png");
 
-        synthetic_object_.create(device, so_file);// L"../../data/happy20k1.obj");
+        synthetic_object_.create(device, so_file);
 
         delta_radiance_field_.create(device, VOLUME_SIZE);
 
@@ -646,7 +646,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
             files_scene.push_back(L"../../data/tracked/plane.obj");
 
             // the last element in the vector is used as the synthetic object
-            files_scene.push_back(L"../../data/happy20k1.obj");
+            files_scene.push_back(L"../../data/tracked/happy.obj");
         }
 
         DXUTSetCallbackKeyboard(on_keyboard);

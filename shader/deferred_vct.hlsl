@@ -1,8 +1,8 @@
 /*
-* deferred_vct.hlsl by Tobias Alexander Franke (tob@cyberhead.de) 2013
-* For copyright and license see LICENSE
-* http://www.tobias-franke.eu
-*/
+ * deferred_vct.hlsl by Tobias Alexander Franke (tob@cyberhead.de) 2013
+ * For copyright and license see LICENSE
+ * http://www.tobias-franke.eu
+ */
 
 #include "deferred.hlsl"
 #include "vct_tools.hlsl"
@@ -15,111 +15,14 @@ cbuffer gi_parameters_ps    : register(b3)
     bool debug_gi           : packoffset(c0.w);
 }
 
-float2 to_gbuffer(in float3 c)
-{
-    float4 pc = mul(vp, float4(c, 1.0));
-    pc.xy /= pc.w;
-
-    return to_tex(pc.xy);
-}
-
-#ifdef DVCT
-float4 specular_from_vct(in float3 P, in float3 N, in float3 V, float cone_angle, bool is_real)
-#else
-float4 specular_from_vct(in float3 P, in float3 N, in float3 V, float cone_angle)
-#endif
-{
-    float3 R = reflect(-V, N);
-
-    float3 vP = mul(world_to_svo, float4(P, 1.0)).xyz;
-    float3 vR = mul(world_to_svo, float4(R, 0.0)).xyz;
-    float3 vN = mul(world_to_svo, float4(N, 0.0)).xyz;
-
-    // bias a bit to avoid self intersection
-    vP += 4 * normalize(vN) / SVO_SIZE;
-
-    float NdotL = saturate(dot(normalize(N), normalize(R)));
-
-    // get more fingerained specular refs here
-    float3 vvR = normalize(vR) / 0.5;
-
-#ifdef DVCT
-    float4 spec_bounce = trace_cone(vP, vvR, cone_angle, 11, 1, is_real);
-#else
-    float4 spec_bounce = trace_cone(vP, vvR, cone_angle, 11, 1);
-#endif
-
-    // TODO: add actual material properties here
-    float3 f = brdf(R, V, N, 1, 1, 0);
-
-    return float4(spec_bounce.rgb * NdotL * f.rgb, spec_bounce.w);
-}
-
-#ifdef DVCT
-float4 diffuse_from_vct(in float3 P, in float3 N, in float3 V, bool is_real)
-#else
-float4 diffuse_from_vct(in float3 P, in float3 N, in float3 V)
-#endif
-{
-    float3 vP = mul(world_to_svo, float4(P, 1.0)).xyz;
-
-    // TODO: generate better cones! This hack will likely fail at some point
-    float3 diffdir = normalize(N.zxy);
-    float3 crossdir = cross(N.xyz, diffdir);
-    float3 crossdir2 = cross(N.xyz, crossdir);
-
-    float3 directions[9] =
-    {
-        N,
-        normalize(crossdir + N),
-        normalize(-crossdir + N),
-        normalize(crossdir2 + N),
-        normalize(-crossdir2 + N),
-        normalize(crossdir + crossdir2 + N),
-        normalize(crossdir - crossdir2 + N),
-        normalize(-crossdir + crossdir2 + N),
-        normalize(-crossdir - crossdir2 + N),
-    };
-
-    float diff_angle = 0.6f;
-
-    float4 diffuse = float4(0, 0, 0, 0);
-
-#define num_d 9
-
-    for (uint d = 0; d < num_d; ++d)
-    {
-        float3 D = directions[d];
-        float3 vD = mul(world_to_svo, float4(D, 0.0)).xyz;
-        float3 vN = mul(world_to_svo, float4(N, 0.0)).xyz;
-
-        vP += normalize(vN) / SVO_SIZE;
-
-        float NdotL = saturate(dot(normalize(N), normalize(D)));
-
-        // TODO: add actual material properties here
-        float4 f = float4(brdf(normalize(D), V, N, 1, 0, 1), 1);
-
-#ifdef DVCT
-        diffuse += trace_cone(vP, normalize(vD), diff_angle, 5, 20, is_real) * NdotL * f;
-#else
-        diffuse += trace_cone(vP, normalize(vD), diff_angle, 2, 5) * NdotL * f;
-#endif
-    }
-
-    diffuse *= 4.0 * M_PI / num_d;
-
-    return diffuse/M_PI;
-}
-
 #ifndef DVCT
-float4 gi_from_vct(in float3 P, in float3 N, in float3 V, in float3 diffuse, in float3 specular, in float a)
+float4 gi_from_vct(in float2 tc, in float3 P, in float3 N, in float3 V, in float3 diffuse, in float3 specular, in float a)
 {
     a += glossiness / 10.f;
 
     return
-        diffuse_from_vct(P, N, V) +
-        specular_from_vct(P, N, V, a); 
+        diffuse_from_vct(tc, P, N, V) +
+        specular_from_vct(P, N, V, a);
 }
 
 float4 ps_vct(in PS_INPUT inp) : SV_Target
@@ -183,7 +86,7 @@ float4 ps_vct(in PS_INPUT inp) : SV_Target
     float3 T1 = f * Li * attenuation * NoL;
 
     // indirect
-    float3 T2 = gi_from_vct(P, N, V, gb.diffuse_albedo.rgb, gb.specular_albedo.rgb, roughness).rgb;
+    float3 T2 = gi_from_vct(inp.tex_coord.xy, P, N, V, gb.diffuse_albedo.rgb, gb.specular_albedo.rgb, roughness).rgb;
 
     T2 *= gi_scale;
 

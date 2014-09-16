@@ -100,7 +100,7 @@ float pcf(in float2 tc, in float z, in Texture2D linear_shadowmap)
         ComparisonFunc = GREATER;
     };
 
-    const int NUM_TAPS = 9;
+    const uint NUM_TAPS = 9;
 
     int2 offsets[NUM_TAPS] =
     {

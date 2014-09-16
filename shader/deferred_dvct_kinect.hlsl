@@ -10,6 +10,14 @@
 Texture2D rt_kinect_color  : register(t0);
 Texture2D rt_kinect_ldepth : register(t1);
 
+float2 to_gbuffer(in float3 c)
+{
+    float4 pc = mul(vp, float4(c, 1.0));
+        pc.xy /= pc.w;
+
+    return to_tex(pc.xy);
+}
+
 bool is_real_surface(in float3 pos)
 {
     float2 tc = to_gbuffer(pos);
@@ -113,7 +121,7 @@ float4 ps_ar_dvct(in PS_INPUT inp) : SV_Target
     float3 T2 = float3(0, 0, 0);
 
     // first bounce
-    float4 diffuse_indirect = diffuse_from_vct(P, N, V, is_real);
+    float4 diffuse_indirect = diffuse_from_vct(inp.tex_coord.xy, P, N, V, is_real);
     T2 += diffuse_indirect.rgb * gi_scale * diffuse_albedo.rgb / M_PI;
 
     if (is_real)
