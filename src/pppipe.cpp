@@ -272,7 +272,7 @@ void pppipe::render(ID3D11DeviceContext* context, ID3D11RenderTargetView* backbu
     assert(backbuffer);
 
     context->GenerateMips(frontbuffer_.srv());
-    
+
     // adapt exposure
     static bool current = true;
     current = !current;
@@ -286,7 +286,7 @@ void pppipe::render(ID3D11DeviceContext* context, ID3D11RenderTargetView* backbu
     render(context, adapt_exposure_, frontbuffer_, rt_adapted_luminance_[current].rtv());
 
     // render bloom buffer
-	if (cb_pp_parameters_.data().bloom_enabled)
+	if (parameters().data().bloom_enabled)
 		bloom(context, frontbuffer_);
 
     ID3D11ShaderResourceView* views3[] = { rt_adapted_luminance_[current].srv(), bloom_full_.srv() };
@@ -364,7 +364,7 @@ const serializer& operator>>(const serializer& s, pppipe& ppp)
     {
         ppp.parameters().data().bloom_enabled       = s.get<bool>(L"postprocessing.bloom.enabled");
         ppp.parameters().data().bloom_sigma         = s.get<float>(L"postprocessing.bloom.sigma");
-        ppp.parameters().data().bloom_treshold      = s.get<float>(L"postprocessing.bloom.enabled");
+        ppp.parameters().data().bloom_treshold      = s.get<float>(L"postprocessing.bloom.treshold");
 
         ppp.parameters().data().crt_enabled         = s.get<bool>(L"postprocessing.crt.enabled");
         ppp.parameters().data().film_grain_enabled  = s.get<bool>(L"postprocessing.film_grain.enabled");

@@ -17,8 +17,6 @@
 
 #include "unicode.h"
 
-class CFirstPersonCamera;
-
 namespace dune 
 {
     /*!
