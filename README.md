@@ -4,12 +4,13 @@ Introduction
 The Dirtchamber, inspired by the homonymous Prodigy album, is a mixed reality (MR) testing environment for real-time global illumination algorithms. It evolved while I was writing papers to figure out if a global illumination algorithm is suitable (with adaptations) to be used as a relighting solution for an MR scenario. Two main products came out of this: Delta Light Propagation Volumes and Delta Voxel Cone Tracing.
 
 This suite features four samples:
+
 - A Light Propagation Volume renderer sample
 - A Delta Light Propagation Volume MR renderer
 - A Voxel Cone Tracing renderer sample
 - A Delta Voxel Cone Tracing MR renderer
 
-Both, MR and non-MR samples are rendered with a deferred renderer and a postprocessing pipeline which includes FXAA, SSAO, Depth-of-Field, Crepuscular Rays, Bloom, a CRT monitor effect, TV grain, exposure adaptation and tonemapping. The model loader uses [Assimp](http://assimp.sourceforge.net/), which means you should be able to load a good range of different model formats. The deferred shader uses a physically-based BRDF model with GGX as its normal distribution function. Both MR samples as well as both non-MR renderers share a common file and switch between the volumetric GI method with a define.
+Both, MR and non-MR samples are rendered with a deferred renderer and a postprocessing pipeline which includes FXAA, SSAO, Depth-of-Field, crepuscular Rays, Bloom, a CRT monitor effect, TV grain, exposure adaptation and tonemapping. The model loader uses [Assimp](http://assimp.sourceforge.net/), which means you should be able to load a good range of different model formats. The deferred shader uses a physically-based BRDF model with GGX as its normal distribution function. Both MR samples as well as both non-MR renderers share a common file and switch between the volumetric GI method with a define.
 
 The Dirtchamber uses Dune, a Direct3D helper library which includes many classes that simply wrap and manage the absurd amount of pointers and structs needed to upload stuff to the GPU. Hopefully, you'll find something useful in there too.
 
@@ -64,6 +65,7 @@ Furthermore, you will need to download the following dependencies:
 To ensure binary compatibility, it is recommended to compile DXUT and Assimp yourself. Dune only uses header-only libraries from Boost, which therefore doesn't need to be built. OpenCV is provided as binary release for all major Microsoft compilers and works out of the box.
 
 Here are the steps you should take:
+
 - Install the Windows SDK for Windows 8
 - Install or build OpenCV
 - Download Boost and extract it.
@@ -78,7 +80,7 @@ You can find the project at http://github.com/thefranke/dirtchamber.
 
     $ git clone https://github.com/thefranke/dirtchamber.git
 
-Please post any issues to the bugtracker on GitHub.
+Please post any issues to the [bugtracker on GitHub](https://github.com/thefranke/dirtchamber/issues).
 
 Running CMake
 -------------
@@ -120,10 +122,10 @@ All objects in Dune are explicitly managed using member functions **create(...)*
 
 All four samples together share a lot of code, most of it being GUI and GI rendering related. There are three file pairs: 
 
-- **common_gui(.h|.cpp)** containts callbacks for DXUT GUI code, most of the shared GUI code (settings for postprocessing etc.), simple functions to access GUI element values, synchronization code between GUI and Dune elements and functions to read and write all settings to XML files.
-- **common_dxut(.h|.cpp)** contains non-GUI related callbacks of DXUT (keyboard handling, resizing etc.).
-- **common_renderer(.h|.cpp)** contains two classes: **common_renderer** contains everything to set up a simple deferred renderer with a postprocessing pipeline, and the derived **rsm_renderer<T>** which adds a main light source for which an RSM is rendered.
-- **pppipe(.h|.cpp)** is the default postprocessing pipeline which is added on top of all four samples.
+- **common_gui** containts callbacks for DXUT GUI code, most of the shared GUI code (settings for postprocessing etc.), simple functions to access GUI element values, synchronization code between GUI and Dune elements and functions to read and write all settings to XML files.
+- **common_dxut** contains non-GUI related callbacks of DXUT (keyboard handling, resizing etc.).
+- **common_renderer** contains two classes: **common_renderer** contains everything to set up a simple deferred renderer with a postprocessing pipeline, and the derived **rsm_renderer<T>** which adds a main light source for which an RSM is rendered.
+- **pppipe** is the default postprocessing pipeline which is added on top of all four samples.
 
 Shaders are explicitely managed from the outside. This means that each object which requires one or more shaders has a member set_shader_x() or simply set_shader() which receives precompiled shaders. Each application therefore has one centralized function load_shaders() which will load every shader necessary for the application, compile all of them and pass them to their respective objects. When reloading shaders, this function is called again and will reload everything. Slots at which an object can expect which Direct3D buffer is handled the same way.
 
