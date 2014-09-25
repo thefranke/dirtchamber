@@ -198,7 +198,7 @@ namespace dc
 
         FLOAT s;
         DirectX::XMStoreFloat(&s, DirectX::XMVector3Length(d));
-        s /= 200.f;
+        s /= 100.f;
 
         camera_.FrameMove(elapsed_time * s);
     }

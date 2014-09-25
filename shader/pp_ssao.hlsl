@@ -57,7 +57,7 @@ float ssao(in PS_INPUT inp)
     for (int i = 0; i < 24; ++i)
     {
 		// TODO: Needs distance scaling
-		float2 ntc = tc + normalize(samples[i]) * scale * 4;
+		float2 ntc = tc + samples[i] * scale * 2 * abs(simple_noise(tc));
 		
 		float4 occvr = to_ray(ntc, vp_inv);
 
@@ -74,11 +74,11 @@ float ssao(in PS_INPUT inp)
 		float3 v = normalize(diff);
 		float ddiff = length(diff);
 		
-        if (dot(occnorm, normal) < 0.99)
-		    ret += 5*ssao_scale*max(dot(normal, v), 0.0) * (1.0 / (2.0 + ddiff));
+        if (dot(occnorm, normal) < 0.95)
+            ret += ssao_scale * saturate(dot(normal, v)) * (1.0 / (1.0 + ddiff));
     }
 
-    return 1.0 - (ret/SSAO_SAMPLES);
+    return 1.0 - saturate(ret/SSAO_SAMPLES);
 }
 
 float4 ps_ssao(in PS_INPUT inp) : SV_TARGET

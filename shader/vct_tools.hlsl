@@ -5,6 +5,7 @@
  */
 
 #include "common.h"
+#include "tools.h"
 
 Texture3D<float4> v_normal  : register(t7);
 Texture3D<float4> v_rho		: register(t8);
@@ -178,7 +179,10 @@ float4 trace_cone(in float3 origin, in float3 dir, in float cone_ratio, in float
         else
             entered_svo = true;
 
-        dist += sample_diameter;
+        float n = simple_noise(origin.xz) * sample_lod;
+        float nn = 1.0 + n * sample_diameter;
+
+        dist += sample_diameter * nn;
 
 #ifdef DVCT
         float4 sample_value = voxel_fetch(sample_pos, -dir, sample_lod, is_real_surface);

@@ -86,8 +86,14 @@ float4 sh_clamped_cos_coeff(in float3 xyz)
     );
 }
 
+// random noise
+float simple_noise(in float2 co)
+{
+    return frac(sin(dot(co.xy, float2(12.9898f, 78.233f))) * 43758.5453f);
+}
+
 // Percentage Closer Filtering
-float pcf(in float2 tc, in float z, in Texture2D linear_shadowmap)
+float pcf(in float2 tc, in float z, in Texture2D linear_shadowmap, in SamplerState shadow_filter)
 {
     SamplerComparisonState cmp_sampler
     {

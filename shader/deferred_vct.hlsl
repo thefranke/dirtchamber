@@ -20,9 +20,8 @@ float4 gi_from_vct(in float2 tc, in float3 P, in float3 N, in float3 V, in float
 {
     a += glossiness / 10.f;
 
-    return
-        diffuse_from_vct(tc, P, N, V) +
-        specular_from_vct(P, N, V, a);
+    return diffuse_from_vct(tc, P, N, V) * float4(diffuse, 1) + 
+           specular_from_vct(P, N, V, a) * float4(specular, 1);
 }
 
 float4 ps_vct(in PS_INPUT inp) : SV_Target
@@ -92,8 +91,6 @@ float4 ps_vct(in PS_INPUT inp) : SV_Target
 
     if (debug_gi)
         return float4(T2, 1.0);
-
-    T2 *= gb.diffuse_albedo.rgb / M_PI;
 
     return float4(max(T0 + T1 + T2, 0.0f), 1.0f);
 }
