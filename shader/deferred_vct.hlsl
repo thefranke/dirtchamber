@@ -16,12 +16,10 @@ cbuffer gi_parameters_ps    : register(b3)
 }
 
 #ifndef DVCT
-float4 gi_from_vct(in float2 tc, in float3 P, in float3 N, in float3 V, in float3 diffuse, in float3 specular, in float a)
+float3 gi_from_vct(in float2 tc, in float3 P, in float3 N, in float3 V, in float3 diffuse, in float3 specular, in float roughness)
 {
-    a += glossiness / 10.f;
-
-    return diffuse_from_vct(tc, P, N, V) * float4(diffuse, 1) + 
-           specular_from_vct(P, N, V, a) * float4(specular, 1);
+    return diffuse_from_vct(tc, P, N, V)         * diffuse +
+           specular_from_vct(P, N, V, roughness) * specular;
 }
 
 float4 ps_vct(in PS_INPUT inp) : SV_Target
@@ -85,7 +83,7 @@ float4 ps_vct(in PS_INPUT inp) : SV_Target
     float3 T1 = f * Li * attenuation * NoL;
 
     // indirect
-    float3 T2 = gi_from_vct(inp.tex_coord.xy, P, N, V, gb.diffuse_albedo.rgb, gb.specular_albedo.rgb, roughness).rgb;
+    float3 T2 = gi_from_vct(inp.tex_coord.xy, P, N, V, gb.diffuse_albedo.rgb, gb.specular_albedo.rgb, roughness);
 
     T2 *= gi_scale;
 

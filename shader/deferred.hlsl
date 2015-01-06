@@ -101,7 +101,7 @@ gbuffer unpack_gbuffer(in float2 tc)
     gb.specular_albedo = rt_specular.Sample(StandardFilter, tc).rgba;
     gb.normal = rt_normals.Sample(StandardFilter, tc).xyzw;
     gb.depth = rt_lineardepth.Sample(StandardFilter, tc).r;
-    gb.shading_mode = round(gb.normal.a * 10);
+    gb.shading_mode = round(gb.normal.a * 2);
     
     return gb;
 }
