@@ -3,9 +3,12 @@
  * For copyright and license see LICENSE
  * http://www.tobias-franke.eu
  */
+ 
+#ifndef VCT_TOOLS_HLSL
+#define VCT_TOOLS_HLSL
 
 #include "common.h"
-#include "tools.h"
+#include "tools.hlsl"
 
 Texture3D<float4> v_normal  : register(t7);
 Texture3D<float4> v_rho		: register(t8);
@@ -363,3 +366,5 @@ float4 diffuse_from_vct(in float2 tc, in float3 P, in float3 N, in float3 V)
 
     return diffuse / M_PI;
 }
+
+#endif

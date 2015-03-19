@@ -4,6 +4,9 @@
  * http://www.tobias-franke.eu
  */
  
+#ifndef BRDF_HLSL
+#define BRDF_HLSL
+ 
 #define F0_WATER        0.02,0.02,0.02
 #define F0_PLASTIC      0.03,0.03,0.03
 #define F0_PLASTIC_HIGH 0.05,0.05,0.05
@@ -150,3 +153,5 @@ float3 brdf(in float3 L, in float3 V, in float3 N, in float3 cdiff, in float3 cs
 
     return (Rd + Rs);
 }
+
+#endif

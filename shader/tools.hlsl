@@ -3,6 +3,9 @@
  * For copyright and license see LICENSE
  * http://www.tobias-franke.eu
  */
+ 
+#ifndef TOOLS_HLSL
+#define TOOLS_HLSL
 
 #include "common.h"
 
@@ -221,3 +224,5 @@ float2 hammersley2d(in uint i, in uint N)
 {
     return float2(float(i)/float(N), radical_inverse(i));
 }
+
+#endif

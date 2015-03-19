@@ -3,7 +3,10 @@
  * For copyright and license see LICENSE
  * http://www.tobias-franke.eu
  */
-
+ 
+#ifndef LPV_TOOLS_HLSL
+#define LPV_TOOLS_HLSL
+ 
 #include "common.h"
 
 SamplerState LPVFilter      : register(s1);
@@ -68,3 +71,5 @@ float4 gi_from_lpv(in float3 pos, in float3 N)
 
     return indirect;
 }
+
+#endif

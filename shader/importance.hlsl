@@ -3,6 +3,9 @@
  * For copyright and license see LICENSE
  * http://www.tobias-franke.eu
  */
+ 
+#ifndef IMPORTANCE_HLSL
+#define IMPORTANCE_HLSL
 
 // Reference: Real Shading in Unreal Engine 4
 // by Brian Karis
@@ -149,3 +152,5 @@ float3 specular_ibl_is_bphong(in float3 diffuse, in float3 specular, in float ro
 
     return specular * pow(env_map.SampleLevel(env_sampler, pReflect, MIPlevel).rgb, GAMMA);       
 }
+
+#endif
