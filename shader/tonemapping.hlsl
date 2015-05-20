@@ -4,6 +4,9 @@
  * http://www.tobias-franke.eu
  */
 
+#ifndef TONEMAPPING_HLSL
+#define TONEMAPPING_HLSL
+ 
 #define TONEMAP_GAMMA 1.0
 
 // Reinhard Tonemapper
@@ -54,3 +57,5 @@ float3 tonemap_filmic(in float3 color)
     // result has 1/2.2 baked in
     return pow(color, TONEMAP_GAMMA);
 }
+
+#endif
