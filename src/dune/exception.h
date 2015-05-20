@@ -43,6 +43,10 @@ namespace dune
         {
             return msg_;
         }
+
+        virtual ~exception() throw()
+        {
+        }
     };
 }
 

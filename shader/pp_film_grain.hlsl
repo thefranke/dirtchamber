@@ -27,7 +27,7 @@ float4 ps_film_grain(in PS_INPUT inp) : SV_Target
 {
     float4 value = frontbuffer.Sample(StandardFilter, inp.tex_coord);
 
-    if (!film_grain_enabled)
+    if (!film_grain_enabled || value.a < 0.5)
         return value;
     else
     {
