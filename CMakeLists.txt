@@ -86,6 +86,7 @@ set(cso_dir ${CMAKE_BINARY_DIR}/cso)
 file(MAKE_DIRECTORY ${cso_dir})
 
 add_custom_target(cso
+    ALL
     COMMAND ${CMAKE_SOURCE_DIR}/shader/compile.bat ${cso_dir}
     WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/shader
     DEPENDS ${cso_dir})
@@ -157,7 +158,6 @@ add_custom_target(doc
 install(TARGETS lpv vct 
         DESTINATION bin/release)
 
-install(CODE "execute_process(COMMAND \"${CMAKE_COMMAND}\" --build \"${CMAKE_BINARY_DIR}\" --target cso)")
 install(DIRECTORY ${cso_dir}
         DESTINATION shader)
 
