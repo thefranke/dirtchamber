@@ -18,10 +18,10 @@ float4 scanline(in float2 coord, in float4 screen)
 float4 texture_chromatic_distort(in float2 coord)
 {
 	float4 frag;
-	frag.r = frontbuffer.Sample(StandardFilter, float2(coord.x - 0.003 * sin(time), coord.y)).r;
-	frag.g = frontbuffer.Sample(StandardFilter, float2(coord.x, coord.y)).g;
-	frag.b = frontbuffer.Sample(StandardFilter, float2(coord.x + 0.003 * sin(time), coord.y)).b;
-	frag.a = frontbuffer.Sample(StandardFilter, float2(coord.x, coord.y)).a;
+	frag.r = frontbuffer.SampleLevel(StandardFilter, float2(coord.x - 0.003 * sin(time), coord.y), 0.0).r;
+    frag.g = frontbuffer.SampleLevel(StandardFilter, float2(coord.x, coord.y), 0.0).g;
+    frag.b = frontbuffer.SampleLevel(StandardFilter, float2(coord.x + 0.003 * sin(time), coord.y), 0.0).b;
+    frag.a = frontbuffer.SampleLevel(StandardFilter, float2(coord.x, coord.y), 0.0).a;
 	return frag;
 }
 
@@ -48,8 +48,8 @@ float vignette(in float2 uv)
 
 float noise(in float2 uv)
 {
-    float a = noise_tex.Sample(StandardFilter, float3(uv + time*6.0, 0.0)).r;
-    float b = noise_tex.Sample(StandardFilter, float3(uv + time*4.0, 0.5)).r;
+    float a = noise_tex.SampleLevel(StandardFilter, float3(uv + time*6.0, 0.0), 0.0).r;
+    float b = noise_tex.SampleLevel(StandardFilter, float3(uv + time*4.0, 0.5), 0.0).r;
 
     return clamp(a + b, 0.94, 1.0);
 }

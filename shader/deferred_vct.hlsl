@@ -19,8 +19,8 @@ cbuffer gi_parameters_ps    : register(b3)
 float3 gi_from_vct(in float2 tc, in float3 P, in float3 N, in float3 V, in float3 diffuse, in float3 specular, in float roughness)
 {
     roughness += glossiness / 10.f;
-    return diffuse_from_vct(tc, P, N, V)         * diffuse +
-           specular_from_vct(P, N, V, roughness) * specular;
+    return diffuse_from_vct(tc, P, N, V).rgb         * diffuse +
+           specular_from_vct(P, N, V, roughness).rgb * specular;
 }
 
 float4 ps_vct(in PS_INPUT inp) : SV_Target

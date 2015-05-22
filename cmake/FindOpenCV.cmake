@@ -1,11 +1,4 @@
-# - Find OpenCV
 # Find OpenCV
-#
-#  This module defines the following variables:
-#     OPENCV_FOUND
-#     OPENCV_INCLUDE_DIR
-#     OPENCV_LIBRARIES
-#
 
 include(FindPackageHandleStandardArgs)
 
@@ -43,7 +36,7 @@ if(OpenCV_DIR)
         set(OpenCV_${slib}_LIBRARY
             optimized ${OpenCV_${slib}_LIBRARY_RELEASE}
             #debug ${OpenCV_${slib}_LIBRARY_DEBUG} # don't add debug
-			CACHE FILE "OpenCV ${slib} component")
+            CACHE FILE "OpenCV ${slib} component")
             
         mark_as_advanced(OpenCV_${slib}_LIBRARY)
             

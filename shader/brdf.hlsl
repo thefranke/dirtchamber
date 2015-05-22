@@ -3,7 +3,9 @@
  * For copyright and license see LICENSE
  * http://www.tobias-franke.eu
  */
- 
+
+#include "common.h"
+
 #ifndef BRDF_HLSL
 #define BRDF_HLSL
  

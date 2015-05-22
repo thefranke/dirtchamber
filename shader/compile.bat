@@ -3,9 +3,11 @@
 if "%PROCESSOR_ARCHITECTURE%"=="x86"   set FXC="%ProgramFiles%\Windows Kits\8.1\bin\x86\fxc.exe"
 if "%PROCESSOR_ARCHITECTURE%"=="AMD64" set FXC="%ProgramFiles(x86)%\Windows Kits\8.1\bin\x64\fxc.exe"
 
-set OUTDIR="cso"
+set OUTDIR=%1
 
-md cso
+if "%OUTDIR%"=="" set OUTDIR="cso"
+
+md %OUTDIR%
 
 %FXC% /O3 /T ps_5_0 /E ps_lpv                     /Fo %OUTDIR%/ps_lpv.cso                     deferred_lpv.hlsl
 %FXC% /O3 /T ps_5_0 /E ps_vct                     /Fo %OUTDIR%/ps_vct.cso                     deferred_vct.hlsl
