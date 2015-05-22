@@ -177,10 +177,20 @@ install(DIRECTORY ${cso_dir}
 
 install(FILES ${Assimp_BINARY_RELEASE} 
         DESTINATION bin/release)
+        
+if(NOT OPENCV_FOUND)
+    set(EXCLUDE_PATTERN
+        PATTERN "camera_parameters.xml" EXCLUDE
+        PATTERN "demo_gi_*" EXCLUDE
+        PATTERN "real_static_scene.png" EXCLUDE 
+        PATTERN "marker.png" EXCLUDE
+        PATTERN "tracked" EXCLUDE)
+endif()
 
 install(DIRECTORY data
         DESTINATION .
-        PATTERN "log.txt" EXCLUDE)
+        PATTERN "log.txt" EXCLUDE
+        ${EXCLUDE_PATTERN})
 
 install(DIRECTORY UI 
         DESTINATION .)
