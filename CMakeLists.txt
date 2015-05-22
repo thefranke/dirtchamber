@@ -150,10 +150,24 @@ if(OPENCV_FOUND)
 endif()
 
 # documentation
-add_custom_target(doc
-    COMMAND doxygen
-    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/doc)
+include(Documentation)
 
+if(BUILD_DOCUMENTATION AND DOXYGEN_EXECUTABLE)
+    set(doc_dir ${CMAKE_SOURCE_DIR}/doc)
+    
+    add_custom_target(doc
+        ALL
+        COMMAND ${DOXYGEN_EXECUTABLE} 
+        WORKING_DIRECTORY ${doc_dir})
+
+    if(DOCUMENTATION_HTML_HELP)
+        add_custom_command(TARGET doc
+            POST_BUILD
+            COMMAND ${HTML_HELP_COMPILER} html/index.hhp || (exit 0)
+            WORKING_DIRECTORY ${doc_dir})
+    endif()
+endif()
+        
 # install
 install(TARGETS lpv vct 
         DESTINATION bin/release)
@@ -170,6 +184,19 @@ install(DIRECTORY data
 
 install(DIRECTORY UI 
         DESTINATION .)
+        
+install(FILES ${CMAKE_SOURCE_DIR}/LICENSE 
+              ${CMAKE_SOURCE_DIR}/LICENSE.thirdparty 
+        DESTINATION .)
+        
+if(BUILD_DOCUMENTATION AND DOCUMENTATION_HTML_HELP)
+    install(FILES ${CMAKE_SOURCE_DIR}/doc/html/index.chm
+            DESTINATION .
+            RENAME Documentation.chm)
+else()
+    install(FILES ${CMAKE_SOURCE_DIR}/README.md
+            DESTINATION .)
+endif()
 
 if(OPENCV_FOUND)
     install(TARGETS delta_lpv delta_vct 
