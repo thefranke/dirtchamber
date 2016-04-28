@@ -1,5 +1,5 @@
-/* 
- * dune::postprocess by Tobias Alexander Franke (tob@cyberhead.de) 2012
+/*
+ * Dune D3D library - Tobias Alexander Franke 2012
  * For copyright and license see LICENSE
  * http://www.tobias-franke.eu
  */
@@ -15,14 +15,14 @@
 #include <list>
 #include <string>
 
-namespace dune 
+namespace dune
 {
     /*!
      * \brief A base interface for a postprocessor pipeline.
-     * 
+     *
      * This class defines a base interface for a postprocessing pipeline. A postprocessing pipline is activated
      * by a deferred_renderer after the deferred render pass. It receives the deferred output as intial image and
-     * is expected to render its end result into a backbuffer render target view. Everything inbetween is 
+     * is expected to render its end result into a backbuffer render target view. Everything inbetween is
      * dependend on the pipeline and can introduce as many render steps as needed.
      */
     class postprocessor
@@ -36,25 +36,25 @@ namespace dune
         bool                    enabled_;
 
         /*! \brief Overwrite this method to add your own creation code. */
-        virtual void do_create(ID3D11Device* device) 
+        virtual void do_create(ID3D11Device* device)
         {
         }
-    
+
         /*! \brief Overwrite this to destroy additional resources created. */
-        virtual void do_destroy() 
+        virtual void do_destroy()
         {
         }
 
         /*! \brief Overwrite this method to initializes further shader instances. */
-        virtual void do_set_shader(ID3D11Device* device) 
-        { 
+        virtual void do_set_shader(ID3D11Device* device)
+        {
         }
 
         /*! \brief Overwrite this method to react to resizes. */
-        virtual void do_resize(UINT width, UINT height) 
+        virtual void do_resize(UINT width, UINT height)
         {
         }
-    
+
     public:
         postprocessor();
         virtual ~postprocessor() {}
@@ -63,9 +63,9 @@ namespace dune
 
         /*! \brief Render the entire postprocess (i.e. all steps of the pipeline) and write the result to backbuffer. */
         virtual void render(ID3D11DeviceContext* context, ID3D11RenderTargetView* backbuffer);
-        
-        /*! 
-         * \brief Set shader parameters for the postprocessing pipeline. 
+
+        /*!
+         * \brief Set shader parameters for the postprocessing pipeline.
          *
          * The postprocessing pipeline needs several things in order to run: A fullscreen triangle with
          * the matching shader input_binary and a start slot at which point to expect the frontbuffer (i.e
@@ -77,7 +77,7 @@ namespace dune
          * \param buffers_start_slot The slot at which the shader expects the frontbuffer.
          */
         void set_shader(ID3D11Device* device, ID3DBlob* input_binary, ID3D11VertexShader* fs_triangle, UINT buffers_start_slot);
-        
+
         void destroy();
 
         /*! \brief Resizes the frontbuffer into which a deferred renderer writes its image to. */

@@ -1,9 +1,9 @@
-/* 
- * tools.hlsl by Tobias Alexander Franke (tob@cyberhead.de) 2011
+/*
+ * The Dirtchamber - Tobias Alexander Franke 2011
  * For copyright and license see LICENSE
  * http://www.tobias-franke.eu
  */
- 
+
 #ifndef TOOLS_HLSL
 #define TOOLS_HLSL
 
@@ -18,14 +18,14 @@ struct directional_light
 
 float gauss_weight(in int sample_dist, in float sigma)
 {
-	float g = 1.0f / sqrt(2.0f * 3.14159 * sigma * sigma);
-	return (g * exp(-(sample_dist * sample_dist) / (2 * sigma * sigma)));
+    float g = 1.0f / sqrt(2.0f * 3.14159 * sigma * sigma);
+    return (g * exp(-(sample_dist * sample_dist) / (2 * sigma * sigma)));
 }
 
 // Calculate the luminance of a color c
 float luminance(in float3 c)
 {
-	return dot(c, float3(0.3, 0.59, 0.11));
+    return dot(c, float3(0.3, 0.59, 0.11));
 }
 
 // max[v1.v2]
@@ -56,14 +56,14 @@ float4 to_ray(in float2 tc, in float4x4 inv_mat)
 float4 sh4(in float3 xyz)
 {
     return float4(
-         0.282094792,     
+         0.282094792,
         -0.4886025119 * xyz.y,
          0.4886025119 * xyz.z,
         -0.4886025119 * xyz.x
     );
 }
 
-/* 
+/*
  * Clamped cosine oriented in z direction expressed in zonal harmonics and rotated to direction 'd'
  * zonal harmonics of clamped cosine in z:
  *     l=0 : A0 = 0.5*sqrt(PI)
@@ -71,9 +71,9 @@ float4 sh4(in float3 xyz)
  *     l=2 : A2 = (PI/4)*sqrt(5/(4*PI))
  *     l=3 : A3 = 0
  *   to rotate zonal harmonics in direction 'd' : sqrt( (4*PI)/(2*l+1)) * zl * SH coefficients in direction 'd'
- *     l=0 : PI * SH coefficients in direction 'd' 
- *     l=1 : 2*PI/3 * SH coefficients in direction 'd' 
- *     l=2 : PI/4 * SH coefficients in direction 'd' 
+ *     l=0 : PI * SH coefficients in direction 'd'
+ *     l=1 : 2*PI/3 * SH coefficients in direction 'd'
+ *     l=2 : PI/4 * SH coefficients in direction 'd'
  *     l=3 : 0
  */
 float4 sh_clamped_cos_coeff(in float3 xyz)
@@ -134,20 +134,20 @@ float pcf(in float2 tc, in float z, in Texture2D linear_shadowmap, in SamplerSta
 
         ret += dot(fourtaps, fourtaps) * 0.1;
     }
-      
+
     return ret / NUM_TAPS;
 }
 
 // Linear stepping function
 float linear_step(in float mins, in float maxs, in float val)
-{  
+{
     return clamp((val - mins) / (maxs - mins), 0, 1);
 }
 
 // Helper function to reduce light bleeding in VSMs
 float reduce_light_bleeding(in float p_max, in float amount)
-{  
-    return linear_step(amount, 1, p_max);  
+{
+    return linear_step(amount, 1, p_max);
 }
 
 // Percentage Closer Softshadows
@@ -177,13 +177,13 @@ float vsm(in float2 tc, in float z, in Texture2D linear_shadowmap, in SamplerSta
 
 // Generate a VPL from a texture coordinate, an inverse light projecton matrix, a light position, and a GBuffer of the RSM
 directional_light gen_vpl(in float2 tc, in float4x4 light_vp_inv, in float4 light_pos, in Texture2D colors, in Texture2D normals, in Texture2D linear_depth, in SamplerState vpl_filter)
-{   
+{
     directional_light vpl;
 
     float4 vcol = colors.SampleLevel(vpl_filter, tc, 0);
     float3 vnormal = normals.SampleLevel(vpl_filter, tc, 0).xyz * 2.0 - 1.0;
     float  vdepth = linear_depth.SampleLevel(vpl_filter, tc, 0).r;
-    
+
     float4 dir = to_ray(tc, light_vp_inv);
 
     vpl.color    = vcol;

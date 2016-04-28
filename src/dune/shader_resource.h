@@ -1,5 +1,5 @@
-/* 
- * dune::shader_resource by Tobias Alexander Franke (tob@cyberhead.de) 2012
+/*
+ * Dune D3D library - Tobias Alexander Franke 2012
  * For copyright and license see LICENSE
  * http://www.tobias-franke.eu
  */
@@ -12,7 +12,7 @@
 #include <D3D11.h>
 #include "unicode.h"
 
-namespace dune 
+namespace dune
 {
     /*!
      * \brief A shader resource wrapper.

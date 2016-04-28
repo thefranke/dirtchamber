@@ -1,5 +1,5 @@
 /*
- * dune::texture_cache by Tobias Alexander Franke (tob@cyberhead.de) 2011
+ * Dune D3D library - Tobias Alexander Franke 2011
  * For copyright and license see LICENSE
  * http://www.tobias-franke.eu
  */
@@ -17,11 +17,11 @@
 #include "unicode.h"
 #include "texture.h"
 
-namespace dune 
+namespace dune
 {
     /*!
      * \brief A texture cache.
-     * 
+     *
      * The texture_cache is a single instance which keeps track of all currently loaded texture resources.
      * By requesting texture objects from this class, multiple requests of the same file will be cached
      * instead of creating additional textures in memory.
@@ -52,13 +52,13 @@ namespace dune
          *
          * Request a shader resource view for a texture identified by a filename. If the texture hasn't been loaded yet,
          * it will be automatically added to the cache. Otherwise, the already cached texture's SRV will be returned.
-         * 
-         * \param filename A string of the filename on the disk. 
+         *
+         * \param filename A string of the filename on the disk.
          * \return An SRV.
          */
         ID3D11ShaderResourceView* srv(const tstring& filename) const;
 
-	    void generate_mips(ID3D11DeviceContext* context);
+        void generate_mips(ID3D11DeviceContext* context);
 
         /*! \brief Destroy the texture_cache and free all resources. */
         void destroy();
@@ -78,6 +78,6 @@ namespace dune
     void load_texture(ID3D11Device* device, const tstring& filename, ID3D11ShaderResourceView** srv = nullptr);
 
     void load_texture(ID3D11Device* device, const tstring& filename, texture& t);
-} 
+}
 
 #endif

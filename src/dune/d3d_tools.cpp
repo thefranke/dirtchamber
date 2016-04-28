@@ -1,5 +1,5 @@
-/* 
- * dune::d3d_tools by Tobias Alexander Franke (tob@cyberhead.de) 2011
+/*
+ * Dune D3D library - Tobias Alexander Franke 2011
  * For copyright and license see LICENSE
  * http://www.tobias-franke.eu
  */
@@ -13,7 +13,7 @@
 #include "unicode.h"
 #include "exception.h"
 
-namespace dune 
+namespace dune
 {
     void assert_hr_detail(const HRESULT& hr, const char* file, DWORD line, const char* msg)
     {
@@ -44,7 +44,7 @@ namespace dune
 
         desc.Query = D3D11_QUERY_TIMESTAMP_DISJOINT;
         assert_hr(device->CreateQuery(&desc, &frequency_));
-        
+
         desc.Query = D3D11_QUERY_TIMESTAMP;
         assert_hr(device->CreateQuery(&desc, &start_));
         assert_hr(device->CreateQuery(&desc, &stop_));
@@ -105,19 +105,19 @@ namespace dune
                f == DXGI_FORMAT_BC2_UNORM_SRGB ||
                f == DXGI_FORMAT_BC3_UNORM_SRGB ||
                f == DXGI_FORMAT_B8G8R8A8_UNORM_SRGB ||
-               f == DXGI_FORMAT_B8G8R8X8_UNORM_SRGB ||    
+               f == DXGI_FORMAT_B8G8R8X8_UNORM_SRGB ||
                f == DXGI_FORMAT_BC7_UNORM_SRGB;
     }
 
     void set_viewport(ID3D11DeviceContext* context, size_t w, size_t h)
     {
         D3D11_VIEWPORT viewport;
-	    viewport.TopLeftX = 0;
-	    viewport.TopLeftY = 0;
+        viewport.TopLeftX = 0;
+        viewport.TopLeftY = 0;
         viewport.Width = static_cast<FLOAT>(w);
-	    viewport.Height = static_cast<FLOAT>(h);
-	    viewport.MinDepth = 0;
-	    viewport.MaxDepth = 1;
+        viewport.Height = static_cast<FLOAT>(h);
+        viewport.MinDepth = 0;
+        viewport.MaxDepth = 1;
         context->RSSetViewports(1, &viewport);
     }
 
@@ -145,19 +145,19 @@ namespace dune
 
     bool equal(const DirectX::XMFLOAT4& a, const DirectX::XMFLOAT4& b)
     {
-	    auto aa = DirectX::XMLoadFloat4(&a);
-	    auto bb = DirectX::XMLoadFloat4(&b);
+        auto aa = DirectX::XMLoadFloat4(&a);
+        auto bb = DirectX::XMLoadFloat4(&b);
 
-	    return DirectX::XMVector4Equal(aa, bb);
+        return DirectX::XMVector4Equal(aa, bb);
     }
 
     void clear_rtvs(ID3D11DeviceContext* context, ID3D11RenderTargetView** rtvs, size_t num_rtvs, FLOAT* clear_color)
     {
-        std::for_each(rtvs, rtvs+num_rtvs, 
+        std::for_each(rtvs, rtvs+num_rtvs,
             [&context, &clear_color](ID3D11RenderTargetView* rtv)
-            { 
+            {
                 context->ClearRenderTargetView(rtv, clear_color);
             }
         );
     }
-} 
+}

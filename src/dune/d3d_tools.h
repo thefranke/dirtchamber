@@ -1,5 +1,5 @@
-/* 
- * dune::d3d_tools by Tobias Alexander Franke (tob@cyberhead.de) 2011
+/*
+ * Dune D3D library - Tobias Alexander Franke 2011
  * For copyright and license see LICENSE
  * http://www.tobias-franke.eu
  */
@@ -10,9 +10,9 @@
 #define DUNE_D3D_TOOLS
 
 #include <D3D11.h>
-#include <DirectXMath.h> 
+#include <DirectXMath.h>
 
-namespace dune 
+namespace dune
 {
     /*!
      * \brief A GPU profiler.
@@ -34,7 +34,7 @@ namespace dune
         virtual ~profile_query() {}
 
         /*! \brief Create a profile_query object. */
-	    void create(ID3D11Device* device);
+        void create(ID3D11Device* device);
 
         /*! \brief Destroy a profile_query object and free its resources. */
         void destroy();
@@ -67,9 +67,9 @@ namespace dune
         }
     }
 
-    /*! 
+    /*!
      * \brief Exchange an object of type T with a new one.
-     * 
+     *
      * Exchange a pointer to an object with a pointer to a new object of the same type if
      * - The old pointer exists
      * - The old pointer isn't the same as the new pointer
@@ -78,7 +78,7 @@ namespace dune
      * This will safe_release whatever the old object was pointing to and replace it's value by
      * a new pointed to object. This function is useful to replace old shader pointer with new
      * ones after compilation. If the compilation of a new shader fails, the old one is retained.
-     * 
+     *
      * \param oldv A pointer to the old object.
      * \param newv A pointer to the object which should replace oldv.
      */
@@ -117,7 +117,7 @@ namespace dune
     /* \brief Returns true of a and b contain equal elements. */
     bool equal(const DirectX::XMFLOAT4& a, const DirectX::XMFLOAT4& b);
 
-    /*! 
+    /*!
      * \brief Clear a list of render targets with a color.
      *
      * \param context A Direct3D context.
@@ -126,7 +126,7 @@ namespace dune
      * \param clear_color Four float values specifiying the color with wich to clear all RTVs.
      */
     void clear_rtvs(ID3D11DeviceContext* context,
-                    ID3D11RenderTargetView** rtvs, 
+                    ID3D11RenderTargetView** rtvs,
                     size_t num_rtvs,
                     FLOAT* clear_color);
 
@@ -138,10 +138,10 @@ namespace dune
 
     void assert_hr_detail(const HRESULT& hr, const char* file, DWORD line, const char* msg);
 
-    /*! 
+    /*!
      * \brief An assert for HRESULTs.
      *
-     * assert_hr works like a regular assert, except on HRESULT. It will log 
+     * assert_hr works like a regular assert, except on HRESULT. It will log
      * the filename, the line in the source code and the actual command into cerr and
      * then throw a regular exception with the same error message.
      */

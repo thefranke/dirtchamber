@@ -1,9 +1,9 @@
-/* 
- * importance.hlsl by Tobias Alexander Franke (tob@cyberhead.de) 2013
+/*
+ * The Dirtchamber - Tobias Alexander Franke 2013
  * For copyright and license see LICENSE
  * http://www.tobias-franke.eu
  */
- 
+
 #ifndef IMPORTANCE_HLSL
 #define IMPORTANCE_HLSL
 
@@ -13,7 +13,7 @@
 float3 sample_to_world(in float phi, in float cos_theta, in float sin_theta, in float3 N)
 {
     float3 H;
-    
+
     H.x = sin_theta * cos(phi);
     H.y = sin_theta * sin(phi);
     H.z = cos_theta;
@@ -21,7 +21,7 @@ float3 sample_to_world(in float phi, in float cos_theta, in float sin_theta, in 
     float3 up_vec = abs(N.z) < 0.999 ? float3(0,0,1) : float3(1,0,0);
     float3 tangent_x = normalize(cross(up_vec, N));
     float3 tangent_y = cross(N, tangent_x);
-    
+
     return tangent_x * H.x + tangent_y * H.y + N * H.z;
 }
 
@@ -52,7 +52,7 @@ float3 random_sample(in float2 xi, in float a, in float3 N)
 {
     float theta = M_PI * xi.y;
     float phi = 2 * M_PI * xi.x;
-    
+
     float sin_theta = sin(theta);
     float cos_theta = cos(theta);
 
@@ -76,8 +76,8 @@ float2 latlong(in float3 v)
 {
     v = normalize(v);
 
-    float theta = acos(v.y) + M_PI; 
-  
+    float theta = acos(v.y) + M_PI;
+
     float phi = atan2(v.z, v.x) + M_PI/2;
 
     return float2(phi, theta) * float2(.1591549, .6366198 / 2);
@@ -101,12 +101,12 @@ float3 specular_ibl_is(in float3 specular_albedo, in float roughness, in float3 
         float3 H = importance_sample_ggx(xi, a, N);
 
         float3 L = reflect(-V, H);
-        
+
         float NoV = saturate( dot( N, V ) );
         float NoL = saturate( dot( N, L ) );
         float NoH = saturate( dot( N, H ) );
         float VoH = saturate( dot( V, H ) );
-        
+
         if(NoL > 0)
         {
             float2 p = latlong(L);
@@ -114,12 +114,12 @@ float3 specular_ibl_is(in float3 specular_albedo, in float roughness, in float3 
             float G = G_UE4(a, NoV);
             float Fc = pow(1 - VoH, 5);
             float3 F = (1 - Fc) * specular_albedo + Fc;
-            
+
             // Incident light = sample * NoL
             // Microfacet specular = D*G*F / (4*NoL*NoV)
             // pdf = D * NoH / (4 * VoH)
             // specular = integral (Incident light * microfacet specular)/pdf
-            
+
             uint w, h;
             env_map.GetDimensions(w, h);
 
@@ -127,7 +127,7 @@ float3 specular_ibl_is(in float3 specular_albedo, in float roughness, in float3 
             float lod = compute_lod(H, pdf, num_samples, w, h);
 
             float3 sample = pow(abs(env_map.SampleLevel(env_sampler, p.xy, lod).rgb), GAMMA);
-            
+
             specular += sample * (F * G * VoH / (NoH * NoV));
         }
     }
@@ -150,7 +150,7 @@ float3 specular_ibl_is_bphong(in float3 diffuse, in float3 specular, in float ro
     float3 R = reflect(-V, N);
     float2 pReflect = latlong(R);
 
-    return specular * pow(env_map.SampleLevel(env_sampler, pReflect, MIPlevel).rgb, GAMMA);       
+    return specular * pow(env_map.SampleLevel(env_sampler, pReflect, MIPlevel).rgb, GAMMA);
 }
 
 #endif

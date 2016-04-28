@@ -1,5 +1,5 @@
 /*
- * dune::tracker by Tobias Alexander Franke (tob@cyberhead.de) 2014
+ * Dune D3D library - Tobias Alexander Franke 2014
  * For copyright and license see LICENSE
  * http://www.tobias-franke.eu
  */
@@ -39,7 +39,7 @@ namespace dune
          * \param filename The pattern's filename.
          */
         void load(const tstring& filename);
-        
+
         const cv::Mat& operator[](size_t i) const { return rotated_versions_[i]; }
     };
 
@@ -75,7 +75,7 @@ namespace dune
     protected:
         cv::Mat cam_intrinsic_;
         cv::Mat cam_distortion_;
-        
+
         std::vector<pattern> patterns_;
         std::vector<detection_info> detected_;
 
@@ -85,7 +85,7 @@ namespace dune
 
         /*!
          * \brief Track loaded patterns in a render_target frame.
-         * 
+         *
          * This method needs to be called whenever a new render_target is available where tracking should be performed.
          * For each loaded pattern, tracking information will be gathered that can be later accessed with the model_view_matrix() method.
          *
@@ -98,7 +98,7 @@ namespace dune
 
         /*! \brief Remove a loaded pattern identified by an ID. */
         void remove_pattern(size_t id);
-        
+
         /*!
          * \brief Retreive a model-view matrix for a pattern id.
          *

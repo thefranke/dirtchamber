@@ -1,9 +1,10 @@
 /*
- * 
- * The Dune Direct3D library
- * by Tobias Alexander Franke 2011
  *
- * "God created Arrakis to train the faithful." 
+ * The Dune D3D library - Tobias Alexander Franke 2011
+ * For copyright and license see LICENSE
+ * http://www.tobias-franke.eu
+ *
+ * "God created Arrakis to train the faithful."
  *
  */
 

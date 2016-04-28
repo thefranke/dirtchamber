@@ -1,5 +1,5 @@
-/* 
- * Godrays effect by Tobias Alexander Franke (tob@cyberhead.de) 2012
+/*
+ * The Dirtchamber - Tobias Alexander Franke 2012
  * For copyright and license see LICENSE
  * http://www.tobias-franke.eu
  */
@@ -21,22 +21,22 @@ float shadowed(in float3 pos)
 
     float3 v = main_light.position.xyz - pos;
 
-	float VoL = saturate(dot(normalize(-v), main_light.normal.xyz));
+    float VoL = saturate(dot(normalize(-v), main_light.normal.xyz));
 
     float z = length(v);
     z *= 1.0 - SHADOW_BIAS;
-    
+
     return vsm(tc, z, rt_rsm_lineardepth, ShadowFilter) * VoL;
 }
 
 float P(in float3 x, in float3 view_dir)
 {
     float4 scene_delta = scene_dim_max - scene_dim_min;
-	float sdiv = max(scene_delta.x, max(scene_delta.y, scene_delta.z));
+    float sdiv = max(scene_delta.x, max(scene_delta.y, scene_delta.z));
 
-	float t = time * GODRAYS_MIST_SPEED;
+    float t = time * GODRAYS_MIST_SPEED;
     float3 xx = x + float3(0, t, 0);
-	float3 tcv = xx / (sdiv/5);
+    float3 tcv = xx / (sdiv/5);
 
     float v = noise_tex.Sample(StandardFilter, tcv).r;
 
@@ -46,7 +46,7 @@ float P(in float3 x, in float3 view_dir)
     float costheta = 1;
     float p = (1 - k*k) / (4 * M_PI*(1 + k*costheta*costheta));
     */
-    
+
     return v*v;
 }
 
@@ -62,12 +62,12 @@ float4 godrays_humus(in PS_INPUT inp)
     float n = godrays_tau * length(view_dir);
 
     float a = 1.0;
-	float b = 0.0;
+    float b = 0.0;
 
     float3 pos = camera_pos;
-	
-	uint w,h;
-	rt_lineardepth.GetDimensions(w, h);
+
+    uint w,h;
+    rt_lineardepth.GetDimensions(w, h);
 
     // dither shadow
     // THINK: maybe undo dithering if enough samples were fogged?
@@ -75,17 +75,17 @@ float4 godrays_humus(in PS_INPUT inp)
     float rando = 1.0 + (2.0 * rf - 1.0) * s / m;
 
     //[unroll(GODRAYS_NUM_SAMPLES)]
-	for (int i = 0; i < GODRAYS_NUM_SAMPLES; i++)
+    for (int i = 0; i < GODRAYS_NUM_SAMPLES; i++)
     {
         pos += view_dir * rando;
 
-		float v = shadowed(pos);
+        float v = shadowed(pos);
         float fog = P(pos, view_dir);
 
-		float x = 1.0 - fog * n;
-		a *= x;
-		b = lerp(v, b, x);
-	}
+        float x = 1.0 - fog * n;
+        a *= x;
+        b = lerp(v, b, x);
+    }
 
     return b;
 }
@@ -93,7 +93,7 @@ float4 godrays_humus(in PS_INPUT inp)
 float4 ps_godrays(in PS_INPUT inp) : SV_TARGET
 {
     float4 color = frontbuffer.Sample(StandardFilter, inp.tex_coord, 0);
-    
+
     if (godrays_enabled)
         return color + godrays_humus(inp);
     else

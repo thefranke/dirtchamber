@@ -1,5 +1,5 @@
-/* 
- * dune::sparse_voxel_octree by Tobias Alexander Franke (tob@cyberhead.de) 2013
+/*
+ * Dune D3D library - Tobias Alexander Franke 2013
  * For copyright and license see LICENSE
  * http://www.tobias-franke.eu
  */
@@ -395,7 +395,7 @@ namespace dune
              delta_slot = volume_start_slot + 2;
 
         last_bound_ = volume_start_slot;
-        
+
         profiler_.begin(context);
 
         context->GenerateMips(srv_v_normal_);
@@ -414,7 +414,7 @@ namespace dune
     {
         // create regular stuff first
         sparse_voxel_octree::create(device, volume_size);
-        
+
         // create delta volume
         D3D11_TEXTURE3D_DESC desc;
         v_rho_->GetDesc(&desc);

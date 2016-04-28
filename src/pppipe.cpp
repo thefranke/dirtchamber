@@ -1,5 +1,5 @@
-/* 
- * Postprocessing pipeline by Tobias Alexander Franke (tob@cyberhead.de) 2013
+/*
+ * The Dirtchamber - Tobias Alexander Franke 2013
  * For copyright and license see LICENSE
  * http://www.tobias-franke.eu
  */
@@ -26,11 +26,11 @@ using namespace dune;
 void pppipe::do_set_shader(ID3D11Device* device)
 {
     DWORD shader_flags = D3DCOMPILE_ENABLE_STRICTNESS;
-    
+
 #if defined(DEBUG) | defined(_DEBUG)
     shader_flags |= D3DCOMPILE_DEBUG;
 #endif
- 
+
     auto check = [&](const TCHAR* f, const char* n, ID3D11PixelShader** ps){ compile_shader(device, f, "ps_5_0", n, shader_flags, nullptr, ps); };
 
     check(L"../../shader/pp_ssao.hlsl", "ps_ssao", &ssao_);
@@ -60,7 +60,7 @@ void pppipe::do_resize(UINT width, UINT height)
 
 void pppipe::do_create(ID3D11Device* device)
 {
-    // create backbuffer with as many mipmaps as possible    
+    // create backbuffer with as many mipmaps as possible
     auto desc = frontbuffer_.desc();
     temporary_.create(device, desc.Width, desc.Height, desc.Format, desc.SampleDesc);
     frontbuffer_blurred_.create(device, desc.Width, desc.Height, desc.Format, desc.SampleDesc);
@@ -74,7 +74,7 @@ void pppipe::do_create(ID3D11Device* device)
     rt_adapted_luminance_[1].create(device, 1, 1, DXGI_FORMAT_R32_FLOAT, msaa);
 
     bloom_full_.create(device, desc.Width, desc.Height, desc.Format, desc.SampleDesc);
-    
+
     blurred_[0].create(device, desc.Width/2,  desc.Height/2,  desc.Format, desc.SampleDesc);
     blurred_[5].create(device, desc.Width/2,  desc.Height/2,  desc.Format, desc.SampleDesc);
 
@@ -122,10 +122,10 @@ void pppipe::render(ID3D11DeviceContext* context, ID3D11PixelShader* ps, render_
 {
     ID3D11ShaderResourceView* views[] = { in.srv() };
     context->PSSetShaderResources(buffers_start_slot_ + FRONTBUFFER_SLOT, 1, views);
-    
+
     context->OMSetRenderTargets(1, &out, nullptr);
     context->PSSetShader(ps, nullptr, 0);
-   
+
     fs_triangle_.render(context);
 
     context->OMSetRenderTargets(0, nullptr, nullptr);
@@ -142,12 +142,12 @@ void set_viewport(ID3D11DeviceContext* context, render_target& target)
 void pppipe::dof(ID3D11DeviceContext* context, render_target& in, render_target& out)
 {
     // render blurred backbuffer
-	if (cb_pp_parameters_.data().dof_enabled)
-		dofblur(context, in, frontbuffer_blurred_);
+    if (cb_pp_parameters_.data().dof_enabled)
+        dofblur(context, in, frontbuffer_blurred_);
 
-	ID3D11ShaderResourceView* v[] = { frontbuffer_blurred_.srv()  };
+    ID3D11ShaderResourceView* v[] = { frontbuffer_blurred_.srv()  };
     ID3D11ShaderResourceView* n[] = { nullptr };
-    
+
     context->PSSetShaderResources(buffers_start_slot_ + FRONTBUFFER_BLURRED_SLOT, 1, v);
 
     render(context, dof_, in, out.rtv());
@@ -157,19 +157,19 @@ void pppipe::dof(ID3D11DeviceContext* context, render_target& in, render_target&
 
 void pppipe::dofblur(ID3D11DeviceContext* context, render_target& in, render_target& out)
 {
-	// bind frontbuffer input for depth checked DOF
-	ID3D11ShaderResourceView* views1[] = { in.srv() };
+    // bind frontbuffer input for depth checked DOF
+    ID3D11ShaderResourceView* views1[] = { in.srv() };
     context->PSSetShaderResources(0, 1, views1);
 
     // downscale
     set_viewport(context, blurred_[0]);
     render(context, copy_, in, blurred_[0].rtv());
-    
+
     for (size_t i = 0; i < 2; ++i)
     {
         // apply v-blur
         render(context, gauss_dof_v_, blurred_[0], blurred_[5].rtv());
-    
+
         // apply h-blur
         render(context, gauss_dof_h_, blurred_[5], blurred_[0].rtv());
     }
@@ -178,9 +178,9 @@ void pppipe::dofblur(ID3D11DeviceContext* context, render_target& in, render_tar
     set_viewport(context, out);
     render(context, copy_, blurred_[0], out.rtv());
 
-	// unbind again so we can use it
-	ID3D11ShaderResourceView* nv[] = { nullptr };
-	context->PSSetShaderResources(0, 1, nv);
+    // unbind again so we can use it
+    ID3D11ShaderResourceView* nv[] = { nullptr };
+    context->PSSetShaderResources(0, 1, nv);
 }
 
 void pppipe::bloomblur(ID3D11DeviceContext* context, render_target& in, render_target& out)
@@ -199,7 +199,7 @@ void pppipe::bloomblur(ID3D11DeviceContext* context, render_target& in, render_t
     {
         // apply v-blur
         render(context, gauss_bloom_v_, blurred_[3], blurred_[4].rtv());
-    
+
         // apply h-blur
         render(context, gauss_bloom_h_, blurred_[4], blurred_[3].rtv());
     }
@@ -221,7 +221,7 @@ void pppipe::bloom(ID3D11DeviceContext* context, render_target& frontbuffer)
 
     // apply treshold
     render(context, bloom_treshold_, frontbuffer, bloom_full_.rtv());
-    bloomblur(context, bloom_full_, bloom_full_);    
+    bloomblur(context, bloom_full_, bloom_full_);
 }
 
 void pppipe::godrays(ID3D11DeviceContext* context, dune::render_target& in, dune::render_target& out)
@@ -267,7 +267,7 @@ void pppipe::godrays(ID3D11DeviceContext* context, dune::render_target& in, dune
 }
 
 void pppipe::render(ID3D11DeviceContext* context, ID3D11RenderTargetView* backbuffer)
-{   
+{
     assert(context);
     assert(backbuffer);
 
@@ -278,7 +278,7 @@ void pppipe::render(ID3D11DeviceContext* context, ID3D11RenderTargetView* backbu
     current = !current;
 
     set_viewport(context, 1, 1);
-    
+
     ID3D11ShaderResourceView* views0[] = { rt_adapted_luminance_[!current].srv() };
     context->PSSetShaderResources(buffers_start_slot_ + ADAPTED_LUMINANCE_SLOT, 1, views0);
 
@@ -286,40 +286,40 @@ void pppipe::render(ID3D11DeviceContext* context, ID3D11RenderTargetView* backbu
     render(context, adapt_exposure_, frontbuffer_, rt_adapted_luminance_[current].rtv());
 
     // render bloom buffer
-	if (parameters().data().bloom_enabled)
-		bloom(context, frontbuffer_);
+    if (parameters().data().bloom_enabled)
+        bloom(context, frontbuffer_);
 
     ID3D11ShaderResourceView* views3[] = { rt_adapted_luminance_[current].srv(), bloom_full_.srv() };
     context->PSSetShaderResources(buffers_start_slot_ + ADAPTED_LUMINANCE_SLOT, 2, views3);
 
     set_viewport(context, frontbuffer_);
 
-	render_target* in  = &frontbuffer_;
-	render_target* out = &temporary_;
+    render_target* in  = &frontbuffer_;
+    render_target* out = &temporary_;
 
-	// ssao
+    // ssao
     render(context, ssao_, *in, out->rtv());
-	std::swap(in, out);
+    std::swap(in, out);
 
-	// dof
+    // dof
     dof(context, *in, *out);
-	std::swap(in, out);
+    std::swap(in, out);
 
     // godrays
     godrays(context, *in, *out);
-	std::swap(in, out);
+    std::swap(in, out);
 
-	// bloom + tonemap + gamma correction
-	render(context, bloom_, *in, out->rtv());
-	std::swap(in, out);
+    // bloom + tonemap + gamma correction
+    render(context, bloom_, *in, out->rtv());
+    std::swap(in, out);
 
     // crt
     render(context, crt_, *in, out->rtv());
     std::swap(in, out);
 
-	// fxaa
+    // fxaa
     render(context, fxaa_, *in, out->rtv());
-	std::swap(in, out);
+    std::swap(in, out);
 
     // tv
     render(context, film_grain_, *in, backbuffer);

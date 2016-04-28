@@ -1,5 +1,5 @@
-/* 
- * Deferred Kinect renderer by Tobias Alexander Franke (tob@cyberhead.de) 2012
+/*
+ * The Dirtchamber - Tobias Alexander Franke 2012
  * For copyright and license see LICENSE
  * http://www.tobias-franke.eu
  */
@@ -54,10 +54,10 @@ float get_spotlight(in float3 P, in float3 L, in float3 N)
 float4 ps_ar_dlpv(in PS_INPUT inp) : SV_Target
 {
     float4 kinect_background = pow(rt_kinect_color.Sample(StandardFilter, inp.tex_coord).rgba, 2.2);
-    float4 diffuse_albedo = rt_colors.Sample(StandardFilter, inp.tex_coord);
-    float3 normal  = rt_normals.Sample(StandardFilter,		inp.tex_coord).xyz;
-	float  depth   = rt_lineardepth.Sample(StandardFilter,	inp.tex_coord).r;
-	float4 specular_albedo    = rt_specular.Sample(StandardFilter,		inp.tex_coord);
+    float4 diffuse_albedo = rt_colors.Sample(StandardFilter,       inp.tex_coord);
+    float3 normal  = rt_normals.Sample(StandardFilter,             inp.tex_coord).xyz;
+    float  depth   = rt_lineardepth.Sample(StandardFilter,         inp.tex_coord).r;
+    float4 specular_albedo    = rt_specular.Sample(StandardFilter, inp.tex_coord);
 
     // ignore parts with no normals
     if (dot(normal, normal) == 0)
@@ -125,7 +125,7 @@ float4 ps_ar_dlpv(in PS_INPUT inp) : SV_Target
     {
         T2 += indirect_delta * gi_scale * diffuse_albedo;
     }
-    
+
     if (debug_gi)
         return float4(abs(T2), 1.0f);
 

@@ -1,5 +1,5 @@
-/* 
- * common_gui.cpp by Tobias Alexander Franke (tob@cyberhead.de) 2013
+/*
+ * The Dirtchamber - Tobias Alexander Franke 2013
  * For copyright and license see LICENSE
  * http://www.tobias-franke.eu
  */
@@ -29,13 +29,13 @@ namespace dc
     namespace gui
     {
         // gui controls
-        CDXUTDialog						        hud;
+        CDXUTDialog                             hud;
         CDXUTDialog                             hud_light;
         CDXUTDialog                             hud_gi;
         CDXUTDialog                             hud_postp1;
         CDXUTDialog                             hud_postp2;
         CDXUTDialog                             hud_debug_info;
-        CDXUTDialogResourceManager		        dlg_manager;
+        CDXUTDialogResourceManager              dlg_manager;
         CDXUTComboBox*                          combo_render_targets = nullptr;
         CDXUTComboBox*                          combo_settings = nullptr;
 
@@ -188,7 +188,7 @@ namespace dc
             hud_postp1.Init(&dlg_manager);
             hud_postp2.Init(&dlg_manager);
             hud_debug_info.Init(&dlg_manager);
-            
+
             // set callbacks
             hud.SetCallback(on_gui_event);
             hud_light.SetCallback(on_gui_event);
@@ -295,7 +295,7 @@ namespace dc
             combo_settings->AddItem(L"Debug Info", reinterpret_cast<void*>(&hud_debug_info));
 
             hud_debug_info.AddStatic(IDC_DEBUG_INFO + 0, L"", x, y += db, w, h);
-            
+
             // startup config
             hud.SetVisible(true);
             hud_light.SetVisible(false);

@@ -1,5 +1,5 @@
-/* 
- * dune::deferred_renderer by Tobias Alexander Franke (tob@cyberhead.de) 2011
+/*
+ * Dune D3D library - Tobias Alexander Franke 2011
  * For copyright and license see LICENSE
  * http://www.tobias-franke.eu
  */
@@ -20,7 +20,7 @@
 #include "exception.h"
 #include "common_tools.h"
 
-namespace dune 
+namespace dune
 {
     namespace detail
     {
@@ -151,7 +151,7 @@ namespace dune
 
     #define MAX_TEXTURE_SLOTS 14
 
-    deferred_renderer::deferred_renderer() : 
+    deferred_renderer::deferred_renderer() :
         buffers_(),
         srvs_(),
         buffers_slot_(-1),
@@ -176,7 +176,7 @@ namespace dune
 
     void deferred_renderer::stop_capture()
     {
-        do_record_ = false; 
+        do_record_ = false;
         detail::recorder.destroy();
     }
 
@@ -185,7 +185,7 @@ namespace dune
         assert(context);
         assert(backbuffer);
 
-	    context->OMSetRenderTargets(1, &backbuffer, nullptr);
+        context->OMSetRenderTargets(1, &backbuffer, nullptr);
 
         fs_triangle_.render(context);
     }
@@ -209,7 +209,7 @@ namespace dune
         if (postprocessor_)
         {
             blit(context, postprocessor_->frontbuffer().rtv());
-        
+
             context->OMSetRenderTargets(0, nullptr, nullptr);
             postprocessor_->render(context, backbuffer);
         }
@@ -267,9 +267,9 @@ namespace dune
 
     void deferred_renderer::set_shader(ID3D11Device* device,
                                        ID3DBlob* input_binary,
-                                       ID3D11VertexShader* vs_deferred,                                       
-                                       ID3D11PixelShader* ps_deferred, 
-                                       ID3D11PixelShader* ps_overlay, 
+                                       ID3D11VertexShader* vs_deferred,
+                                       ID3D11PixelShader* ps_deferred,
+                                       ID3D11PixelShader* ps_overlay,
                                        UINT start_slot,
                                        UINT overlay_slot)
     {
@@ -299,10 +299,10 @@ namespace dune
         ss_shadows_.create(device, sd);
 
         sd.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
-	    sd.BorderColor[0] = sd.BorderColor[1] = sd.BorderColor[2] = sd.BorderColor[3] = 0.f;
-	    sd.AddressU = D3D11_TEXTURE_ADDRESS_BORDER;
-	    sd.AddressV = D3D11_TEXTURE_ADDRESS_BORDER;
-	    sd.AddressW = D3D11_TEXTURE_ADDRESS_BORDER;
+        sd.BorderColor[0] = sd.BorderColor[1] = sd.BorderColor[2] = sd.BorderColor[3] = 0.f;
+        sd.AddressU = D3D11_TEXTURE_ADDRESS_BORDER;
+        sd.AddressV = D3D11_TEXTURE_ADDRESS_BORDER;
+        sd.AddressW = D3D11_TEXTURE_ADDRESS_BORDER;
         sd.MaxAnisotropy = 1;
         ss_lpv_.create(device, sd);
 
@@ -355,8 +355,8 @@ namespace dune
 
     void deferred_renderer::clear_assigned(ID3D11DeviceContext* context)
     {
-        static ID3D11ShaderResourceView* null_views[] = 
-        { 
+        static ID3D11ShaderResourceView* null_views[] =
+        {
             nullptr
         };
 
@@ -379,7 +379,7 @@ namespace dune
             tcerr << L"Can't add buffer: Only " << MAX_TEXTURE_SLOTS << " slots available" << std::endl;
 
         tclog << L"Adding target to renderer: " << target.name.c_str() << std::endl;
-    
+
         buffers_[slot] = &target;
         srvs_[slot] = target.srv();
     }
@@ -388,4 +388,4 @@ namespace dune
     {
         return buffers_;
     }
-} 
+}

@@ -1,5 +1,5 @@
-/* 
- * dune::video_gbuffer by Tobias Alexander Franke (tob@cyberhead.de) 2013
+/*
+ * Dune D3D library - Tobias Alexander Franke 2013
  * For copyright and license see LICENSE
  * http://www.tobias-franke.eu
  */
@@ -13,14 +13,14 @@
 
 #pragma comment(lib, "strmiids")
 
-namespace dune 
+namespace dune
 {
-    namespace detail 
+    namespace detail
     {
         struct video_device
         {
             tstring         name;
-	        IBaseFilter*	filter;
+            IBaseFilter*    filter;
 
             void destroy()
             {
@@ -37,59 +37,59 @@ namespace dune
                 // FIXME: do not assert here -> result is RCP_E_CHANGED_MODE, which can be ignored
                 (CoInitialize(nullptr));
 
-	            VARIANT name;
-	            //LONGLONG start=MAXLONGLONG, stop=MAXLONGLONG;
+                VARIANT name;
+                //LONGLONG start=MAXLONGLONG, stop=MAXLONGLONG;
 
-	            devices.clear();
+                devices.clear();
 
-	            //create an enumerator for video input devices
-                ICreateDevEnum*	dev_enum;
+                //create an enumerator for video input devices
+                ICreateDevEnum*    dev_enum;
                 assert_hr(CoCreateInstance(CLSID_SystemDeviceEnum, nullptr, CLSCTX_INPROC_SERVER, IID_ICreateDevEnum, (void**)&dev_enum));
 
                 IEnumMoniker* enum_moniker;
                 HRESULT hr = dev_enum->CreateClassEnumerator(CLSID_VideoInputDeviceCategory, &enum_moniker, 0);
-	
-                // no devices
-	            if (hr == S_FALSE) 
-                    return S_OK; 
 
-	            //get devices
+                // no devices
+                if (hr == S_FALSE)
+                    return S_OK;
+
+                //get devices
                 IMoniker* moniker;
                 unsigned long dev_count;
                 const int MAX_DEVICES = 8;
-	            assert_hr(enum_moniker->Next(MAX_DEVICES, &moniker, &dev_count));
+                assert_hr(enum_moniker->Next(MAX_DEVICES, &moniker, &dev_count));
 
-	            for (size_t i=0; i < dev_count; ++i)
-	            {
-		            //get properties
+                for (size_t i=0; i < dev_count; ++i)
+                {
+                    //get properties
                     IPropertyBag* pbag;
                     hr = moniker[i].BindToStorage(nullptr, nullptr, IID_IPropertyBag, (void**)&pbag);
 
-		            if (hr >= 0)
-		            {
-			            VariantInit(&name);
+                    if (hr >= 0)
+                    {
+                        VariantInit(&name);
 
-			            //get the description
-			            if(FAILED(pbag->Read(L"Description", &name, 0)))
-			                hr = pbag->Read(L"FriendlyName", &name, 0);
-			        
+                        //get the description
+                        if(FAILED(pbag->Read(L"Description", &name, 0)))
+                            hr = pbag->Read(L"FriendlyName", &name, 0);
+
                         if (SUCCEEDED(hr))
-			            {
-				            //Initialize the VideoDevice struct
-				            video_device dev;
+                        {
+                            //Initialize the VideoDevice struct
+                            video_device dev;
                             dev.name = name.bstrVal;
-                        
-				            //add a filter for the device
-				            if (SUCCEEDED(graph->AddSourceFilterForMoniker(moniker+i, 0, dev.name.c_str(), &dev.filter)))
+
+                            //add a filter for the device
+                            if (SUCCEEDED(graph->AddSourceFilterForMoniker(moniker+i, 0, dev.name.c_str(), &dev.filter)))
                                 devices.push_back(dev);
-			            }
+                        }
 
-			            VariantClear(&name);
-			            safe_release(pbag); 
-		            }
+                        VariantClear(&name);
+                        safe_release(pbag);
+                    }
 
-		            moniker[i].Release();
-	            }
+                    moniker[i].Release();
+                }
 
                 return S_OK;
             }
@@ -200,12 +200,12 @@ namespace dune
         return dynamic_cast<ISampleGrabberCB*>(this)->QueryInterface(iid, ppv);
     }
 
-    ULONG	__stdcall video_gbuffer::grabber_callback::AddRef()
+    ULONG    __stdcall video_gbuffer::grabber_callback::AddRef()
     {
         return 1;
     }
 
-    ULONG	__stdcall video_gbuffer::grabber_callback::Release()
+    ULONG    __stdcall video_gbuffer::grabber_callback::Release()
     {
         return 0;
     }
@@ -224,12 +224,12 @@ namespace dune
         // create graph
         assert_hr(CoCreateInstance(CLSID_FilterGraph, nullptr, CLSCTX_INPROC_SERVER, IID_IFilterGraph2, (void**)&graph_));
         assert_hr(CoCreateInstance(CLSID_CaptureGraphBuilder2, nullptr, CLSCTX_INPROC_SERVER, IID_ICaptureGraphBuilder2, (void**)&capture_));
-	    assert_hr(graph_->QueryInterface(IID_IMediaControl, (void**) &control_));
-	    assert_hr(capture_->SetFiltergraph(graph_));
+        assert_hr(graph_->QueryInterface(IID_IMediaControl, (void**) &control_));
+        assert_hr(capture_->SetFiltergraph(graph_));
 
         // create null renderer to supress window output
         assert_hr(CoCreateInstance(CLSID_NullRenderer, nullptr, CLSCTX_INPROC_SERVER, IID_IBaseFilter, (void**)&nullf_));
-	    assert_hr(graph_->AddFilter(nullf_, L"Null Renderer"));
+        assert_hr(graph_->AddFilter(nullf_, L"Null Renderer"));
 
         // enumerate devices
         detail::video_device_list list;
@@ -242,19 +242,19 @@ namespace dune
 
         // create samplegrabber
         assert_hr(CoCreateInstance(CLSID_SampleGrabber, nullptr, CLSCTX_INPROC_SERVER, IID_IBaseFilter, (void**)&sgf_));
-	    assert_hr(graph_->AddFilter(sgf_, L"Sample Grabber"));
-	    assert_hr(sgf_->QueryInterface(IID_ISampleGrabber, (void**)&sg_));
+        assert_hr(graph_->AddFilter(sgf_, L"Sample Grabber"));
+        assert_hr(sgf_->QueryInterface(IID_ISampleGrabber, (void**)&sg_));
 
-	    // set media type to RGB24
-	    AM_MEDIA_TYPE mt;
-	    ZeroMemory(&mt, sizeof(mt));
-	    mt.majortype = MEDIATYPE_Video;
-	    mt.subtype   = MEDIASUBTYPE_RGB32; 
+        // set media type to RGB24
+        AM_MEDIA_TYPE mt;
+        ZeroMemory(&mt, sizeof(mt));
+        mt.majortype = MEDIATYPE_Video;
+        mt.subtype   = MEDIASUBTYPE_RGB32;
         assert_hr(sg_->SetMediaType(&mt));
 
         // init callback
         callback_.caller = this;
-	    assert_hr(sg_->SetCallback(dynamic_cast<ISampleGrabberCB*>(&callback_),0));
+        assert_hr(sg_->SetCallback(dynamic_cast<ISampleGrabberCB*>(&callback_),0));
 
         // select device
         detail::video_device *dev = &list.devices[index];
@@ -266,15 +266,15 @@ namespace dune
             stop();
 
         //remove and add the filters to force disconnect of pins
-	    if (current_device_)
-	    {
-		    graph_->RemoveFilter(current_device_);
-		    graph_->RemoveFilter(sgf_);
+        if (current_device_)
+        {
+            graph_->RemoveFilter(current_device_);
+            graph_->RemoveFilter(sgf_);
 
-		    //graph_->AddFilter(sgf_, L"Sample Grabber");
-		    //graph_->AddFilter(current->filter, current->filtername);
-	    }
-	
+            //graph_->AddFilter(sgf_, L"Sample Grabber");
+            //graph_->AddFilter(current->filter, current->filtername);
+        }
+
         current_device_ = dev->filter;
 
         // set size
@@ -290,15 +290,15 @@ namespace dune
 
         VIDEOINFOHEADER *info =
                         reinterpret_cast<VIDEOINFOHEADER*>(mt1->pbFormat);
-        info->bmiHeader.biWidth = w; 
+        info->bmiHeader.biWidth = w;
         info->bmiHeader.biHeight = h;
-        info->bmiHeader.biSizeImage = DIBSIZE(info->bmiHeader); 
+        info->bmiHeader.biSizeImage = DIBSIZE(info->bmiHeader);
 
         assert_hr(config->SetFormat(mt1));
         */
 
         external_callback_ = nullptr;
-    
+
         return S_OK;
     }
 
@@ -308,11 +308,11 @@ namespace dune
         context_ = nullptr;
         running_ = false;
 
-	    gbuffer::create(device, name);
+        gbuffer::create(device, name);
 
         InitializeCriticalSection(&cs_);
 
-	    D3D11_TEXTURE2D_DESC desc;
+        D3D11_TEXTURE2D_DESC desc;
         ZeroMemory(&desc, sizeof(D3D11_TEXTURE2D_DESC));
         desc.Width = w;
         desc.Height = h;
@@ -324,7 +324,7 @@ namespace dune
 
         // needed for multithreading
         //desc.MiscFlags = D3D11_BIND_UNORDERED_ACCESS;
-    
+
         desc.Format = DXGI_FORMAT_B8G8R8A8_UNORM;
         add_target(RT_VIDEO_COLOR, desc);
 
@@ -348,23 +348,23 @@ namespace dune
         has_new_buffer_ = false;
 
         // connect
-	    #ifdef SHOW_DEBUG_RENDERER
+        #ifdef SHOW_DEBUG_RENDERER
         assert_hr(capture->RenderStream(&PIN_CATEGORY_CAPTURE, &MEDIATYPE_Video, current->filter, samplegrabberfilter, nullptr));
-	    #else
-	    assert_hr(capture_->RenderStream(&PIN_CATEGORY_CAPTURE, &MEDIATYPE_Video, current_device_, sgf_, nullf_));
-	    #endif
-	
-	    // start the riot
+        #else
+        assert_hr(capture_->RenderStream(&PIN_CATEGORY_CAPTURE, &MEDIATYPE_Video, current_device_, sgf_, nullf_));
+        #endif
+
+        // start the riot
         LONGLONG v = MAXLONGLONG;
-	    assert_hr(capture_->ControlStream(&PIN_CATEGORY_CAPTURE, &MEDIATYPE_Video, current_device_, &v, &v, 1,2));
-	
+        assert_hr(capture_->ControlStream(&PIN_CATEGORY_CAPTURE, &MEDIATYPE_Video, current_device_, &v, &v, 1,2));
+
         assert_hr(control_->Run());
 
         return S_OK;
     }
 
     void video_gbuffer::stop()
-    {   
+    {
         running_ = false;
         has_new_buffer_ = false;
 
@@ -387,17 +387,17 @@ namespace dune
                 external_callback_(&temp_buffer_[0], static_cast<size_t>(s.x), static_cast<size_t>(s.y));
             }
 
-	        auto rtarget = target(RT_VIDEO_COLOR);
+            auto rtarget = target(RT_VIDEO_COLOR);
 
             void* p = rtarget->map(context_);
 
-	        if (p)
-	        {
+            if (p)
+            {
                 // TODO: if pitch is negative, flip
-		        BYTE* out = reinterpret_cast<BYTE*>(p);
+                BYTE* out = reinterpret_cast<BYTE*>(p);
                 std::memcpy(out, &temp_buffer_[0], temp_buffer_.size());
-		        rtarget->unmap(context_);
-	        }
+                rtarget->unmap(context_);
+            }
         }
 
         has_new_buffer_ = false;

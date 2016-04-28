@@ -1,5 +1,5 @@
-/* 
- * dune::texture_cache by Tobias Alexander Franke (tob@cyberhead.de) 2011
+/*
+ * Dune D3D library - Tobias Alexander Franke 2011
  * For copyright and license see LICENSE
  * http://www.tobias-franke.eu
  */
@@ -263,8 +263,8 @@ namespace dune
         // load texture
         ID3D11ShaderResourceView* srv;
         detail::texture_from_file(device, make_absolute_path(filename).c_str(), &srv);
-    
-	    texture_cache_[filename] = srv;
+
+        texture_cache_[filename] = srv;
     }
 
     ID3D11ShaderResourceView* texture_cache::srv(const tstring& filename) const
@@ -272,8 +272,8 @@ namespace dune
         auto it = texture_cache_.find(filename);
 
         if (it != texture_cache_.end())
-		    return it->second;
-    
+            return it->second;
+
         return nullptr;
     }
 
@@ -287,13 +287,13 @@ namespace dune
 
     void texture_cache::generate_mips(ID3D11DeviceContext* context)
     {
-	    // TODO
-	    for (auto i = texture_cache_.begin(); i != texture_cache_.end(); ++i)
-	    {
-		    //ID3D11Resource* resource;
-		    //i->second->GetResource(&resource);
+        // TODO
+        for (auto i = texture_cache_.begin(); i != texture_cache_.end(); ++i)
+        {
+            //ID3D11Resource* resource;
+            //i->second->GetResource(&resource);
 
-		    //D3DX11FilterTexture(context, resource, 0, D3DX11_DEFAULT);
-	    }
+            //D3DX11FilterTexture(context, resource, 0, D3DX11_DEFAULT);
+        }
     }
-} 
+}

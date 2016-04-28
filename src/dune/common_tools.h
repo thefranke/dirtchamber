@@ -1,5 +1,5 @@
-/* 
- * dune::common_tools by Tobias Alexander Franke (tob@cyberhead.de) 2011
+/*
+ * Dune D3D library - Tobias Alexander Franke 2011
  * For copyright and license see LICENSE
  * http://www.tobias-franke.eu
  */
@@ -12,7 +12,7 @@
 #include "unicode.h"
 #include <vector>
 
-namespace dune 
+namespace dune
 {
     /*! \brief Extract a path from a given pattern, e.g. "C:/foo" from "C:/foo/\*.bar". */
     tstring extract_path(const tstring& pattern);
@@ -22,7 +22,7 @@ namespace dune
 
     /*! \brief Returns an absolute path of the current execution directory. */
     tstring absolute_path();
-    
+
     /*! \brief Return an absolute URI to a URI relative to the execution directory. Thus function is used in every loader. */
     tstring make_absolute_path(const tstring& relative_filename);
 

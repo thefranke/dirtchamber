@@ -1,5 +1,5 @@
 /*
- * deferred_dvct_kinect.hlsl by Tobias Alexander Franke (tob@cyberhead.de) 2014
+ * The Dirtchamber - Tobias Alexander Franke 2014
  * For copyright and license see LICENSE
  * http://www.tobias-franke.eu
  */
@@ -53,9 +53,9 @@ float4 ps_ar_dvct(in PS_INPUT inp) : SV_Target
 
     // reconstruct position in world space
     float3 P = camera_pos + (-V * depth);
-        
+
     bool is_real = is_real_surface(P);
-	
+
 //#define DEBUG_NORMALS
 #ifdef DEBUG_NORMALS
     float3 vP = mul(world_to_svo, float4(camera_pos, 1.0)).xyz;
@@ -107,8 +107,8 @@ float4 ps_ar_dvct(in PS_INPUT inp) : SV_Target
     // direct
     float3 T1 = f * Li * attenuation * NoL;
 
-    if (is_real) 
-    { 
+    if (is_real)
+    {
         // NOTE: this might look nice, but erradicates all real indirect bounces from the image as well
         // T1 = kinect_background * attenuation
         // Correct way: use regular background, compute antiradiance from shadowed light source only and add this to T1

@@ -1,5 +1,5 @@
-/* 
- * dune::postprocess by Tobias Alexander Franke (tob@cyberhead.de) 2012
+/*
+ * Dune D3D library - Tobias Alexander Franke 2012
  * For copyright and license see LICENSE
  * http://www.tobias-franke.eu
  */
@@ -7,7 +7,7 @@
 #include "postprocess.h"
 #include "d3d_tools.h"
 
-namespace dune 
+namespace dune
 {
     postprocessor::postprocessor() :
         buffers_start_slot_(-1),

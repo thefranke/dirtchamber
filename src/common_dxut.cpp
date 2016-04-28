@@ -1,5 +1,5 @@
 /*
- * common_dxut.h by Tobias Alexander Franke (tob@cyberhead.de) 2013
+ * The Dirtchamber - Tobias Alexander Franke 2013
  * For copyright and license see LICENSE
  * http://www.tobias-franke.eu
  */

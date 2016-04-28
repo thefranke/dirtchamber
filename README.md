@@ -3,6 +3,8 @@ Introduction
 
 The Dirtchamber, inspired by the homonymous Prodigy album, is a mixed reality (MR) testing environment for real-time global illumination algorithms. It evolved while I was writing papers to figure out if a global illumination algorithm is suitable (with adaptations) to be used as a relighting solution for an MR scenario. Two main products came out of this: Delta Light Propagation Volumes and Delta Voxel Cone Tracing.
 
+![XYZRGB Dragon next to a 3D printed one](http://www.tobias-franke.eu/publications/franke15phd/franke15phd.jpg "XYZRGB Dragon next to a 3D printed one")
+
 This suite features four samples:
 
 - A Light Propagation Volume renderer sample
@@ -37,7 +39,7 @@ To combat the latter problem, volumes instead of two screen-space renderings can
 It is this difference which, when used within a GI solution, produces a radiance field \\( L_\\Delta \\) representing the *delta* between the synthetic and real space.
 
 $$
-L_\\Delta = L_\\rho - L_\\mu = \\sum_{i=0}^\\infty \\mathbf{T}_{\\rho}^{i} L_e - \\sum_{i=0}^\\infty \\mathbf{T}_{\\mu}^{i} L_e = \\sum_{i=0}^\\infty \\mathbf{T}_{\\Delta}^{i} L_e
+L_\\Delta = L_\\rho - L_\\mu = \\sum_{i=0}^\\infty \\mathbf{T}_{\\rho}^{i} L_e - \\sum_{i=0}^\\infty \\mathbf{T}_{\\mu}^{i} L_e = \\sum_{i=0}^\\infty \\mathbf{T}_{\\Delta_i} L_e
 $$
 
 Delta Light Propagation Volumes encode this DRF with the help of Light Propagation Volumes, whereas Delta Voxel Cone Tracing cone-traces volumes with the left-over injection of real bounces on synthetic surfaces, while tracing a separate structure encoding occlusions.
@@ -98,7 +100,7 @@ After configuration, click on generate and you should have a working solution in
 Running the samples
 -------------------
 
-The solution has either two or four projects. This depends on whether or not OpenCV and the Kinect SDK are available, because both of them are needed to run the mixed reality samples. 
+The solution has either two or four projects. This depends on whether or not OpenCV and the Kinect SDK are available, because both of them are needed to run the mixed reality samples.
 
 The first two projects (**lpv** and **vct**) are sample implementations of regular Light Propagation Volumes and Voxel Cone Tracing. Both projects can be run with command line arguments which can be either files or path patterns (something like C:/foo/\*.obj) to the geometry which should be loaded.
 
@@ -120,7 +122,7 @@ Several classes such as dune::tracker can contain code necessary to set up a few
 
 All objects in Dune are explicitly managed using member functions **create(...)** and **destroy()**. Because of this the state of an object is deemed invalid before calling **create(...)** or after calling **destroy()**. Member functions generally do not guard against calls with an invalid state.
 
-All four samples together share a lot of code, most of it being GUI and GI rendering related. There are three file pairs: 
+All four samples together share a lot of code, most of it being GUI and GI rendering related. There are three file pairs:
 
 - **common_gui** containts callbacks for DXUT GUI code, most of the shared GUI code (settings for postprocessing etc.), simple functions to access GUI element values, synchronization code between GUI and Dune elements and functions to read and write all settings to XML files.
 - **common_dxut** contains non-GUI related callbacks of DXUT (keyboard handling, resizing etc.).
@@ -140,7 +142,7 @@ Dune uses a four-class system to log during runtime. These are:
 
 - **tclog**: Used to log some useful information.
 - **tcout**: Used to log a warning which does not disrupt the flow of execution.
-- **tcerr**: Used to log an error which does does not disrupt the flow of execution.
+- **tcerr**: Used to log an error which does disrupt the flow of execution.
 - **exception**: Thrown whenever the program cannot continue operating at this point. The main function will catch all remainders.
 
 All logging is routed through a special **logbuf** class which, apart from displaying nice popups, will write each line to a log file. All samples write to **data/log.txt**.
@@ -150,12 +152,12 @@ Future Improvements
 
 Real-time relighting is still a largely unexplored area. Although many lessons can be learned from the "offline relighting community" (i.e. augmenting legacy photographs or movies with path-traced solutions), many issues cannot simply be transferred to the real-time domain. If you want to research in this area or contribute to this project, here are a few things on my list:
 
-- **Postprocessing**: Especially smaller cameras like webcams or the Kinect have terrible image quality, exhibiting artifacts such as noise, general blurriness, reduced or quantized color spectrum, motion blur, lens distortion and more. Apart from missing radiometric registration, true MR immersion often suffers from the disparity in quality between the synthetic object and the background image. There is currently no standard process by which one can extract parameters for all kinds of artifacts of a camera and use them for postprocesses which will correct/degrade the rendered synthetic object to match the background image. The Dirtchamber is also missing several of these effects at the moment, for which I plan to write shaders. There are several papers discussing this topic: 
+- **Postprocessing**: Especially smaller cameras like webcams or the Kinect have terrible image quality, exhibiting artifacts such as noise, general blurriness, reduced or quantized color spectrum, motion blur, lens distortion and more. Apart from missing radiometric registration, true MR immersion often suffers from the disparity in quality between the synthetic object and the background image. There is currently no standard process by which one can extract parameters for all kinds of artifacts of a camera and use them for postprocesses which will correct/degrade the rendered synthetic object to match the background image. The Dirtchamber is also missing several of these effects at the moment, for which I plan to write shaders. There are several papers discussing this topic:
     - *Simulating Low-Cost Cameras for Augmented Reality Compositing* [[Klein and Murray 2010]](http://www.robots.ox.ac.uk/~gk/publications.html)
-    - *Perceptual Issues in Augmented Reality Revisited* [[Kruijff et al. 2010]](http://www.hydrosysonline.eu/media_files/ismar2010.pdf) 
-    - *Adaptive Camera-Based Color Mapping For Mixed-Reality Applications* [[Knecht et al. 2011]](http://www.cg.tuwien.ac.at/research/publications/2011/knecht-2011-CBCM/) 
-    - *Fast and Stable Color Balancing for Images and Augmented Reality* [[Oskam et al. 2012]](http://oskam.ch/research/interactive_color_balancing.pdf) 
-    - *Handling Motion-Blur in 3D Tracking and Rendering for Augmented Reality* [[Park et al. 2012]](http://cvlabwww.epfl.ch/~lepetit/papers/park_tvcg12.pdf) 
+    - *Perceptual Issues in Augmented Reality Revisited* [[Kruijff et al. 2010]](http://www.hydrosysonline.eu/media_files/ismar2010.pdf)
+    - *Adaptive Camera-Based Color Mapping For Mixed-Reality Applications* [[Knecht et al. 2011]](http://www.cg.tuwien.ac.at/research/publications/2011/knecht-2011-CBCM/)
+    - *Fast and Stable Color Balancing for Images and Augmented Reality* [[Oskam et al. 2012]](http://oskam.ch/research/interactive_color_balancing.pdf)
+    - *Handling Motion-Blur in 3D Tracking and Rendering for Augmented Reality* [[Park et al. 2012]](http://cvlabwww.epfl.ch/~lepetit/papers/park_tvcg12.pdf)
     - *Color Distribution Transfer for Mixed-Reality Applications* [[Spleitz 2014]](http://www.cescg.org/CESCG-2014/papers/Spelitz-Color_Distribution_Transfer_for_Mixed-Reality_Applications.pdf)
 - **Global Illumination**: Real-time GI in MR is closely tied to solutions presented in the general gaming environment. Because most MR applications rely on absolute flexibility and dynamic behavior, adapting algorithms might end up challenging. Apart from the volumetric methods implemented here or PRT-based solutions for rigid objects, tiled-based rendering can increase the amount of VPLs in Instant Radiosity solutions to suppress flickering. Furthermore, just like game artists usually tag objects as either static or dynamic, rigid objects in a real scene (such as large furniture) could rely on different GI paths than dynamic objects. Screen space methods haven't been properly investigated yet to enhance the image with small scale effects and local reflections.
 - **Perceptual Rendering**: Since synthetic objects are exposed directly for comparison to the real environment, one might tend to go overboard with rendering the object as physically correct as possible at the expense of GPU time. Here several experiments would come in handy to see which effects and errors the human visual system will overlook more easily than others to cut down on shading costs.
@@ -167,4 +169,4 @@ Real-time relighting is still a largely unexplored area. Although many lessons c
 License
 =======
 
-The entire source code of The Dirtchamber and Dune is licensed as MIT. If you have any specific questions about the license please let me know at tob@cyberhead.de. See [LICENSE](http://github.com/thefranke/dirtchamber/blob/master/LICENSE) for more information.
+The entire source code of The Dirtchamber and Dune is licensed as MIT. If you have any specific questions about the license please let me know at tobias.franke@siggraph.org. See [LICENSE](http://github.com/thefranke/dirtchamber/blob/master/LICENSE) for more information.

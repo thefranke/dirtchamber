@@ -1,5 +1,5 @@
-/* 
- * dune::math_tools by Tobias Alexander Franke (tob@cyberhead.de) 2011
+/*
+ * Dune D3D library - Tobias Alexander Franke 2011
  * For copyright and license see LICENSE
  * http://www.tobias-franke.eu
  */
@@ -11,21 +11,21 @@
 
 #include <DirectXMath.h>
 
-namespace dune 
+namespace dune
 {
     const float PI = 3.1415926f;
     const float DEG_TO_RAD = PI/180.f;
 
     /*! \brief Get a number of the Halton sequence. */
-	float halton(int index, int base);
-	DirectX::XMMATRIX make_projection(float z_near, float z_far);
+    float halton(int index, int base);
+    DirectX::XMMATRIX make_projection(float z_near, float z_far);
 
     /*! \brief Approximate functions namespace. */
-	namespace approx
-	{
-		inline double sin(double x);
-		inline double exp(double x);
-	}
+    namespace approx
+    {
+        inline double sin(double x);
+        inline double exp(double x);
+    }
 
     /*! \brief Helper functions to convert PBRT matrix operations. */
     namespace pbrt
@@ -33,6 +33,6 @@ namespace dune
         DirectX::XMMATRIX translate(float x, float y, float z);
         DirectX::XMMATRIX rotate(float angle, float x, float y, float z);
     }
-} 
+}
 
 #endif

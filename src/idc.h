@@ -1,5 +1,5 @@
-/* 
- * idc.h by Tobias Alexander Franke (tob@cyberhead.de) 2013
+/*
+ * The Dirtchamber - Tobias Alexander Franke 2013
  * For copyright and license see copying.txt
  * http://www.tobias-franke.eu
  */
@@ -9,23 +9,23 @@
 #pragma once
 
 /*! \brief IDs for DXUT GUI elements. */
-enum 
+enum
 {
-    IDC_TARGETS, 
-    IDC_TOGGLE_FULLSCREEN, 
+    IDC_TARGETS,
+    IDC_TOGGLE_FULLSCREEN,
     IDC_SETTINGS,
-    IDC_FPS_COUNTER, 
-    
+    IDC_FPS_COUNTER,
+
     IDC_FLUX_SCALE,
 
-    IDC_LIGHT_DIRECTION, 
-    IDC_LIGHT_POS_X, 
-    IDC_LIGHT_POS_Y, 
+    IDC_LIGHT_DIRECTION,
+    IDC_LIGHT_POS_X,
+    IDC_LIGHT_POS_Y,
     IDC_LIGHT_POS_Z,
     IDC_LIGHT_WARMTH,
 
     IDC_NUM_VPLS,
-    IDC_NUM_VPLS_INFO, 
+    IDC_NUM_VPLS_INFO,
     IDC_GI_SCALE,
     IDC_GI_DEBUG1,
     IDC_GI_DEBUG2,
@@ -40,19 +40,19 @@ enum
     IDC_SSAO_SCALE,
 
     IDC_FXAA_ENABLED,
-        
-    IDC_BLOOM_ENABLED, 
+
+    IDC_BLOOM_ENABLED,
     IDC_BLOOM_SIGMA,
     IDC_BLOOM_TRESHOLD,
 
-    IDC_GODRAYS_ENABLED, 
+    IDC_GODRAYS_ENABLED,
     IDC_GODRAYS_TAU,
 
-    IDC_DOF_ENABLED, 
-    IDC_DOF_FOCAL_PLANE, 
-    IDC_DOF_COC_SCALE, 
+    IDC_DOF_ENABLED,
+    IDC_DOF_FOCAL_PLANE,
+    IDC_DOF_COC_SCALE,
 
-    IDC_EXPOSURE_ADAPT, 
+    IDC_EXPOSURE_ADAPT,
     IDC_EXPOSURE_KEY,
     IDC_EXPOSURE_SPEED,
 
@@ -62,8 +62,8 @@ enum
     IDC_TRACK_SCALE,
     IDC_TRACK_ANIMATE,
 
-	IDC_ZFAR,
-	IDC_ZNEAR,
+    IDC_ZFAR,
+    IDC_ZNEAR,
 
     IDC_CRT_ENABLED,
     IDC_FILM_GRAIN_ENABLED,

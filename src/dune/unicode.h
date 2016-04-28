@@ -1,5 +1,5 @@
-/* 
- * dune::unicode by Tobias Alexander Franke (tob@cyberhead.de) 2011
+/*
+ * Dune D3D library - Tobias Alexander Franke 2011
  * For copyright and license see LICENSE
  * http://www.tobias-franke.eu
  */
@@ -14,8 +14,8 @@
 #include <sstream>
 #include <fstream>
 
-namespace dune 
-{ 
+namespace dune
+{
     #ifdef UNICODE
 
     typedef std::wstring tstring;
@@ -23,7 +23,7 @@ namespace dune
     typedef std::wofstream tofstream;
     typedef std::wstringstream tstringstream;
     #define tcerr std::wcerr
-    #define tclog std::wclog   
+    #define tclog std::wclog
     #define tcout std::wcout
 
     tstring to_tstring(const std::string& str);

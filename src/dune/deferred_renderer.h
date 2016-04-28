@@ -1,5 +1,5 @@
-/* 
- * dune::deferred_renderer by Tobias Alexander Franke (tob@cyberhead.de) 2011
+/*
+ * Dune D3D library - Tobias Alexander Franke 2011
  * For copyright and license see LICENSE
  * http://www.tobias-franke.eu
  */
@@ -19,14 +19,14 @@
 
 #include <D3D11.h>
 
-namespace dune 
+namespace dune
 {
     /*!
      * \brief The deferred renderer base class.
      *
      * This class implements a deferred renderer manager. A deferred_renderer is initialized
      * by "adding" render_target or gbuffer objects to it with given register numbers. These
-     * objects are collected into one big buffer map. When rendering, the deferred_renderer will 
+     * objects are collected into one big buffer map. When rendering, the deferred_renderer will
      * call a deferred shader for a full screen triangle and upload all buffers in the buffer
      * map to their respective registers, which can then be used by the deferred shader.
      *
@@ -86,12 +86,12 @@ namespace dune
         virtual ~deferred_renderer() {}
 
         virtual void create(ID3D11Device* device);
-    
+
         void set_shader(ID3D11Device* device,
                         ID3DBlob* input_binary,
                         ID3D11VertexShader* vs_deferred,
-                        ID3D11PixelShader* ps_deferred, 
-                        ID3D11PixelShader* ps_overlay, 
+                        ID3D11PixelShader* ps_deferred,
+                        ID3D11PixelShader* ps_overlay,
                         UINT start_slot,
                         UINT overlay_slot);
 
@@ -114,7 +114,7 @@ namespace dune
         void stop_capture();
 
         void render(ID3D11DeviceContext* context, ID3D11RenderTargetView* backbuffer, ID3D11DepthStencilView* dsv = nullptr);
-        
+
         /*! \brief Returns the map containing all buffers indexed by their registers. */
         const buffer_collection& buffers();
 
@@ -131,16 +131,16 @@ namespace dune
 
         /*! \brief Add a render_target to the buffer map. */
         void add_buffer(texture& target, UINT slot);
-    
+
         /*! \brief Set a postprocessor to use. If this isn't called or set to nullptr, the deferred renderer output is displayed directly. */
         void set_postprocessor(postprocessor* pp);
-        
+
         /*! \brief Select a render_target by name to display in a small overlay when rendering. */
         void show_target(ID3D11DeviceContext* context, const tstring& name);
 
         /*! \brief Resize the deferred_renderer's output to a new width/height .*/
         virtual void resize(UINT width, UINT height);
     };
-} 
+}
 
 #endif

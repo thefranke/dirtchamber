@@ -1,5 +1,5 @@
 /*
- * dune::tracker by Tobias Alexander Franke (tob@cyberhead.de) 2014
+ * Dune D3D library - Tobias Alexander Franke 2014
  * For copyright and license see LICENSE
  * http://www.tobias-franke.eu
  */
@@ -82,7 +82,7 @@ namespace dune
 
 #define TRACK_FAST
 #ifndef TRACK_FAST
-#define ADAPTIVE_THRESH CV_ADAPTIVE_THRESH_GAUSSIAN_C 
+#define ADAPTIVE_THRESH CV_ADAPTIVE_THRESH_GAUSSIAN_C
 #else
 #define ADAPTIVE_THRESH CV_ADAPTIVE_THRESH_MEAN_C
 #endif
@@ -178,7 +178,7 @@ namespace dune
             // calculate mapping
             cv::Mat homography = cv::getPerspectiveTransform(rect_pts, normalized_rect_pts);
 
-            // extract pattern 
+            // extract pattern
             cv::Mat sub_img = pattern(cv::Range(rec.y, rec.y + rec.height), cv::Range(rec.x, rec.x + rec.width));
 
             // warp extracted pattern to normalized pattern
@@ -278,7 +278,7 @@ namespace dune
 
                         cv::Point2f rect[4];
 
-                        // rotate vertices based on upper left vertex; this gives you the most trivial homogrpahy 
+                        // rotate vertices based on upper left vertex; this gives you the most trivial homogrpahy
                         for (int j = 0; j < 4; ++j)
                             rect[j] = cv::Point2f(float_vertices[(4 + v1 - j) % 4].x - pMinX, float_vertices[(4 + v1 - j) % 4].y - pMinY);
 
@@ -330,7 +330,7 @@ namespace dune
             cv::Mat img_rot = cv::Mat(msize, msize, CV_8UC1);
             cv::Mat rot_mat = cv::getRotationMatrix2D(center, -i * 90, 1.0);
             cv::warpAffine(img_resize, img_rot, rot_mat, cv::Size(msize, msize));
-           
+
             img_sub = img_rot(cv::Range(msize / 4, 3 * msize / 4), cv::Range(msize / 4, 3 * msize / 4));
             rotated_versions_.push_back(img_sub);
         }
@@ -360,7 +360,7 @@ namespace dune
         if (detected_.size() > marker_id)
             transformation = detected_[0].transformation;
 
-        // add calibration 
+        // add calibration
         DirectX::XMMATRIX mat_trans = DirectX::XMMatrixTranslation(translation.x, translation.y, translation.z);
         DirectX::XMMATRIX mat_scale = DirectX::XMMatrixScaling(scale, scale, scale);
         // TODO: add rotation

@@ -1,8 +1,8 @@
 /*
-* dune::simple_mesh by Tobias Alexander Franke (tob@cyberhead.de) 2011
-* For copyright and license see LICENSE
-* http://www.tobias-franke.eu
-*/
+ * Dune D3D library - Tobias Alexander Franke 2011
+ * For copyright and license see LICENSE
+ * http://www.tobias-franke.eu
+ */
 
 /*! \file */
 
@@ -16,7 +16,7 @@
 #include "mesh.h"
 #include "logger.h"
 
-namespace dune 
+namespace dune
 {
     /*!
      * \brief A very simple mesh class with position-only vertex attributes.
@@ -70,7 +70,7 @@ namespace dune
 
         /*!
          * \brief Create a new simple_mesh.
-         * 
+         *
          * This function creates a new, empty simple_mesh.
          *
          * \param device The Direct3D device.

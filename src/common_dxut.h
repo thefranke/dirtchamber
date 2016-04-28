@@ -1,5 +1,5 @@
 /*
- * common_dxut.h by Tobias Alexander Franke (tob@cyberhead.de) 2013
+ * The Dirtchamber - Tobias Alexander Franke 2013
  * For copyright and license see LICENSE
  * http://www.tobias-franke.eu
  */
@@ -20,13 +20,13 @@ extern ID3D11DeviceContext*             the_context;
 namespace dc
 {
     //!@{
-	/*! 
-	 * \brief Default implementation of DXUT callbacks common to all render samples.
-	 *
-	 * All render samples share common DXUT function callbacks which use identlical code. They all refer to a
-	 * common_renderer pointer the_renderer which represents the main implementation and which must be set when initializing
-	 * the sample
-	 */
+    /*!
+     * \brief Default implementation of DXUT callbacks common to all render samples.
+     *
+     * All render samples share common DXUT function callbacks which use identlical code. They all refer to a
+     * common_renderer pointer the_renderer which represents the main implementation and which must be set when initializing
+     * the sample
+     */
     void CALLBACK on_releasing_swap_chain(void* pUserContext);
     bool CALLBACK on_modify_device(DXUTDeviceSettings* settings, void* user_context);
     HRESULT CALLBACK on_resize(ID3D11Device* pd3dDevice, IDXGISwapChain *pSwapChain, const DXGI_SURFACE_DESC* pBackBufferSurfaceDesc, void* pUserContext);

@@ -1,5 +1,5 @@
-/* 
- * dune::kinect_gbuffer by Tobias Alexander Franke (tob@cyberhead.de) 2012
+/*
+ * Dune D3D library - Tobias Alexander Franke 2012
  * For copyright and license see LICENSE
  * http://www.tobias-franke.eu
  */
@@ -22,7 +22,7 @@
 #define RT_KINECT_DEPTH L"depth"
 #define RT_KINECT_COLOR L"color"
 
-namespace dune 
+namespace dune
 {
     /*!
      * \brief A GBuffer fed from a Kinect camera.
@@ -30,12 +30,12 @@ namespace dune
      * The kinect_gbuffer is a regular Geometry Buffer which is fed from a Kinect camera. It has two targets
      * for depth and colors. When passing this buffer to a deferred renderer, it will not notice the difference
      * to a regular GBuffer and can therefore render for instance post-processing effects as usual.
-     * 
+     *
      * kinect_gbuffer objects work with a two step update model with pull mechanics.
-     * A thread is spawned which copies images received from the Kinect into two internal render_target objects. 
+     * A thread is spawned which copies images received from the Kinect into two internal render_target objects.
      * Once the render_target objects are written to, flags are raised to indicate this to other threads.
      * The application thread calls the update method to pull data over into the gbuffer
-     * objects. This is neccessary to be able to update buffers without managing two D3D context objects 
+     * objects. This is neccessary to be able to update buffers without managing two D3D context objects
      * in a multithreading environment, because GBuffers under normal circumstances can only be accessed
      * in the same thread as the renderer.
      */
@@ -60,7 +60,7 @@ namespace dune
         bool align_streams_;
 
         CRITICAL_SECTION cs_color_, cs_depth_;
-    
+
     protected:
         /*! \brief The thread which updates render_targets from the Kinect API. */
         static DWORD WINAPI thread(LPVOID);
@@ -84,7 +84,7 @@ namespace dune
         void create(ID3D11Device* device);
         void resize(size_t width, size_t height);
 
-        /*! 
+        /*!
          * \brief Copies over NUI_IMAGE_FRAMEs to render_targets.
          *
          * Calling this method with a type will copy over a NUI_IMAGE_FRAME to a render_target's CPU bound buffer.
@@ -129,7 +129,7 @@ namespace dune
         float depth_max() const;
         //!@}
     };
-} 
+}
 
 #endif
 

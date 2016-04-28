@@ -1,5 +1,5 @@
-/* 
- * dune::shader_resource by Tobias Alexander Franke (tob@cyberhead.de) 2012
+/*
+ * Dune D3D library - Tobias Alexander Franke 2012
  * For copyright and license see LICENSE
  * http://www.tobias-franke.eu
  */
@@ -9,7 +9,7 @@
 #include "unicode.h"
 #include "d3d_tools.h"
 
-namespace dune 
+namespace dune
 {
     void shader_resource::to_vs(ID3D11DeviceContext* context, UINT slot)
     {

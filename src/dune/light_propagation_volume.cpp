@@ -1,5 +1,5 @@
-/* 
- * dune::light_propagation_volume by Tobias Alexander Franke (tob@cyberhead.de) 2012
+/*
+ * Dune D3D library - Tobias Alexander Franke 2012
  * For copyright and license see LICENSE
  * http://www.tobias-franke.eu
  */
@@ -13,16 +13,16 @@
 
 #define NUM_VPLS 1024
 
-namespace dune 
+namespace dune
 {
     struct lpv_vertex
     {
         DirectX::XMFLOAT3 position;
         DirectX::XMFLOAT3 texcoord;
-    
-        void init(DirectX::XMFLOAT3& p, DirectX::XMFLOAT3& t) 
-        {  
-            position = p; 
+
+        void init(DirectX::XMFLOAT3& p, DirectX::XMFLOAT3& t)
+        {
+            position = p;
             texcoord = t;
         }
     };
@@ -108,7 +108,7 @@ namespace dune
             data[d*6+0].init(DirectX::XMFLOAT3(-1.0f, -1.0f, 0.0f), DirectX::XMFLOAT3(0.0f, 1.0f, static_cast<float>(d)));
             data[d*6+1].init(DirectX::XMFLOAT3(-1.0f, 1.0f,  0.0f), DirectX::XMFLOAT3(0.0f, 0.0f, static_cast<float>(d)));
             data[d*6+2].init(DirectX::XMFLOAT3(1.0f, -1.0f,  0.0f), DirectX::XMFLOAT3(1.0f, 1.0f, static_cast<float>(d)));
-        
+
             data[d*6+3].init(DirectX::XMFLOAT3(1.0f, -1.0f,  0.0f), DirectX::XMFLOAT3(1.0f, 1.0f, static_cast<float>(d)));
             data[d*6+4].init(DirectX::XMFLOAT3(-1.0f, 1.0f,  0.0f), DirectX::XMFLOAT3(0.0f, 0.0f, static_cast<float>(d)));
             data[d*6+5].init(DirectX::XMFLOAT3(1.0f, 1.0f,   0.0f), DirectX::XMFLOAT3(1.0f, 0.0f, static_cast<float>(d)));
@@ -127,7 +127,7 @@ namespace dune
         D3D11_BLEND_DESC bld;
         ZeroMemory(&bld, sizeof(D3D11_BLEND_DESC));
 
-	    bld.IndependentBlendEnable = TRUE;
+        bld.IndependentBlendEnable = TRUE;
 
         for (size_t i = 0; i < 6; ++i)
         {
@@ -143,9 +143,9 @@ namespace dune
 
         assert_hr(device->CreateBlendState(&bld, &bs_inject_));
 
-	    for (size_t i = 0; i < 3; ++i)
+        for (size_t i = 0; i < 3; ++i)
             bld.RenderTarget[i].BlendEnable = FALSE;
-    
+
         assert_hr(device->CreateBlendState(&bld, &bs_propagate_));
 
         D3D11_SAMPLER_DESC sd;
@@ -161,11 +161,11 @@ namespace dune
         ss_vplfilter_.create(device, sd);
 
         cb_parameters_.create(device);
-	    cb_debug_.create(device);
+        cb_debug_.create(device);
         cb_propagation_.create(device);
         cb_gi_parameters_.create(device);
-	
-	    DirectX::XMStoreFloat4x4(&world_to_lpv_, DirectX::XMMatrixIdentity());
+
+        DirectX::XMStoreFloat4x4(&world_to_lpv_, DirectX::XMMatrixIdentity());
 
         curr_ = 0;
         next_ = 1;
@@ -175,24 +175,24 @@ namespace dune
 
     void light_propagation_volume::set_model_matrix(ID3D11DeviceContext* context, const DirectX::XMFLOAT4X4& model, const DirectX::XMFLOAT3& lpv_min, const DirectX::XMFLOAT3& lpv_max, UINT lpv_parameters_slot)
     {
-	    DirectX::XMMATRIX model_inv = DirectX::XMMatrixInverse(nullptr, DirectX::XMLoadFloat4x4(&model));
+        DirectX::XMMATRIX model_inv = DirectX::XMMatrixInverse(nullptr, DirectX::XMLoadFloat4x4(&model));
 
-	    DirectX::XMVECTOR diag = DirectX::XMVectorSubtract(DirectX::XMLoadFloat3(&lpv_max), DirectX::XMLoadFloat3(&lpv_min));
+        DirectX::XMVECTOR diag = DirectX::XMVectorSubtract(DirectX::XMLoadFloat3(&lpv_max), DirectX::XMLoadFloat3(&lpv_min));
 
-	    DirectX::XMFLOAT3 d;
-	    DirectX::XMStoreFloat3(&d, diag);
+        DirectX::XMFLOAT3 d;
+        DirectX::XMStoreFloat3(&d, diag);
 
-	    DirectX::XMMATRIX scale = DirectX::XMMatrixScaling(1.f/d.x, 1.f/d.y, 1.f/d.z);
+        DirectX::XMMATRIX scale = DirectX::XMMatrixScaling(1.f/d.x, 1.f/d.y, 1.f/d.z);
 
         DirectX::XMMATRIX trans = DirectX::XMMatrixTranslation(-lpv_min.x, -lpv_min.y, -lpv_min.z);
-    
-	    DirectX::XMMATRIX world_to_lpv = model_inv * trans * scale;
-	    DirectX::XMStoreFloat4x4(&world_to_lpv_, world_to_lpv);
 
-	    auto cb = &cb_parameters_.data();
+        DirectX::XMMATRIX world_to_lpv = model_inv * trans * scale;
+        DirectX::XMStoreFloat4x4(&world_to_lpv_, world_to_lpv);
+
+        auto cb = &cb_parameters_.data();
         {
-		    DirectX::XMStoreFloat4x4(&cb->world_to_lpv, 
-			    world_to_lpv);
+            DirectX::XMStoreFloat4x4(&cb->world_to_lpv,
+                world_to_lpv);
 
             cb->lpv_size = volume_size_;
         }
@@ -216,7 +216,7 @@ namespace dune
         lpv_inject_counter_.destroy();
 
         cb_parameters_.destroy();
-	    cb_debug_.destroy();
+        cb_debug_.destroy();
         cb_propagation_.destroy();
         cb_gi_parameters_.destroy();
 
@@ -224,7 +224,7 @@ namespace dune
         safe_release(lpv_volume_);
 
         safe_release(bs_inject_);
-    
+
         safe_release(bs_propagate_);
 
         safe_release(vs_inject_);
@@ -261,10 +261,10 @@ namespace dune
         unsigned int num_vpls = static_cast<unsigned int>(NUM_VPLS*NUM_VPLS);
 
         rsm.to_vs(context, inject_rsm_start_slot_);
-    
+
         // render into lpv
-        ID3D11RenderTargetView* lpv_views[] = 
-        { 
+        ID3D11RenderTargetView* lpv_views[] =
+        {
             lpv_r_[next_].rtv(),
             lpv_g_[next_].rtv(),
             lpv_b_[next_].rtv(),
@@ -283,7 +283,7 @@ namespace dune
         unsigned int stride = 0;
         unsigned int offset = 0;
         ID3D11Buffer* buffer[] = { nullptr };
-    
+
         context->IASetVertexBuffers(0, 1, buffer, &stride, &offset);
         context->IASetInputLayout(nullptr);
         context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_POINTLIST);
@@ -300,8 +300,8 @@ namespace dune
         ID3D11RenderTargetView* null_views[] = { nullptr, nullptr, nullptr, nullptr };
         context->OMSetRenderTargets(4, null_views, nullptr);
 
-	    ID3D11ShaderResourceView* null_views1[] = { nullptr, nullptr, nullptr };
-	    context->VSSetShaderResources(inject_rsm_start_slot_, 3, null_views1);
+        ID3D11ShaderResourceView* null_views1[] = { nullptr, nullptr, nullptr };
+        context->VSSetShaderResources(inject_rsm_start_slot_, 3, null_views1);
 
         time_inject_ = profiler_.result();
     }
@@ -310,8 +310,8 @@ namespace dune
     {
         swap_buffers();
 
-        ID3D11RenderTargetView* lpv_views[] = 
-        { 
+        ID3D11RenderTargetView* lpv_views[] =
+        {
             lpv_r_[next_].rtv(),
             lpv_g_[next_].rtv(),
             lpv_b_[next_].rtv(),
@@ -324,23 +324,23 @@ namespace dune
 
         FLOAT factors[4] = { 1.0f, 1.0f, 1.0f, 1.0f };
         context->OMSetBlendState(bs_inject_, factors, 0xffffffff);
-    
+
         UINT stride = sizeof(lpv_vertex);
         UINT offset = 0;
-    
+
         context->IASetInputLayout(input_layout_);
         context->IASetVertexBuffers(0, 1, &lpv_volume_, &stride, &offset);
-        context->IASetIndexBuffer(nullptr, DXGI_FORMAT_R32_UINT,0); 
+        context->IASetIndexBuffer(nullptr, DXGI_FORMAT_R32_UINT,0);
         context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
         context->VSSetShader(vs_propagate_, nullptr, 0);
         context->GSSetShader(gs_propagate_, nullptr, 0);
         context->PSSetShader(ps_normalize_, nullptr, 0);
 
-        ID3D11ShaderResourceView* sr_lpv[] = 
+        ID3D11ShaderResourceView* sr_lpv[] =
         {
-            lpv_r_[curr_].srv(), 
-            lpv_g_[curr_].srv(), 
+            lpv_r_[curr_].srv(),
+            lpv_g_[curr_].srv(),
             lpv_b_[curr_].srv(),
             lpv_inject_counter_.srv(),
         };
@@ -352,7 +352,7 @@ namespace dune
         // clear and done
         ID3D11RenderTargetView* rt_null_views[] = { nullptr, nullptr, nullptr };
         context->OMSetRenderTargets(3, rt_null_views, nullptr);
-    
+
         ID3D11ShaderResourceView* sr_null_views[] = { nullptr, nullptr, nullptr, nullptr };
         context->PSSetShaderResources(propagate_start_slot_, 4, sr_null_views);
     }
@@ -361,8 +361,8 @@ namespace dune
     {
         swap_buffers();
 
-        ID3D11RenderTargetView* lpv_views[] = 
-        { 
+        ID3D11RenderTargetView* lpv_views[] =
+        {
             lpv_r_[next_].rtv(),
             lpv_g_[next_].rtv(),
             lpv_b_[next_].rtv(),
@@ -376,11 +376,11 @@ namespace dune
 
         context->OMSetRenderTargets(6, lpv_views, nullptr);
 
-        ID3D11ShaderResourceView* sr_lpv[] = 
+        ID3D11ShaderResourceView* sr_lpv[] =
         {
-            lpv_r_[curr_].srv(), 
-            lpv_g_[curr_].srv(), 
-            lpv_b_[curr_].srv() 
+            lpv_r_[curr_].srv(),
+            lpv_g_[curr_].srv(),
+            lpv_b_[curr_].srv()
         };
 
         context->PSSetShaderResources(propagate_start_slot_, 3, sr_lpv);
@@ -390,7 +390,7 @@ namespace dune
         // clear and done
         ID3D11RenderTargetView* rt_null_views[] = { nullptr, nullptr, nullptr, nullptr, nullptr, nullptr };
         context->OMSetRenderTargets(6, rt_null_views, nullptr);
-    
+
         ID3D11ShaderResourceView* sr_null_views[] = { nullptr, nullptr, nullptr };
         context->PSSetShaderResources(propagate_start_slot_, 3, sr_null_views);
     }
@@ -415,9 +415,9 @@ namespace dune
             return;
 
         static float clear_color[4] = {0.0f, 0.0f, 0.0f, 0.0f};
-    
-        ID3D11RenderTargetView* lpv_accum_views[] = 
-        { 
+
+        ID3D11RenderTargetView* lpv_accum_views[] =
+        {
             lpv_accum_r_.rtv(),
             lpv_accum_g_.rtv(),
             lpv_accum_b_.rtv(),
@@ -427,10 +427,10 @@ namespace dune
 
         UINT stride = sizeof(lpv_vertex);
         UINT offset = 0;
-    
+
         context->IASetInputLayout(input_layout_);
         context->IASetVertexBuffers(0, 1, &lpv_volume_, &stride, &offset);
-        context->IASetIndexBuffer(nullptr, DXGI_FORMAT_R32_UINT,0); 
+        context->IASetIndexBuffer(nullptr, DXGI_FORMAT_R32_UINT,0);
         context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
         FLOAT factors[4] = { 1.0f, 1.0f, 1.0f, 1.0f };
@@ -439,7 +439,7 @@ namespace dune
         context->VSSetShader(vs_propagate_, nullptr, 0);
         context->GSSetShader(gs_propagate_, nullptr, 0);
         context->PSSetShader(ps_propagate_, nullptr, 0);
-       
+
         for (UINT i = 0; i < num_iterations; ++i)
         {
             auto c = &cb_propagation_.data();
@@ -484,7 +484,7 @@ namespace dune
         propagate_start_slot_ = start_slot;
 
         // create input layout
-        D3D11_INPUT_ELEMENT_DESC lpv_layout_desc[] = 
+        D3D11_INPUT_ELEMENT_DESC lpv_layout_desc[] =
         {
             { "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0 },
             { "TEXCOORD", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0 }
@@ -513,8 +513,8 @@ namespace dune
             auto cb = &cb_debug_.data();
             {
                 cb->lpv_pos = DirectX::XMFLOAT3(static_cast<float>(x),
-											    static_cast<float>(y),
-											    static_cast<float>(z));
+                                                static_cast<float>(y),
+                                                static_cast<float>(z));
             }
             cb_debug_.to_ps(context, debug_info_slot);
             cb_debug_.to_vs(context, debug_info_slot);
@@ -548,10 +548,10 @@ namespace dune
         unsigned int num_vpls = static_cast<unsigned int>(NUM_VPLS*NUM_VPLS);
 
         rsm.to_vs(context, inject_rsm_start_slot_);
-    
+
         // render into lpv
-        ID3D11RenderTargetView* lpv_views[] = 
-        { 
+        ID3D11RenderTargetView* lpv_views[] =
+        {
             lpv_r_[next_].rtv(),
             lpv_g_[next_].rtv(),
             lpv_b_[next_].rtv(),
@@ -568,7 +568,7 @@ namespace dune
         context->OMSetRenderTargets(4, lpv_views, nullptr);
 
         FLOAT factors[4] = { 1.0f, 1.0f, 1.0f, 1.0f };
-    
+
         if (!negative_)
             context->OMSetBlendState(bs_inject_, factors, 0xffffffff);
         else
@@ -578,7 +578,7 @@ namespace dune
         unsigned int stride = 0;
         unsigned int offset = 0;
         ID3D11Buffer* buffer[] = { nullptr };
-    
+
         context->IASetVertexBuffers(0, 1, buffer, &stride, &offset);
         context->IASetInputLayout(nullptr);
         context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_POINTLIST);
@@ -599,8 +599,8 @@ namespace dune
         ID3D11RenderTargetView* null_views[] = { nullptr, nullptr, nullptr, nullptr };
         context->OMSetRenderTargets(4, null_views, nullptr);
 
-	    ID3D11ShaderResourceView* null_views1[] = { nullptr, nullptr, nullptr };
-	    context->VSSetShaderResources(inject_rsm_start_slot_, 3, null_views1);
+        ID3D11ShaderResourceView* null_views1[] = { nullptr, nullptr, nullptr };
+        context->VSSetShaderResources(inject_rsm_start_slot_, 3, null_views1);
 
         negative_ = !negative_;
 
@@ -613,9 +613,9 @@ namespace dune
             return;
 
         static float clear_color[4] = {0.0f, 0.0f, 0.0f, 0.0f};
-    
-        ID3D11RenderTargetView* lpv_accum_views[] = 
-        { 
+
+        ID3D11RenderTargetView* lpv_accum_views[] =
+        {
             lpv_accum_r_.rtv(),
             lpv_accum_g_.rtv(),
             lpv_accum_b_.rtv(),
@@ -623,10 +623,10 @@ namespace dune
 
         UINT stride = sizeof(lpv_vertex);
         UINT offset = 0;
-    
+
         context->IASetInputLayout(input_layout_);
         context->IASetVertexBuffers(0, 1, &lpv_volume_, &stride, &offset);
-        context->IASetIndexBuffer(nullptr, DXGI_FORMAT_R32_UINT,0); 
+        context->IASetIndexBuffer(nullptr, DXGI_FORMAT_R32_UINT,0);
         context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
         FLOAT factors[4] = { 1.0f, 1.0f, 1.0f, 1.0f };
@@ -635,7 +635,7 @@ namespace dune
         context->VSSetShader(vs_propagate_, nullptr, 0);
         context->GSSetShader(gs_propagate_, nullptr, 0);
         context->PSSetShader(ps_propagate_, nullptr, 0);
-       
+
         for (UINT i = 0; i < num_iterations; ++i)
         {
             auto c = &cb_propagation_.data();
@@ -655,7 +655,7 @@ namespace dune
         D3D11_BLEND_DESC bld;
         ZeroMemory(&bld, sizeof(D3D11_BLEND_DESC));
 
-	    bld.IndependentBlendEnable = TRUE;
+        bld.IndependentBlendEnable = TRUE;
 
         for (size_t i = 0; i < 6; ++i)
         {
@@ -668,7 +668,7 @@ namespace dune
             bld.RenderTarget[i].BlendOpAlpha =   D3D11_BLEND_OP_ADD;
             bld.RenderTarget[i].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
         }
-    
+
         for (size_t i = 0; i < 3; ++i)
         {
             bld.RenderTarget[i].BlendOp =        D3D11_BLEND_OP_REV_SUBTRACT;

@@ -1,5 +1,5 @@
-/* 
- * dune::render_target by Tobias Alexander Franke (tob@cyberhead.de) 2011
+/*
+ * Dune D3D library - Tobias Alexander Franke 2011
  * For copyright and license see LICENSE
  * http://www.tobias-franke.eu
  */
@@ -11,7 +11,7 @@
 
 #include "texture_cache.h"
 
-namespace dune 
+namespace dune
 {
     render_target::render_target() :
         device_(nullptr),
@@ -28,14 +28,14 @@ namespace dune
         dsview_ = nullptr;
 
         device_ = device;
-        
+
         if (desc.Format == DXGI_FORMAT_R32_TYPELESS)
             desc.BindFlags |= D3D11_BIND_DEPTH_STENCIL;
 
         if (desc.BindFlags & D3D11_BIND_DEPTH_STENCIL)
         {
             tcout << "Target \"" << this->name.c_str() << "\" is technically not a render target but a depth stencil texture." << std::endl;
-            
+
             texture::do_create(device, desc, subresource);
 
             D3D11_DEPTH_STENCIL_VIEW_DESC desc_dsv;
@@ -129,4 +129,4 @@ namespace dune
         t.enable_cached(true);
         load_texture(device, filename, t);
     }
-} 
+}

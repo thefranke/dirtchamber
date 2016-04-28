@@ -1,5 +1,5 @@
 /*
- * deferred_vct.hlsl by Tobias Alexander Franke (tob@cyberhead.de) 2013
+ * The Dirtchamber - Tobias Alexander Franke 2013
  * For copyright and license see LICENSE
  * http://www.tobias-franke.eu
  */
@@ -11,7 +11,7 @@ cbuffer gi_parameters_ps    : register(b3)
 {
     float gi_scale          : packoffset(c0.x);
     float glossiness        : packoffset(c0.y);
-    uint num_vpls		    : packoffset(c0.z);
+    uint num_vpls           : packoffset(c0.z);
     bool debug_gi           : packoffset(c0.w);
 }
 
@@ -71,7 +71,7 @@ float4 ps_vct(in PS_INPUT inp) : SV_Target
 #if 1
     float attenuation = shadow_attenuation(P, Ll, rt_rsm_lineardepth, 0.0, 0.0);
 #else
-    float attenuation = shadow_cone(P, L, N, 0.00002); 
+    float attenuation = shadow_cone(P, L, N, 0.00002);
 #endif
 
     // brdf

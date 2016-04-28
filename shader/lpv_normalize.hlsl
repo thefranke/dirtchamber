@@ -1,5 +1,5 @@
-/* 
- * lpv_normalize.hlsl by Tobias Alexander Franke (tob@cyberhead.de) 2012
+/*
+ * The Dirtchamber - Tobias Alexander Franke 2012
  * For copyright and license see LICENSE
  * http://www.tobias-franke.eu
  */
@@ -32,7 +32,7 @@ PS_LPV_NORMALIZE ps_lpv_normalize(in GS_LPV_PROPAGATE input)
     float num_lights = abs(lpv_inject_counter.Load(lpv_pos).r);
 
     float scale = 1.0;
-    
+
     if (num_lights > 0)
         scale = 1.0/num_lights;
 

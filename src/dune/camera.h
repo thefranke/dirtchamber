@@ -1,5 +1,5 @@
 /*
- * dune::camera by Tobias Alexander Franke (tob@cyberhead.de) 2014
+ * Dune D3D library - Tobias Alexander Franke 2014
  * For copyright and license see LICENSE
  * http://www.tobias-franke.eu
  */

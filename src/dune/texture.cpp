@@ -1,8 +1,8 @@
 /*
-* dune::texture by Tobias Alexander Franke (tob@cyberhead.de) 2011
-* For copyright and license see LICENSE
-* http://www.tobias-franke.eu
-*/
+ * Dune D3D library - Tobias Alexander Franke 2011
+ * For copyright and license see LICENSE
+ * http://www.tobias-franke.eu
+ */
 
 #include "texture.h"
 
@@ -11,7 +11,7 @@
 
 #include <iostream>
 #include <list>
-#include <algorithm> 
+#include <algorithm>
 
 namespace dune
 {
@@ -67,7 +67,7 @@ namespace dune
         size_ = DirectX::XMFLOAT2(static_cast<FLOAT>(desc.Width), static_cast<FLOAT>(desc.Height));
 
         desc.BindFlags |= D3D11_BIND_SHADER_RESOURCE;
- 
+
         assert_hr(device->CreateTexture2D(&desc, subresource, &texture_));
 
         D3D11_SHADER_RESOURCE_VIEW_DESC desc_srv;

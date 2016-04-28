@@ -1,5 +1,5 @@
-/* 
- * dune::gbuffer by Tobias Alexander Franke (tob@cyberhead.de) 2011
+/*
+ * Dune D3D library - Tobias Alexander Franke 2011
  * For copyright and license see LICENSE
  * http://www.tobias-franke.eu
  */
@@ -12,7 +12,7 @@
 
 #include "d3d_tools.h"
 
-namespace dune 
+namespace dune
 {
     gbuffer::gbuffer() :
         srvs_(),
@@ -68,7 +68,7 @@ namespace dune
         assert(name != L"");
 
         const tstring full_name = name + L"_" + n;
-    
+
         for (size_t i = 0; i < buffers_.size(); ++i)
             if (buffers_[i].name == full_name)
                 return &buffers_[i];
@@ -104,7 +104,7 @@ namespace dune
         t.enable_cached(cached);
         t.create(device_, desc);
         t.name = name + L"_" + n;
-    
+
         srvs_.push_back(t.srv());
 
         buffers_.push_back(t);
@@ -114,8 +114,8 @@ namespace dune
     {
         desc.Format = DXGI_FORMAT_R32_TYPELESS;
         desc.SampleDesc.Count = 1;
-        desc.SampleDesc.Quality = 0; 
-    
+        desc.SampleDesc.Quality = 0;
+
         assert(device_);
 
         add_target(name, desc);
@@ -145,4 +145,4 @@ namespace dune
     {
         context->VSSetShaderResources(start_slot, static_cast<UINT>(srvs_.size()), &srvs_[0]);
     }
-} 
+}

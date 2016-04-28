@@ -1,5 +1,5 @@
-/* 
- * dune::composite_mesh by Tobias Alexander Franke (tob@cyberhead.de) 2011
+/*
+ * Dune D3D library - Tobias Alexander Franke 2011
  * For copyright and license see LICENSE
  * http://www.tobias-franke.eu
  */
@@ -14,7 +14,7 @@
 #include <memory>
 #include <vector>
 
-namespace dune 
+namespace dune
 {
     /*!
      * \brief A mesh composed from other meshes.
@@ -45,7 +45,7 @@ namespace dune
 
         /*!
          * \brief Create a composite_mesh from a filename pattern.
-         * 
+         *
          * Calling this function will search a directory for a pattern and load all
          * hits into as separate meshes to group them up in a composite_mesh.
          *
@@ -67,6 +67,6 @@ namespace dune
 
         virtual void destroy();
     };
-} 
+}
 
 #endif // COMPOSITE_MESH

@@ -1,5 +1,5 @@
-/* 
- * dune::logger by Tobias Alexander Franke (tob@cyberhead.de) 2011
+/*
+ * Dune D3D library - Tobias Alexander Franke 2011
  * For copyright and license see LICENSE
  * http://www.tobias-franke.eu
  */
@@ -11,7 +11,7 @@
 
 #include "unicode.h"
 
-namespace dune 
+namespace dune
 {
     namespace logger
     {

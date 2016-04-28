@@ -1,5 +1,5 @@
-/* 
- * dune::light by Tobias Alexander Franke (tob@cyberhead.de) 2013
+/*
+ * Dune D3D library - Tobias Alexander Franke 2013
  * For copyright and license see LICENSE
  * http://www.tobias-franke.eu
  */
@@ -74,7 +74,7 @@ namespace dune
     {
         static float clear_color[4] = { 0.f, 0.f, 0.f, 0.f };
 
-        ID3D11RenderTargetView* rsm_views[] = { 
+        ID3D11RenderTargetView* rsm_views[] = {
             rsm_[L"colors"]->rtv(),
             rsm_[L"normals"]->rtv(),
             rsm_[L"lineardepth"]->rtv()
@@ -82,9 +82,9 @@ namespace dune
 
         clear_rtvs(context, rsm_views, 3, clear_color);
 
-	    DirectX::XMFLOAT2 size = rsm_[L"colors"]->size();
+        DirectX::XMFLOAT2 size = rsm_[L"colors"]->size();
         set_viewport(context,
-                        static_cast<size_t>(size.x), 
+                        static_cast<size_t>(size.x),
                         static_cast<size_t>(size.y));
     }
 

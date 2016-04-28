@@ -1,5 +1,5 @@
-/* 
- * dune::composite_mesh by Tobias Alexander Franke (tob@cyberhead.de) 2011
+/*
+ * Dune D3D library - Tobias Alexander Franke 2011
  * For copyright and license see LICENSE
  * http://www.tobias-franke.eu
  */
@@ -13,7 +13,7 @@
 #include "exception.h"
 #include "common_tools.h"
 
-namespace dune 
+namespace dune
 {
     void composite_mesh::set_world(const DirectX::XMFLOAT4X4& world)
     {
@@ -25,7 +25,7 @@ namespace dune
     {
         exchange(&vs_, vs);
         exchange(&ps_, ps);
-    
+
         std::for_each(meshes_.begin(), meshes_.end(), [&](mesh_ptr& m){ m->set_shader(device, input_binary, vs, ps); });
     }
 
@@ -45,7 +45,7 @@ namespace dune
 
         update_bb(m->bb_max());
 
-        meshes_.push_back(m);   
+        meshes_.push_back(m);
     }
 
     void composite_mesh::create_from_dir(ID3D11Device* device, const tstring& pattern)
@@ -56,7 +56,7 @@ namespace dune
         std::vector<WIN32_FIND_DATA> files;
 
         WIN32_FIND_DATA data;
-    
+
         HANDLE h = FindFirstFile(absolute_pattern.c_str(), &data);
 
         if (h != INVALID_HANDLE_VALUE)
@@ -118,4 +118,4 @@ namespace dune
     {
         return meshes_[i];
     }
-} 
+}

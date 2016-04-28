@@ -1,5 +1,5 @@
-/* 
- * dune::sparse_voxel_octree by Tobias Alexander Franke (tob@cyberhead.de) 2013
+/*
+ * Dune D3D library - Tobias Alexander Franke 2013
  * For copyright and license see LICENSE
  * http://www.tobias-franke.eu
  */
@@ -19,7 +19,7 @@
 #include "deferred_renderer.h"
 #include "light.h"
 
-namespace dune 
+namespace dune
 {
     struct d3d_mesh;
     class gilga_mesh;
@@ -52,20 +52,20 @@ namespace dune
 
     protected:
         ID3D11BlendState*           bs_voxelize_;
-	    ID3D11SamplerState*			ss_visualize_;
+        ID3D11SamplerState*         ss_visualize_;
 
         ID3D11VertexShader*         vs_voxelize_;
         ID3D11GeometryShader*       gs_voxelize_;
         ID3D11PixelShader*          ps_voxelize_;
 
-	    ID3D11VertexShader*         vs_inject_;
+        ID3D11VertexShader*         vs_inject_;
         ID3D11PixelShader*          ps_inject_;
 
         INT                         inject_rsm_rho_start_slot_;
 
         ID3D11Texture3D*            v_normal_;
         ID3D11Texture3D*            v_rho_;
-	
+
         ID3D11ShaderResourceView*   srv_v_normal_;
         ID3D11ShaderResourceView*   srv_v_rho_;
 
@@ -76,8 +76,8 @@ namespace dune
 
         UINT                        volume_size_;
 
-	    DirectX::XMFLOAT4X4         world_to_svo_;
-	    DirectX::XMFLOAT3			svo_min_, svo_max_;
+        DirectX::XMFLOAT4X4         world_to_svo_;
+        DirectX::XMFLOAT3           svo_min_, svo_max_;
 
         struct cbs_parameters
         {
@@ -140,16 +140,16 @@ namespace dune
          * \param rsm_start_slot The slot at which the gbuffer of an RSM starts.
          */
         void set_shader_inject(ID3D11VertexShader* vs, ID3D11PixelShader* ps, UINT rsm_start_slot);
-    	
+
         /*! \brief Voxelize a mesh into a volume with normals and an occupied marker. If clear is true, the volume is cleared before voxelization. */
         void voxelize(ID3D11DeviceContext* context, gilga_mesh& mesh, bool clear = true);
 
         /*! \brief Inject a bounce from directional_light into the SVO. */
         virtual void inject(ID3D11DeviceContext* context, directional_light& light);
-        
+
         /*! \brief Pre-filter (i.e. mip-map) the SVO. */
         void filter(ID3D11DeviceContext* context);
-        
+
         //!@{
         /*! \brief Set/get the world -> SVO matrix, which transforms world coordinates to SVO volume coordinates. */
         void set_model_matrix(ID3D11DeviceContext* context, const DirectX::XMFLOAT4X4& model, const DirectX::XMFLOAT3& svo_min, const DirectX::XMFLOAT3& svo_max, UINT svo_parameters_slot);
@@ -164,16 +164,16 @@ namespace dune
      *
      * This class is an implementation of [[Franke 2014]](http://www.tobias-franke.eu/publications/franke14dvct).
      * A DLPV is an LPV that extracts the difference in illumination caused by the introduction
-     * of an additional object into a scene. It can be used to correct for this difference, for instance 
+     * of an additional object into a scene. It can be used to correct for this difference, for instance
      * in augmented reality applications.
      *
      * The mechanic works like this: instead of injecting one RSM, two a rendered. One
      * is rendered with a scene, the other with the same scene and an additional object.
-     * By injecting the latter first, and then injecting the former negatively, the 
+     * By injecting the latter first, and then injecting the former negatively, the
      * delta is extracted and propagated in the volume.
      *
      * A DLPV also injects direct light to form out rough shadow blobs. Propagation
-     * of direct and indirect injects is independend from one another. 
+     * of direct and indirect injects is independend from one another.
      */
     class delta_sparse_voxel_octree : public sparse_voxel_octree
     {

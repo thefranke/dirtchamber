@@ -1,5 +1,5 @@
-/* 
- * dune::gbuffer by Tobias Alexander Franke (tob@cyberhead.de) 2011
+/*
+ * Dune D3D library - Tobias Alexander Franke 2011
  * For copyright and license see LICENSE
  * http://www.tobias-franke.eu
  */
@@ -16,7 +16,7 @@
 
 #include <D3D11.h>
 
-namespace dune 
+namespace dune
 {
     /*!
      * \brief A geometry buffer (collection of render_target objects).
@@ -32,11 +32,11 @@ namespace dune
     protected:
         typedef std::vector<render_target> targets_vec;
         typedef std::vector<ID3D11ShaderResourceView*> srv_vec;
-    
+
         srv_vec                 srvs_;
         targets_vec             buffers_;
         ID3D11Device*           device_;
-    
+
     protected:
         //!@{
         /*! \brief Return a named target. */
@@ -61,7 +61,7 @@ namespace dune
         void add_target(const tstring& name, const DXGI_SURFACE_DESC& desc, UINT num_mipmaps = 1);
         void add_depth(const tstring& name, DXGI_SURFACE_DESC desc);
         //!@}
-    
+
         /*! \brief Returns all render_target objects in this gbuffer. */
         targets_vec& targets();
 
@@ -78,6 +78,6 @@ namespace dune
         void to_gs(ID3D11DeviceContext* context, UINT start_slot);
         void to_vs(ID3D11DeviceContext* context, UINT start_slot);
     };
-} 
+}
 
 #endif

@@ -1,5 +1,5 @@
 /*
- * svo_inject.hlsl by Tobias Alexander Franke (tob@cyberhead.de) 2014
+ * The Dirtchamber - Tobias Alexander Franke 2014
  * For copyright and license see LICENSE
  * http://www.tobias-franke.eu
  */
@@ -14,7 +14,7 @@ struct VS_INJECT_OUTPUT
     float2 tc                               : POSITION;
 
     // this is only here to prevent D3D throwing warnings
-    float4 pos						        : SV_POSITION;
+    float4 pos                              : SV_POSITION;
 };
 
 cbuffer camera_vs                           : register(b0)
@@ -28,9 +28,9 @@ cbuffer camera_vs                           : register(b0)
 cbuffer light_ps                            : register(b2)
 {
     directional_light main_light            : packoffset(c0);
-    float4x4 light_mvp				        : packoffset(c3);
-    float4x4 light_vp_inv			        : packoffset(c7);
-    float4x4 light_vp_tex			        : packoffset(c11);
+    float4x4 light_mvp                      : packoffset(c3);
+    float4x4 light_vp_inv                   : packoffset(c7);
+    float4x4 light_vp_tex                   : packoffset(c11);
 }
 
 cbuffer parameters                          : register(b7)
@@ -43,18 +43,18 @@ cbuffer parameters                          : register(b7)
 
 Texture2D diffuse_tex                       : register(t0);
 
-Texture2D rsm_rho_depth	                    : register(t6);
-Texture2D rsm_rho_colors	                : register(t7);
-Texture2D rsm_rho_normals	                : register(t8);
+Texture2D rsm_rho_depth                     : register(t6);
+Texture2D rsm_rho_colors                    : register(t7);
+Texture2D rsm_rho_normals                   : register(t8);
 
-Texture3D normal_volume		                : register(t10);
+Texture3D normal_volume                     : register(t10);
 
-Texture2D rsm_mu_depth		                : register(t12);
-Texture2D rsm_mu_colors		                : register(t13);
-Texture2D rsm_mu_normals		            : register(t14);
+Texture2D rsm_mu_depth                      : register(t12);
+Texture2D rsm_mu_colors                     : register(t13);
+Texture2D rsm_mu_normals                    : register(t14);
 
-RWTexture3D<float4> v_rho	                : register(u1);
-RWTexture3D<float4> v_delta	                : register(u2);
+RWTexture3D<float4> v_rho                   : register(u1);
+RWTexture3D<float4> v_delta                 : register(u2);
 
 // TODO: needs to be set automatically
 #define NVPLS 1024

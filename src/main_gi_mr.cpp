@@ -1,5 +1,5 @@
 /*
- * Delta Radiance Field renderer by Tobias Alexander Franke (tob@cyberhead.de) 2013
+ * The Dirtchamber - Tobias Alexander Franke 2013
  * For copyright and license see LICENSE
  * http://www.tobias-franke.eu
  */
@@ -22,10 +22,10 @@
  * will be used for GI. If \#DLPV isn't set, Delta Voxel Cone Tracing will do the job.
  *
  * A Kinect camera is required to run this sample as a *true* AR renderer. A marker
- * to print out is available in /data/marker.png. 
+ * to print out is available in /data/marker.png.
  *
- * If you do not have a Kinect or haven't compiled Dune with support for the Microsoft 
- * Kinect SDK (i.e \#MICROSOFT_KINECT_SDK isn't defined), you can still use the sample 
+ * If you do not have a Kinect or haven't compiled Dune with support for the Microsoft
+ * Kinect SDK (i.e \#MICROSOFT_KINECT_SDK isn't defined), you can still use the sample
  * with a static background (see /data/real_static_scene.png), which is a
  * snapshot frame of a Kinect color image.
  */
@@ -166,7 +166,7 @@ protected:
         lpv_rho_.render(context);
 
         float vpl_scale  = delta_radiance_field_.parameters().data().vpl_scale;
-        
+
         // TODO: fixme
         float flux_scale = main_light_.parameters().data().flux.x;
 
@@ -206,7 +206,7 @@ protected:
 #endif
     }
 
-    /*! 
+    /*!
      * \brief Compute global illumination for the scene.
      *
      * This method first makes sure that the RSM/GI solution needs to be updated.
@@ -396,7 +396,7 @@ public:
 
         // set virtual object model view matrix
         synthetic_object_.set_world(tmodel);
-        
+
         // update snythetic objects
         XMMATRIX rot = XMMatrixIdentity();
 
@@ -481,9 +481,9 @@ public:
     }
 #endif
 
-    inline dune::gilga_mesh& synthetic_object() 
-    { 
-        return synthetic_object_; 
+    inline dune::gilga_mesh& synthetic_object()
+    {
+        return synthetic_object_;
     }
 
     inline dune::tracker& tracker()
@@ -513,7 +513,7 @@ void update_timings_gui()
     ss  << L"Inject: " << renderer.drf().time_inject_ << L"ms\n"
         << L"Normalize: " << renderer.drf().time_normalize_ << L"ms\n"
         << L"Propagate: " << renderer.drf().time_propagate_ << L"ms\n";
-    
+
     time_sum += renderer.drf().time_inject_ + renderer.drf().time_normalize_ + renderer.drf().time_propagate_;
 #else
     ss  << L"Voxelize: " << renderer.drf().time_voxelize_ << L"ms\n"

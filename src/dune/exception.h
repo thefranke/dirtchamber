@@ -1,5 +1,5 @@
 /*
-* dune::gbuffer by Tobias Alexander Franke (tob@cyberhead.de) 2011
+* Dune D3D library - Tobias Alexander Franke 2011
 * For copyright and license see LICENSE
 * http://www.tobias-franke.eu
 */
@@ -15,9 +15,9 @@
 
 namespace dune
 {
-    /*! 
+    /*!
      * \brief Exception class.
-     * 
+     *
      * A wrapper class for std::exception which adds support
      * for multibyte character messages. Call msg() instead of what()
      * to get a tstring of the exception.

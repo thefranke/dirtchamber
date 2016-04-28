@@ -1,5 +1,5 @@
 /*
- * dune::serializer_tools by Tobias Alexander Franke (tob@cyberhead.de) 2014
+ * Dune D3D library - Tobias Alexander Franke 2014
  * For copyright and license see LICENSE
  * http://www.tobias-franke.eu
  */
@@ -126,7 +126,7 @@ namespace dune
                 p.debug_gi              = s.get<bool>(L"gi.debug");
                 p.lpv_flux_amplifier    = s.get<float>(L"gi.lpv.flux_amplifier");
             }
-            
+
             lpv.set_num_propagations(s.get<size_t>(L"gi.lpv.num_propagations"));
         }
         catch (dune::exception& e)

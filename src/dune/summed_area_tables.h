@@ -1,5 +1,5 @@
-/* 
- * dune::sumed_area_table by Tobias Alexander Franke (tob@cyberhead.de) 2013
+/*
+ * Dune D3D library - Tobias Alexander Franke 2013
  * For copyright and license see LICENSE
  * http://www.tobias-franke.eu
  */
@@ -13,9 +13,9 @@
 #include <vector>
 
 #include <D3D11.h>
-#include <DirectXMath.h> 
+#include <DirectXMath.h>
 
-namespace dune 
+namespace dune
 {
     template<typename T>
     T luminance(const T& r, const T& g, const T& b)
@@ -43,7 +43,7 @@ namespace dune
         //template<typename T>
         void create_lum(const BYTE* rgb, size_t width, size_t height, int nc)
         {
-		    assert(nc > 2);
+            assert(nc > 2);
 
             width_ = static_cast<int>(width); height_ = static_cast<int>(height);
 
@@ -60,7 +60,7 @@ namespace dune
                 float b = static_cast<float>(rgb[i*nc + 2]);
 
                 float ixy = luminance(r,g,b);
-            
+
                 sat_[i] = ixy + I(x-1, y) + I(x, y-1) - I(x-1, y-1);
             }
         }
@@ -69,10 +69,10 @@ namespace dune
         int height() const { return height_; }
 
         /*!
-	     * \brief Returns the sum of a region defined by A,B,C,D.
-	     *
+         * \brief Returns the sum of a region defined by A,B,C,D.
+         *
          * A----B
-         * |    |  sum = C+A-B-D 
+         * |    |  sum = C+A-B-D
          * D----C
          *
          */
@@ -83,7 +83,7 @@ namespace dune
     {
         int x_, y_, w_, h_;
         float sum_;
-	    const summed_area_table* sat_;
+        const summed_area_table* sat_;
 
         void create(int x, int y, int w, int h, const summed_area_table* sat, float init_sum = -1);
 
@@ -91,7 +91,7 @@ namespace dune
         void split_w(sat_region& A, sat_region& B) const;
         void split_w(sat_region& A) const;
 
-	    /*! \brief Split region vertically into subregions A and B. */
+        /*! \brief Split region vertically into subregions A and B. */
         void split_h(sat_region& A, sat_region& B) const;
         void split_h(sat_region& A) const;
 

@@ -1,5 +1,5 @@
-/* 
- * dune::cbuffer by Tobias Alexander Franke (tob@cyberhead.de) 2012
+/*
+ * Dune D3D library - Tobias Alexander Franke 2012
  * For copyright and license see LICENSE
  * http://www.tobias-franke.eu
  */
@@ -12,11 +12,11 @@
 #include "shader_resource.h"
 #include "d3d_tools.h"
 
-namespace dune 
+namespace dune
 {
     /*!
      * \brief A wrapper for constant buffers.
-     * 
+     *
      * cbuffer is a wrapping class managing a constant buffer. It does so by taking a struct
      * of the constant buffer layout as parameter T, keeping a local copy which can always be
      * accessed and modified. A call to the member update() will copy the local version into
@@ -60,9 +60,9 @@ namespace dune
         virtual ~cbuffer() {}
 
         T& data()
-	    {
-		    return local_;
-	    }
+        {
+            return local_;
+        }
 
         /*! \brief Returns a reference to the local copy of the constant buffer. */
         const T& data() const
@@ -78,35 +78,35 @@ namespace dune
             cbd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
             cbd.MiscFlags = 0;
             cbd.StructureByteStride = 0;
-        
+
             cbd.ByteWidth = sizeof(T);
             assert_hr(device->CreateBuffer(&cbd, nullptr, &cb_));
         }
 
-	    void to_vs(ID3D11DeviceContext* context, UINT start_slot)
-	    {
+        void to_vs(ID3D11DeviceContext* context, UINT start_slot)
+        {
             update(context);
-		    context_->VSSetConstantBuffers(start_slot, 1, &cb_);
-	    }
+            context_->VSSetConstantBuffers(start_slot, 1, &cb_);
+        }
 
-	    void to_gs(ID3D11DeviceContext* context, UINT start_slot)
-	    {
+        void to_gs(ID3D11DeviceContext* context, UINT start_slot)
+        {
             update(context);
-		    context_->GSSetConstantBuffers(start_slot, 1, &cb_);
-	    }
+            context_->GSSetConstantBuffers(start_slot, 1, &cb_);
+        }
 
-	    void to_ps(ID3D11DeviceContext* context, UINT start_slot)
-	    {
+        void to_ps(ID3D11DeviceContext* context, UINT start_slot)
+        {
             update(context);
-		    context_->PSSetConstantBuffers(start_slot, 1, &cb_);
-	    }
-	
-	    void to_cs(ID3D11DeviceContext* context, UINT start_slot)
-	    {
+            context_->PSSetConstantBuffers(start_slot, 1, &cb_);
+        }
+
+        void to_cs(ID3D11DeviceContext* context, UINT start_slot)
+        {
             update(context);
-		    context_->CSSetConstantBuffers(start_slot, 1, &cb_);
-	    }
-    
+            context_->CSSetConstantBuffers(start_slot, 1, &cb_);
+        }
+
         /*! \brief Copy over the local buffer into the mapped resource. */
         void update(ID3D11DeviceContext* context)
         {

@@ -1,5 +1,5 @@
-/* 
- * dune::sdk_mesh by Tobias Alexander Franke (tob@cyberhead.de) 2011
+/*
+ * Dune D3D library - Tobias Alexander Franke 2011
  * For copyright and license see LICENSE
  * http://www.tobias-franke.eu
  */
@@ -23,7 +23,7 @@ void CALLBACK load_texture_cb(ID3D11Device* device, char* texture_file, ID3D11Sh
 {
     tstring* base_path = reinterpret_cast<tstring*>(context);
 
-	load_texture(device, (*base_path + to_tstring(texture_file)), srv);
+    load_texture(device, (*base_path + to_tstring(texture_file)), srv);
 }
 
 HRESULT sdk_mesh::create(ID3D11Device* device, LPCTSTR file)
@@ -34,11 +34,11 @@ HRESULT sdk_mesh::create(ID3D11Device* device, LPCTSTR file)
 
     tstring path = extract_path(file);
 
-	SDKMESH_CALLBACKS11 callbacks;
-	callbacks.pCreateTextureFromFile = &dune::load_texture_cb;
-	callbacks.pCreateVertexBuffer = nullptr;
-	callbacks.pCreateIndexBuffer = nullptr;
-	callbacks.pContext = reinterpret_cast<void*>(&path);
+    SDKMESH_CALLBACKS11 callbacks;
+    callbacks.pCreateTextureFromFile = &dune::load_texture_cb;
+    callbacks.pCreateVertexBuffer = nullptr;
+    callbacks.pCreateIndexBuffer = nullptr;
+    callbacks.pContext = reinterpret_cast<void*>(&path);
 
     V_RETURN(sdk_mesh_->Create(device, file, false, &callbacks));
 
@@ -52,7 +52,7 @@ HRESULT sdk_mesh::create(ID3D11Device* device, LPCTSTR file)
         update_bb(sdk_mesh_->GetMeshBBoxCenter(i) - sdk_mesh_->GetMeshBBoxExtents(i));
         update_bb(sdk_mesh_->GetMeshBBoxCenter(i) + sdk_mesh_->GetMeshBBoxExtents(i));
     }
-        
+
     return S_OK;
 }
 
@@ -70,11 +70,11 @@ void sdk_mesh::render(ID3D11DeviceContext* context, D3DXMATRIX* to_clip)
 
     assert(context);
     context->IASetInputLayout(vertex_layout_);
-    
+
     context->VSSetShader(vs_, nullptr, 0);
     context->GSSetShader(nullptr, nullptr, 0);
     context->PSSetShader(ps_, nullptr, 0);
-    
+
     //context->PSSetSamplers(0, 1, &ss_);
 
     context->OMSetBlendState(nullptr, nullptr, 0xFF);
@@ -90,7 +90,7 @@ void sdk_mesh::render(ID3D11DeviceContext* context, D3DXMATRIX* to_clip)
     if(sdk_mesh_->GetOutstandingBufferResources())
         return;
 
-	//sdk_mesh_->RenderMesh(0, false, context, diffuse_tex_slot_, normal_tex_slot_, specular_tex_slot_);
+    //sdk_mesh_->RenderMesh(0, false, context, diffuse_tex_slot_, normal_tex_slot_, specular_tex_slot_);
 
     for(UINT m = 0; m < sdk_mesh_->GetNumMeshes(); m++)
     {
@@ -112,14 +112,14 @@ void sdk_mesh::render(ID3D11DeviceContext* context, D3DXMATRIX* to_clip)
 
         ID3D11Buffer* index_buffer = sdk_mesh_->GetIB11(m);
         DXGI_FORMAT format = sdk_mesh_->GetIBFormat11(m);
-    
+
         context->IASetVertexBuffers(0, mesh->NumVertexBuffers, vb, strides, offsets);
         context->IASetIndexBuffer(index_buffer, format, 0);
 
         for(UINT s = 0; s < mesh->NumSubsets; s++)
         {
             SDKMESH_SUBSET* subset = sdk_mesh_->GetSubset(m, s);
-		
+
             auto pt = sdk_mesh_->GetPrimitiveType11(static_cast<SDKMESH_PRIMITIVE_TYPE>(subset->PrimitiveType));
             context->IASetPrimitiveTopology(pt);
 
@@ -147,7 +147,7 @@ void sdk_mesh::render(ID3D11DeviceContext* context, D3DXMATRIX* to_clip)
             UINT index_count  = static_cast<UINT>(subset->IndexCount);
             UINT index_start  = static_cast<UINT>(subset->IndexStart);
             UINT vertex_start = static_cast<UINT>(subset->VertexStart);
-        
+
             context->DrawIndexed(index_count, index_start, vertex_start);
         }
     }
@@ -167,11 +167,11 @@ size_t sdk_mesh::num_vertices()
 size_t sdk_mesh::num_faces()
 {
     size_t ind = 0;
-    
+
     for (UINT i = 0; i < sdk_mesh_->GetNumMeshes(); ++i)
         ind += static_cast<size_t>(sdk_mesh_->GetNumIndices(i));
 
     return ind;
 }
 
-} 
+}

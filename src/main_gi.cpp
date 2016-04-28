@@ -1,5 +1,5 @@
 /*
- * Global illumination renderer by Tobias Alexander Franke (tob@cyberhead.de) 2013
+ * The Dirtchamber - Tobias Alexander Franke 2013
  * For copyright and license see LICENSE
  * http://www.tobias-franke.eu
  */
@@ -186,7 +186,7 @@ protected:
 #endif
     }
 
-    /*! 
+    /*!
      * \brief Compute global illumination for the scene.
      *
      * This method first makes sure that the RSM/GI solution needs to be updated.

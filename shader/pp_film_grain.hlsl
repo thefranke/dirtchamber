@@ -1,5 +1,5 @@
 /*
- * Film grain effect by Tobias Alexander Franke (tob@cyberhead.de) 2014
+ * The Dirtchamber - Tobias Alexander Franke 2014
  * For copyright and license see LICENSE
  * http://www.tobias-franke.eu
  */

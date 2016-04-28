@@ -1,9 +1,9 @@
-/* 
- * vct_tools.hlsl by Tobias Alexander Franke (tob@cyberhead.de) 2013
+/*
+ * The Dirtchamber - Tobias Alexander Franke 2013
  * For copyright and license see LICENSE
  * http://www.tobias-franke.eu
  */
- 
+
 #ifndef VCT_TOOLS_HLSL
 #define VCT_TOOLS_HLSL
 
@@ -11,7 +11,7 @@
 #include "tools.hlsl"
 
 Texture3D<float4> v_normal  : register(t7);
-Texture3D<float4> v_rho		: register(t8);
+Texture3D<float4> v_rho     : register(t8);
 
 #ifdef DVCT
 Texture3D<float4> v_delta   : register(t9);
@@ -35,7 +35,7 @@ bool in_svo(in float3 P)
     return (P.x > mi.x && P.y > mi.y && P.z > mi.z) &&
            (P.x < ma.x && P.y < ma.y && P.z < ma.z);
 }
- 
+
 // Check if a Ray (P, V) intersect with the SVO volume to early out ray tracing.
 bool intersect(in float3 P, in float3 V, in float t0, in float t1)
 {
@@ -143,7 +143,7 @@ float4 trace_cone(in float3 origin, in float3 dir, in float cone_ratio, in float
 float4 trace_cone(in float3 origin, in float3 dir, in float cone_ratio, in float max_dist, in float bias)
 #endif
 {
-    if (!intersect(origin, dir, 0, 1)) 
+    if (!intersect(origin, dir, 0, 1))
         return 0;
 
     // minimum diameter is half the sample size to avoid hitting empty space
@@ -157,7 +157,7 @@ float4 trace_cone(in float3 origin, in float3 dir, in float cone_ratio, in float
 
     // push out the starting point to avoid self-intersection
     float dist = min_voxel_diameter;
-    
+
     dist *= bias * cone_ratio;
 
     bool entered_svo = false;
@@ -271,7 +271,7 @@ float shadow_ao(in float3 P, in float3 L, in float3 N, in float cone_angle)
 
     // bias a bit to avoid self intersection
     vP += normalize(vN) / SVO_SIZE;
-    
+
     return saturate(trace_shadow_cone(vP, vL, cone_angle, 2, 8))+0.2;
 }
 

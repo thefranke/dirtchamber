@@ -1,12 +1,12 @@
-/* 
- * dune::sumed_area_table by Tobias Alexander Franke (tob@cyberhead.de) 2013
+/*
+ * Dune D3D library - Tobias Alexander Franke 2013
  * For copyright and license see LICENSE
  * http://www.tobias-franke.eu
  */
 
 #include "summed_area_tables.h"
 
-namespace dune 
+namespace dune
 {
     inline float summed_area_table::sum(int ax, int ay, int bx, int by, int cx, int cy, int dx, int dy) const
     {
@@ -22,13 +22,13 @@ namespace dune
 
     void sat_region::create(int x, int y, int w, int h, const summed_area_table* sat, float init_sum)
     {
-	    x_ = x; y_ = y; w_ = w; h_ = h; sum_ = init_sum; sat_ = sat;
+        x_ = x; y_ = y; w_ = w; h_ = h; sum_ = init_sum; sat_ = sat;
 
-	    if (sum_ < 0)
-		    sum_ = sat_->sum(x,       y, 
-						     x+(w-1), y, 
-						     x+(w-1), y+(h-1),
-						     x,       y+(h-1));
+        if (sum_ < 0)
+            sum_ = sat_->sum(x,       y,
+                             x+(w-1), y,
+                             x+(w-1), y+(h-1),
+                             x,       y+(h-1));
     }
 
     void sat_region::split_w(sat_region& A) const
@@ -72,13 +72,13 @@ namespace dune
         DirectX::XMFLOAT2 c;
 
         sat_region A;
-            
+
         split_w(A);
         c.x = static_cast<FLOAT>(A.x_ + (A.w_-1));
 
         split_h(A);
         c.y = static_cast<FLOAT>(A.y_ + (A.h_-1));
-            
+
         return c;
     }
 
@@ -136,7 +136,7 @@ namespace dune
 
             light.theta = static_cast<float>(2.0 * std::acos(std::sqrt(1.0 - light.pos.y)));
             light.phi   = static_cast<float>(light.pos.x * DirectX::XM_PI);
-        
+
             if (light.pos.y < 0 || light.pos.x < 0)
                 continue;
 
@@ -149,4 +149,3 @@ namespace dune
         }
     }
 }
-

@@ -1,5 +1,5 @@
-/* 
- * dune::shader_tools by Tobias Alexander Franke (tob@cyberhead.de) 2012
+/*
+ * Dune D3D library - Tobias Alexander Franke 2012
  * For copyright and license see LICENSE
  * http://www.tobias-franke.eu
  */
@@ -16,7 +16,7 @@
 
 #include "exception.h"
 
-namespace dune 
+namespace dune
 {
     namespace detail
     {
@@ -61,11 +61,11 @@ namespace dune
             safe_release(blob);
             return;
         }
-      
+
         safe_release(*shader);
 
-        try 
-        { 
+        try
+        {
             detail::compile_shader(device, blob, shader);
         }
         catch (exception& e)

@@ -1,8 +1,8 @@
 /*
-* common_renderer.cpp by Tobias Alexander Franke (tob@cyberhead.de) 2014
-* For copyright and license see LICENSE
-* http://www.tobias-franke.eu
-*/
+ * The Dirtchamber - Tobias Alexander Franke 2014
+ * For copyright and license see LICENSE
+ * http://www.tobias-franke.eu
+ */
 
 #include "common_renderer.h"
 
@@ -30,9 +30,9 @@ namespace dc
 
         DirectX::XMFLOAT4X4 xmf_world;
         XMStoreFloat4x4(&xmf_world, model);
-        
+
         scene_.set_world(xmf_world);
-        debug_box_.set_world(xmf_world); 
+        debug_box_.set_world(xmf_world);
 
         dune::load_texture(device, L"../../data/noise.dds", &noise_srv_);
 
@@ -211,9 +211,9 @@ namespace dc
     void common_renderer::render(ID3D11DeviceContext* context, ID3D11RenderTargetView* backbuffer, ID3D11DepthStencilView* dsv)
     {
         static float clear_color[4] = { 0.0f, 0.f, 0.0f, 1.0f };
-        
+
         render_scene(context, clear_color, dsv);
-        
+
         context->GenerateMips(def_[L"lineardepth"]->srv());
 
         // TODO: remove me
@@ -271,7 +271,7 @@ namespace dc
         ID3D11RenderTargetView* null_views[] = { nullptr, nullptr, nullptr, nullptr };
         context->OMSetRenderTargets(4, null_views, nullptr);
     }
-    
+
     void common_renderer::save(dune::serializer& s)
     {
         s << camera();

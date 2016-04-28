@@ -1,5 +1,5 @@
-/* 
- * dune::kinect_gbuffer by Tobias Alexander Franke (tob@cyberhead.de) 2012
+/*
+ * Dune D3D library - Tobias Alexander Franke 2012
  * For copyright and license see LICENSE
  * http://www.tobias-franke.eu
  */
@@ -17,7 +17,7 @@
 #include <iostream>
 #include <sstream>
 
-namespace dune 
+namespace dune
 {
     namespace detail
     {
@@ -29,7 +29,7 @@ namespace dune
             {
                 size_t i        = ((y * width) + x) * channels;
                 size_t flip_i   = ((y * width) + (width - x - 1)) * channels;
-                    
+
                 for (size_t c = 0; c < channels; ++c)
                     output[i+c] = input[flip_i+c];
             }
@@ -43,36 +43,36 @@ namespace dune
             {
                 size_t i        = ((y * width) + x) * channels;
                 size_t flip_i   = (((height - y - 1) * width) + x) * channels;
-                    
+
                 for (size_t c = 0; c < channels; ++c)
                     output[i+c] = input[flip_i+c];
             }
         }
 
-	    // see http://graphics.stanford.edu/~mdfisher/Kinect.html
-	    float depth_to_m(USHORT depth_value)
-	    {
-		    return static_cast<float>(depth_value)/1000.f;
-	    }
+        // see http://graphics.stanford.edu/~mdfisher/Kinect.html
+        float depth_to_m(USHORT depth_value)
+        {
+            return static_cast<float>(depth_value)/1000.f;
+        }
 
-	    DirectX::XMFLOAT3 depth_to_world(int x, int y, int depth_value)
-	    {
-		    static const double fx_d = 1.0 / 5.9421434211923247e+02;
-		    static const double fy_d = 1.0 / 5.9104053696870778e+02;
-		    static const double cx_d = 3.3930780975300314e+02;
-		    static const double cy_d = 2.4273913761751615e+02;
+        DirectX::XMFLOAT3 depth_to_world(int x, int y, int depth_value)
+        {
+            static const double fx_d = 1.0 / 5.9421434211923247e+02;
+            static const double fy_d = 1.0 / 5.9104053696870778e+02;
+            static const double cx_d = 3.3930780975300314e+02;
+            static const double cy_d = 2.4273913761751615e+02;
 
-		    DirectX::XMFLOAT3 result;
+            DirectX::XMFLOAT3 result;
 
-		    // get depth in meters
-		    const double depth = depth_to_m(depth_value);
+            // get depth in meters
+            const double depth = depth_to_m(depth_value);
 
-		    result.x = float((x - cx_d) * depth * fx_d);
-		    result.y = float((y - cy_d) * depth * fy_d);
-		    result.z = float(depth);
+            result.x = float((x - cx_d) * depth * fx_d);
+            result.y = float((y - cy_d) * depth * fy_d);
+            result.z = float(depth);
 
-		    return result;
-	    }
+            return result;
+        }
     }
 
     kinect_gbuffer::kinect_gbuffer() :
@@ -92,13 +92,13 @@ namespace dune
     void kinect_gbuffer::init()
     {
         int device_id_ = 0;
-        
+
         assert_hr(NuiCreateSensorByIndex(device_id_, &sensor_));
 
         DWORD options = NUI_INITIALIZE_FLAG_USES_COLOR; // | NUI_INITIALIZE_FLAG_USES_DEPTH;
 
         assert_hr(sensor_->NuiInitialize(options));
-    
+
         NUI_IMAGE_RESOLUTION eResolution = NUI_IMAGE_RESOLUTION_640x480;
 
         if (width_ == 640 && height_ == 480)
@@ -115,25 +115,25 @@ namespace dune
         color_event_ = CreateEvent(nullptr, TRUE, FALSE, nullptr);
         depth_event_ = CreateEvent(nullptr, TRUE, FALSE, nullptr);
         kill_event_  = CreateEvent(nullptr, TRUE, FALSE, nullptr);
-    
+
         assert_hr(sensor_->NuiImageStreamOpen(
-            NUI_IMAGE_TYPE_COLOR, eResolution, 
-            0, 
-            2, 
-            color_event_, 
+            NUI_IMAGE_TYPE_COLOR, eResolution,
+            0,
+            2,
+            color_event_,
             &color_stream_));
 
         if ((options & NUI_INITIALIZE_FLAG_USES_DEPTH) != 0)
         {
             // fixed size
             assert_hr(sensor_->NuiImageStreamOpen(
-                NUI_IMAGE_TYPE_DEPTH, 
-                NUI_IMAGE_RESOLUTION_640x480, 
-                0, 
-                2, 
-                depth_event_, 
+                NUI_IMAGE_TYPE_DEPTH,
+                NUI_IMAGE_RESOLUTION_640x480,
+                0,
+                2,
+                depth_event_,
                 &depth_stream_));
-    
+
             assert_hr(sensor_->NuiImageStreamSetImageFrameFlags(depth_stream_, NUI_IMAGE_STREAM_FLAG_ENABLE_NEAR_MODE));
         }
 
@@ -237,15 +237,15 @@ namespace dune
             tcout << L"Could not unlock " << stream_name << L" texture" << std::endl;
             return;
         }
-            
+
         if (locked_rect.Pitch != 0)
         {
             BYTE* data = reinterpret_cast<BYTE*>(locked_rect.pBits);
-        
+
             if (type == COLOR)
             {
                 render_target* t = color();
-                    
+
                 BYTE* target = t->data<BYTE*>();
                 size_t color_bytes = t->desc().Width * t->desc().Height * 4;
 
@@ -298,7 +298,7 @@ namespace dune
 
             texture->UnlockRect(0);
         }
-    
+
         sensor_->NuiImageStreamReleaseFrame(stream, &image_frame);
 
         unlock(type);
@@ -353,7 +353,7 @@ namespace dune
 
         InitializeCriticalSection(&cs_color_);
         InitializeCriticalSection(&cs_depth_);
-    
+
         D3D11_TEXTURE2D_DESC desc;
         ZeroMemory(&desc, sizeof(D3D11_TEXTURE2D_DESC));
         desc.Width = static_cast<UINT>(width_);
@@ -435,6 +435,6 @@ namespace dune
         // reset state
         has_new_depth_ = has_new_color_ = false;
     }
-} 
+}
 
 #endif

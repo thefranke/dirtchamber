@@ -1,5 +1,5 @@
-/* 
- * dune::shader_tools by Tobias Alexander Franke (tob@cyberhead.de) 2012
+/*
+ * Dune D3D library - Tobias Alexander Franke 2012
  * For copyright and license see LICENSE
  * http://www.tobias-franke.eu
  */
@@ -13,7 +13,7 @@
 #include "common_tools.h"
 #include "d3d_tools.h"
 
-namespace dune 
+namespace dune
 {
     struct include_handler : public ID3D10Include
     {
@@ -23,7 +23,7 @@ namespace dune
         {
             path = filename;
             auto it = path.find_last_of('/');
-        
+
             if (it != std::string::npos)
                 path = path.substr(0, it+1);
             else

@@ -1,5 +1,5 @@
-/* 
- * dune::sdk_mesh by Tobias Alexander Franke (tob@cyberhead.de) 2011
+/*
+ * Dune D3D library - Tobias Alexander Franke 2011
  * For copyright and license see LICENSE
  * http://www.tobias-franke.eu
  */
@@ -53,7 +53,7 @@ protected:
 protected:
     virtual void reset();
     virtual const D3D11_INPUT_ELEMENT_DESC* vertex_desc() { return sdkmesh_vertex_desc; }
-	void load_texture(ID3D11Device* device, ID3D11Resource* texture, ID3D11ShaderResourceView* srv, void* context);
+    void load_texture(ID3D11Device* device, ID3D11Resource* texture, ID3D11ShaderResourceView* srv, void* context);
 
 public:
     size_t num_vertices();
@@ -63,6 +63,6 @@ public:
     virtual void render(ID3D11DeviceContext* context, DirectX::XMFLOAT4X4* to_clip);
 };
 
-} 
+}
 
 #endif // SDK_MESH

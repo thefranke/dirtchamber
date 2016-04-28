@@ -1,5 +1,5 @@
-/* 
- * dune::logger by Tobias Alexander Franke (tob@cyberhead.de) 2011
+/*
+ * Dune D3D library - Tobias Alexander Franke 2011
  * For copyright and license see LICENSE
  * http://www.tobias-franke.eu
  */
@@ -12,9 +12,9 @@
 
 #include <boost/shared_array.hpp>
 
-namespace dune 
+namespace dune
 {
-    namespace logger 
+    namespace logger
     {
         enum mtype
         {
@@ -36,7 +36,7 @@ namespace dune
             typedef charT                          char_type;
             typedef traits                         traits_type;
             typedef typename traits_type::int_type int_type;
-    
+
             mtype type_;
             const size_t block_size_;
             boost::shared_array<charT> buffer_;
@@ -59,13 +59,13 @@ namespace dune
             virtual int_type overflow(int_type c = traits_type::eof())
             {
                 if (this->pptr() != this->epptr())
-                    return traits_type::not_eof(*this->pptr());     
+                    return traits_type::not_eof(*this->pptr());
 
                 sync();
 
                 return this->sputc(traits_type::to_char_type(c));
             }
-    
+
             virtual int sync()
             {
                 size_t size = this->pptr() - this->pbase();
@@ -74,7 +74,7 @@ namespace dune
                 if (size > 0)
                 {
                     s.assign(this->pbase(), size);
-            
+
                     // collect data until there is no more
                     mbuf_ << s;
                 }
@@ -146,5 +146,5 @@ namespace dune
                 log_file.flush();
             }
         }
-    }  
-} 
+    }
+}

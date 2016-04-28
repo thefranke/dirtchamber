@@ -1,5 +1,5 @@
-/* 
- * dune::assimp_mesh by Tobias Alexander Franke (tob@cyberhead.de) 2011
+/*
+ * Dune D3D library - Tobias Alexander Franke 2011
  * For copyright and license see LICENSE
  * http://www.tobias-franke.eu
  */
@@ -21,7 +21,7 @@
 #include "common_tools.h"
 #include "exception.h"
 
-namespace dune 
+namespace dune
 {
     namespace detail
     {
@@ -43,7 +43,7 @@ namespace dune
         tstring to_tstring(aiString s)
         {
             std::string xs(s.data, s.length);
-	        return dune::to_tstring(xs);
+            return dune::to_tstring(xs);
         }
     }
 
@@ -106,7 +106,7 @@ namespace dune
         progress_handler ph;
         importer_.SetProgressHandler(&ph);
 
-	    const aiScene* scene = importer_.ReadFile(name.c_str(), 
+        const aiScene* scene = importer_.ReadFile(name.c_str(),
             aiProcess_CalcTangentSpace |
             aiProcess_Triangulate |
             aiProcess_MakeLeftHanded |
@@ -116,9 +116,9 @@ namespace dune
             //aiProcess_GenNormals |
             aiProcess_RemoveRedundantMaterials |
             aiProcess_OptimizeMeshes |
-		    aiProcess_GenUVCoords |
-		    aiProcess_TransformUVCoords);
-    
+            aiProcess_GenUVCoords |
+            aiProcess_TransformUVCoords);
+
         if (!scene)
         {
             std::string error = importer_.GetErrorString();
@@ -137,13 +137,13 @@ namespace dune
 
         tclog << L"Mesh info: " << std::endl
               << L" - " << mesh_infos_.size() << L" meshes" << std::endl
-              << L" - " << "BBOX (" 
-                        << bb_max().x << L", " 
-                        << bb_max().y << L", " 
+              << L" - " << "BBOX ("
+                        << bb_max().x << L", "
+                        << bb_max().y << L", "
                         << bb_max().z << L")"
-                        << L" - (" 
+                        << L" - ("
                         << bb_min().x << L", "
-                        << bb_min().y << L", " 
+                        << bb_min().y << L", "
                         << bb_min().z << L")"
                         << std::endl
               << L" - " << num_faces_ << L" faces" << std::endl
@@ -158,7 +158,7 @@ namespace dune
         for(size_t a = 0; a < node->mNumMeshes; ++a)
         {
             const aiMesh* mesh = scene->mMeshes[node->mMeshes[a]];
-        
+
             // store current read num_vertices_ and aiMesh for potential reference
             mesh_info m;
             m.vstart_index   = num_vertices_;
@@ -169,22 +169,22 @@ namespace dune
 
             num_vertices_ += mesh->mNumVertices;
             num_faces_    += mesh->mNumFaces;
-        
+
             // store vertices
             for(size_t b = 0; b < mesh->mNumVertices; ++b)
             {
                 assimp_mesh::vertex v;
-            
+
                 aiVector3D v_trans = transform * mesh->mVertices[b];
 
                 v.position = detail::aivec_to_dxvec3(v_trans);
 
                 // if this is the very first vertex
                 if (m.vstart_index == 0 && b == 0)
-				    init_bb(v.position);
+                    init_bb(v.position);
                 else
                     update_bb(v.position);
-                        
+
                 if (mesh->HasNormals())
                     v.normal = detail::aivec_to_dxvec3(mesh->mNormals[b]);
 
@@ -199,18 +199,18 @@ namespace dune
 
                 push_back(v);
 
-			    m.update(v.position, b == 0);
+                m.update(v.position, b == 0);
             }
 
             // store indices, corrected by startIndex, and attribute
-            for(size_t b = 0; b < mesh->mNumFaces; ++b) 
+            for(size_t b = 0; b < mesh->mNumFaces; ++b)
             {
                 indices_.push_back(mesh->mFaces[b].mIndices[2]);
                 indices_.push_back(mesh->mFaces[b].mIndices[1]);
                 indices_.push_back(mesh->mFaces[b].mIndices[0]);
             }
 
-		    mesh_infos_.push_back(m);
+            mesh_infos_.push_back(m);
         }
 
         for (size_t c = 0; c < node->mNumChildren; ++c)
@@ -515,4 +515,4 @@ namespace dune
 
         alpha_tex_slot_ = -1;
     }
-} 
+}

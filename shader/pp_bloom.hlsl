@@ -1,5 +1,5 @@
-/* 
- * Bloom effect by Tobias Alexander Franke (tob@cyberhead.de) 2012
+/*
+ * The Dirtchamber - Tobias Alexander Franke 2012
  * For copyright and license see LICENSE
  * http://www.tobias-franke.eu
  */
@@ -13,27 +13,27 @@ float average_luminance()
 }
 
 float ps_adapt_exposure(in PS_INPUT inp) : SV_Target
-{   
+{
     //get medium brightness of scene
-	float curr_lum = luminance(frontbuffer.SampleLevel(StandardFilter, float2(0.5, 0.5), 10).rgb);
+    float curr_lum = luminance(frontbuffer.SampleLevel(StandardFilter, float2(0.5, 0.5), 10).rgb);
     float last_lum = rt_adapted_luminance.Load(uint3(0, 0, 0)).x;
-	
+
     float v = last_lum + (curr_lum - last_lum) * (1 - exp(-time_delta * exposure_speed));
-	
+
     if (!exposure_adapt)
         v = 0.5;
-    
+
     return v;
 }
 
 // Determines the color based on exposure settings
 float3 calc_exposed_color(in float3 color, in float average_lum, in float threshold, out float exposure)
 {
-	// Use geometric mean
-	average_lum = max(average_lum, 0.001f);
-	float keyValue = exposure_key;
-	float linear_exposure = (exposure_key / average_lum);
-	exposure = log2(max(linear_exposure, 0.0001f));
+    // Use geometric mean
+    average_lum = max(average_lum, 0.001f);
+    float keyValue = exposure_key;
+    float linear_exposure = (exposure_key / average_lum);
+    exposure = log2(max(linear_exposure, 0.0001f));
     exposure -= threshold;
     return exp2(exposure) * color;
 }
@@ -55,7 +55,7 @@ float4 ps_bloom(in PS_INPUT inp) : SV_TARGET
 
     float exposure = 0;
     color.rgb = tone_map(color.rgba, avg_lum, 0, exposure);
-    
+
     float4 bloom = bloom_buffer.Sample(ShadowFilter, inp.tex_coord);
 
     if (bloom_enabled)

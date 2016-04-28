@@ -1,5 +1,5 @@
-/* 
- * dune::light by Tobias Alexander Franke (tob@cyberhead.de) 2013
+/*
+ * Dune D3D library - Tobias Alexander Franke 2013
  * For copyright and license see LICENSE
  * http://www.tobias-franke.eu
  */
@@ -14,11 +14,11 @@
 #include "cbuffer.h"
 #include "gbuffer.h"
 
-namespace dune 
+namespace dune
 {
     /*!
      * \brief A simple directional light source with an RSM.
-     * 
+     *
      * This class is a wrapper for a directional light source rendering to
      * a Reflective Shadow Map (RSM). It manages a constant buffer with
      * information about the light source such as position or view projection
@@ -30,7 +30,7 @@ namespace dune
     public:
         struct param
         {
-		    DirectX::XMFLOAT4   position;
+            DirectX::XMFLOAT4   position;
             DirectX::XMFLOAT4   direction;
             DirectX::XMFLOAT4   flux;
             DirectX::XMFLOAT4X4 vp;
@@ -39,22 +39,22 @@ namespace dune
         };
 
     protected:
-	    gbuffer rsm_;
+        gbuffer rsm_;
 
         typedef cbuffer<param> cb_param;
         cb_param cb_param_;
 
     public:
-	    virtual void create(ID3D11Device* device);
-        
+        virtual void create(ID3D11Device* device);
+
         virtual void create(ID3D11Device* device, const tstring& name,
                             const DXGI_SURFACE_DESC& colors, const DXGI_SURFACE_DESC& normals, const DXGI_SURFACE_DESC& depth);
 
         virtual void create(ID3D11Device* device, const tstring& name,
                             const D3D11_TEXTURE2D_DESC& colors, const D3D11_TEXTURE2D_DESC& normals, const D3D11_TEXTURE2D_DESC& depth);
-	
+
         virtual void destroy();
-        
+
         //!@{
         /*! \brief Return local cbuffer parameters. */
         cb_param& parameters() { return cb_param_; }
@@ -70,7 +70,7 @@ namespace dune
 
     /*!
      * \brief A differential directional light source.
-     * 
+     *
      * A differential directional light source contains two RSMs \\( \\mu \\) and \\( \\rho \\):
      * - \\( \\rho \\) is an RSM of a scene with an additional object
      * - \\( \\mu \\) is an RSM of the same scene without the additional object

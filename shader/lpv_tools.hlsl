@@ -1,12 +1,12 @@
-/* 
- * lpv_tools.hlsl by Tobias Alexander Franke (tob@cyberhead.de) 2014
+/*
+ * The Dirtchamber - Tobias Alexander Franke 2014
  * For copyright and license see LICENSE
  * http://www.tobias-franke.eu
  */
- 
+
 #ifndef LPV_TOOLS_HLSL
 #define LPV_TOOLS_HLSL
- 
+
 #include "common.h"
 
 SamplerState LPVFilter      : register(s1);
@@ -46,14 +46,14 @@ float4 gi_from_lpv(in float3 pos, in float3 N)
     float4 indirect = float4(0.0, 0.0, 0.0, 1.0);
 
     float4 normal_sh = sh_clamped_cos_coeff(-N);
-		
-	float4 shcoeff_red   = float4(0,0,0,0);
-	float4 shcoeff_green = float4(0,0,0,0);
-	float4 shcoeff_blue  = float4(0,0,0,0);
-		
+
+    float4 shcoeff_red   = float4(0,0,0,0);
+    float4 shcoeff_green = float4(0,0,0,0);
+    float4 shcoeff_blue  = float4(0,0,0,0);
+
     float3 lpv_pos = mul(world_to_lpv, float4(pos, 1)).xyz;
     float3 lpv_normal = normalize(mul(world_to_lpv, float4(N, 0))).xyz;
-    
+
     // bias
     lpv_pos.z -= 0.5/LPV_SIZE;
 
@@ -62,7 +62,7 @@ float4 gi_from_lpv(in float3 pos, in float3 N)
         lpv_pos.y < 0 || lpv_pos.y > 1 ||
         lpv_pos.z < 0 || lpv_pos.z > 1)
         return 0.f;
-    
+
     lpv_trilinear_lookup(lpv_pos, shcoeff_red, shcoeff_green, shcoeff_blue, lpv_r, lpv_g, lpv_b, LPV_SIZE, LPVFilter);
 
     indirect.r = dot(shcoeff_red,   normal_sh)/M_PI;

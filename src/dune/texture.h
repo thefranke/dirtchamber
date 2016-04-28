@@ -1,8 +1,8 @@
 /*
-* dune::texture by Tobias Alexander Franke (tob@cyberhead.de) 2011
-* For copyright and license see LICENSE
-* http://www.tobias-franke.eu
-*/
+ * Dune D3D library - Tobias Alexander Franke 2011
+ * For copyright and license see LICENSE
+ * http://www.tobias-franke.eu
+ */
 
 /*! \file */
 

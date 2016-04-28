@@ -1,5 +1,5 @@
-/* 
- * dune::mesh by Tobias Alexander Franke (tob@cyberhead.de) 2011
+/*
+ * Dune D3D library - Tobias Alexander Franke 2011
  * For copyright and license see LICENSE
  * http://www.tobias-franke.eu
  */
@@ -17,7 +17,7 @@
 
 #include "unicode.h"
 
-namespace dune 
+namespace dune
 {
     /*!
      * \brief An axis-aligned bounding-box.
@@ -28,35 +28,35 @@ namespace dune
     struct aabb
     {
     protected:
-	    V bb_max_;
+        V bb_max_;
         V bb_min_;
         DirectX::XMFLOAT4X4 world_;
-	
+
     protected:
         /*!
          * \brief Initialize the bounding-box with a first point.
-         * 
+         *
          * Before using the bounding box, it must first be intialized with a single point.
          *
          * \param p The first point of a larger structure.
          */
         inline void init_bb(const V& p)
         {
-	        bb_max_ = bb_min_ = p;
+            bb_max_ = bb_min_ = p;
         }
-	
+
         /*!
          * \brief Update the bounding-box with a new point.
          *
-         * Updates the bounding-box with an additional point and recalculates its 
+         * Updates the bounding-box with an additional point and recalculates its
          * maximum and minimum extents.
          *
          * \param p A new point.
          */
         void update_bb(const V& p)
         {
-	        bb_max_ = max(p, bb_max_);
-	        bb_min_ = min(p, bb_min_);
+            bb_max_ = max(p, bb_max_);
+            bb_min_ = min(p, bb_min_);
         }
 
     public:
@@ -133,7 +133,7 @@ namespace dune
         ID3D11PixelShader* ps_;
 
         ID3D11InputLayout* vertex_layout_;
-    
+
         INT diffuse_tex_slot_;
         INT normal_tex_slot_;
         INT specular_tex_slot_;
@@ -165,8 +165,8 @@ namespace dune
         /*! \brief Destroy a mesh and free all its resources. */
         virtual void destroy();
 
-        /*! 
-         * \brief Renders the mesh using the shaders previously set. 
+        /*!
+         * \brief Renders the mesh using the shaders previously set.
          *
          * When calling render, the mesh will be rendered using the shaders set with set_shaders(). Additionally, a clip-space
          * matrix can be set to clip away unseen geometry.
@@ -189,6 +189,6 @@ namespace dune
      * \param ptr A shared_ptr to a d3d_mesh which will contain the model once successfully loaded.
      */
     void load_model(ID3D11Device* device, const tstring& file, std::shared_ptr<d3d_mesh>& ptr);
-} 
+}
 
 #endif // MESH

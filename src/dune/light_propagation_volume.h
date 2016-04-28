@@ -1,5 +1,5 @@
-/* 
- * dune::light_propagation_volume by Tobias Alexander Franke (tob@cyberhead.de) 2012
+/*
+ * Dune D3D library - Tobias Alexander Franke 2012
  * For copyright and license see LICENSE
  * http://www.tobias-franke.eu
  */
@@ -16,12 +16,12 @@
 #include "cbuffer.h"
 #include "d3d_tools.h"
 
-namespace dune 
+namespace dune
 {
     class gbuffer;
     struct d3d_mesh;
 
-    /*! 
+    /*!
      * \brief A Light Propagation Volume.
      *
      * This class manages all resources and rendering steps necessary to create a
@@ -69,7 +69,7 @@ namespace dune
 
         render_target           lpv_r_[2];
         render_target           lpv_g_[2];
-        render_target           lpv_b_[2]; 
+        render_target           lpv_b_[2];
 
         render_target           lpv_accum_r_;
         render_target           lpv_accum_g_;
@@ -120,7 +120,7 @@ namespace dune
         void normalize(ID3D11DeviceContext* context);
         void propagate(ID3D11DeviceContext* context);
         void propagate(ID3D11DeviceContext* context, size_t num_iterations);
-    
+
     public:
         light_propagation_volume();
         virtual ~light_propagation_volume() {}
@@ -134,9 +134,9 @@ namespace dune
         const cb_gi_parameters& parameters() const { return cb_gi_parameters_; }
         //!@}
 
-        /*! 
+        /*!
          * \brief Set the complete injection shader.
-         * 
+         *
          * Set the injection shader for the LPV, which includes vertex, geometry and pixel shader, as well
          * as a normalization pixel shader. The injection reads VPLs from a gbuffer bound to texture slots
          * starting at inject_rsm_start_slot, and after the injection normalizes it (i.e. divides each voxel
@@ -149,18 +149,18 @@ namespace dune
          * \param inject_rsm_start_slot The slot at which all gbuffer textures will be bound consecutively.
          */
         void set_inject_shader(ID3D11VertexShader* vs, ID3D11GeometryShader* gs, ID3D11PixelShader* ps, ID3D11PixelShader* ps_normalize, UINT inject_rsm_start_slot);
-        
+
         /*!
          * \brief Set the complete propagation shader.
          *
          * Set the propagation shader for the LPV, which includes vertex, geometry and pixel shader, a binary input layout
          * and a starting slot for the volumes which are currently read from.
-         * 
+         *
          * The propagation works by switching between a front and backbuffer volume for the LPV. In each step, the previously rendered volume
          * is bound as input and read from to propagate energy and write it to a new volume. The three volumes for red, green and blue spherical
          * harmonic components are bound to inject_rsm_start_slot consecutively. Since the geometry shader is in charge of scattering radiance to
          * neighbor voxels, it also needs an input layout for some basic vertices.
-         * 
+         *
          * \param device The Direct3d device.
          * \param vs The propagation vertex shader.
          * \param gs The propagation geometry shader.
@@ -169,7 +169,7 @@ namespace dune
          * \param propagate_start_slot The slot at which the propagation shader expects three volumes for red, green and blue spherical harmonic components.
          */
         void set_propagate_shader(ID3D11Device* device, ID3D11VertexShader* vs, ID3D11GeometryShader* gs, ID3D11PixelShader* ps, ID3DBlob* input_binary, UINT propagate_start_slot);
-    
+
         /*!
          * \brief Inject VPLs from an RSM into the LPV.
          *
@@ -208,12 +208,12 @@ namespace dune
      *
      * This class is an implementation of [[Franke 2013]](http://www.tobias-franke.eu/publications/franke13dlpv).
      * A DLPV is an LPV that extracts the difference in illumination caused by the introduction
-     * of an additional object into a scene. It can be used to correct for this difference, for instance 
+     * of an additional object into a scene. It can be used to correct for this difference, for instance
      * in augmented reality applications.
      *
      * The mechanic works like this: instead of injecting one RSM, two a rendered. One
      * is rendered with a scene, the other with the same scene and an additional object.
-     * By injecting the latter first, and then injecting the former negatively, the 
+     * By injecting the latter first, and then injecting the former negatively, the
      * delta is extracted and propagated in the volume.
      *
      * A DLPV also injects direct light to form out rough shadow blobs. Propagation
@@ -247,8 +247,8 @@ namespace dune
         /*! \brief Additionally to the regular indirect injection shader, this will set the direct injection pixel shader. */
         void set_direct_inject_shader(ID3D11VertexShader* ps);
 
-        /*! 
-         * \brief Overwrites the default injection to include  direct injects. 
+        /*!
+         * \brief Overwrites the default injection to include  direct injects.
          *
          * After each clear, RSMs are injected in a toggled order: positive, negative, positive, negative ...
          *
@@ -259,7 +259,7 @@ namespace dune
          * \param scale A multiplier for injected VPL intensity
          */
         void inject(ID3D11DeviceContext* context, gbuffer& rsm, bool clear, bool is_direct, float scale);
-    
+
         /*! \brief Render/propagate indirect injects. */
         void render_indirect(ID3D11DeviceContext* context);
 

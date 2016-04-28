@@ -1,5 +1,5 @@
-/* 
- * Postprocessing pipeline by Tobias Alexander Franke (tob@cyberhead.de) 2013
+/*
+ * The Dirtchamber - Tobias Alexander Franke 2013
  * For copyright and license see LICENSE
  * http://www.tobias-franke.eu
  */
@@ -13,12 +13,12 @@
 #include <dune/postprocess.h>
 #include <dune/serializer.h>
 
-/*! 
+/*!
  * \brief A default implementation of the postprocessor.
  *
  * This is a default implementation of the postprocessor class. The output of a deferred renderer
  * is rendered to the frontbuffer render_target of the postprocessor. Each postprocess effect is rendered
- * by swapping input and output of the previous shader, until the last shader writes its output to the 
+ * by swapping input and output of the previous shader, until the last shader writes its output to the
  * backbuffer provided to the postprocessor.
  *
  * This postprocessor implements SSAO, Godrays, Depth-of-Field, Bloom, FXAA, exposure adaptation, a CRT monitor
@@ -38,17 +38,17 @@ public:
         BOOL  dof_enabled;
         float dof_focal_plane;
         float dof_coc_scale;
-    
+
         BOOL  bloom_enabled;
         float bloom_sigma;
         float bloom_treshold;
-    
+
         BOOL  fxaa_enabled;
-    
+
         BOOL  exposure_adapt;
         float exposure_key;
         float exposure_speed;
-    
+
         BOOL  crt_enabled;
         BOOL  film_grain_enabled;
     };
@@ -102,7 +102,7 @@ protected:
 
     /*! \brief Compute godrays on halfsize buffer. */
     void godrays(ID3D11DeviceContext* context, dune::render_target& in, dune::render_target& out);
-    
+
     /*! \brief Render the entire pipeline by switching back and forth between a two temporary buffers. */
     void render(ID3D11DeviceContext* context, ID3D11PixelShader* ps, dune::render_target& in, ID3D11RenderTargetView* out);
 

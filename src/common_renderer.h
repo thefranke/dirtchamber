@@ -1,5 +1,5 @@
 /*
- * common_renderer.h by Tobias Alexander Franke (tob@cyberhead.de) 2014
+ * The Dirtchamber - Tobias Alexander Franke 2014
  * For copyright and license see LICENSE
  * http://www.tobias-franke.eu
  */
@@ -25,21 +25,21 @@ extern float                            z_far;
 /*! \brief Dirtchamber shared code. */
 namespace dc
 {
-	/*!
-	 * \brief A common, simple deferred renderer.
-	 *
-	 * Implements a basic deferred renderer with a camera, a skydome, a scene composed
-	 * from one or more models (gilga_mesh) and a postprocessor with SSAO, Bloom, HDR Rendering,
-	 * TV grain, Depth of Field, FXAA, Godrays etc. 
-	 *
-	 * The common_renderer renders the camera view into a GBuffer with the following layout:
-	 * - **color** : DXGI_FORMAT_R16G16B16A16_FLOAT
-	 * - **specular** : DXGI_FORMAT_R16G16B16A16_FLOAT
-	 * - **normals** : DXGI_FORMAT_R10G10B10A2_UNORM
-	 * - **linear depth and variance** : DXGI_FORMAT_R32G32_FLOAT
-	 * 
-	 * The postprocessor target is a DXGI_FORMAT_R16G16B16A16_FLOAT render_target.
-	 */
+    /*!
+     * \brief A common, simple deferred renderer.
+     *
+     * Implements a basic deferred renderer with a camera, a skydome, a scene composed
+     * from one or more models (gilga_mesh) and a postprocessor with SSAO, Bloom, HDR Rendering,
+     * TV grain, Depth of Field, FXAA, Godrays etc.
+     *
+     * The common_renderer renders the camera view into a GBuffer with the following layout:
+     * - **color** : DXGI_FORMAT_R16G16B16A16_FLOAT
+     * - **specular** : DXGI_FORMAT_R16G16B16A16_FLOAT
+     * - **normals** : DXGI_FORMAT_R10G10B10A2_UNORM
+     * - **linear depth and variance** : DXGI_FORMAT_R32G32_FLOAT
+     *
+     * The postprocessor target is a DXGI_FORMAT_R16G16B16A16_FLOAT render_target.
+     */
     class common_renderer : public dune::deferred_renderer
     {
     protected:
@@ -64,7 +64,7 @@ namespace dc
         dune::composite_mesh scene_;
         dune::gbuffer def_;
         skydome sky_;
-        
+
         DirectX::XMFLOAT3 bb_min_;
         DirectX::XMFLOAT3 bb_max_;
 
@@ -112,7 +112,7 @@ namespace dc
         /*! \brief A function called if the shaders should be reloaded. */
         virtual void reload_shader(ID3D11Device* device, ID3D11DeviceContext* context) {}
 
-        /*! 
+        /*!
          * \brief Set deferred rendering shaders.
          *
          * Sets the complete shaders for a deferred renderer, which includes an input_binary for a fullscreen triangle,
@@ -150,7 +150,7 @@ namespace dc
         virtual void load(ID3D11DeviceContext* context, const dune::serializer& s);
     };
 
-    /*! 
+    /*!
      * \brief A common_renderer also rendering an RSM.
      *
      * The rsm_renderer derives from a common_renderer and adds one light source of type L.

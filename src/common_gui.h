@@ -1,5 +1,5 @@
-/* 
- * common_gui.h by Tobias Alexander Franke (tob@cyberhead.de) 2013
+/*
+ * The Dirtchamber - Tobias Alexander Franke 2013
  * For copyright and license see LICENSE
  * http://www.tobias-franke.eu
  */
@@ -32,12 +32,12 @@ namespace dc
 {
     namespace gui
     {
-        extern CDXUTDialog						       hud;
+        extern CDXUTDialog                             hud;
         extern CDXUTDialog                             hud_light;
         extern CDXUTDialog                             hud_gi;
         extern CDXUTDialog                             hud_postp1;
         extern CDXUTDialog                             hud_postp2;
-        extern CDXUTDialogResourceManager	           dlg_manager;
+        extern CDXUTDialogResourceManager              dlg_manager;
         extern CDXUTComboBox*                          combo_render_targets;
         extern CDXUTComboBox*                          combo_settings;
 
@@ -61,7 +61,7 @@ namespace dc
         /*! \brief Toggle GUI off/on. */
         void toggle();
 
-        //!@{ 
+        //!@{
         /*! \brief Get the value of a GUI element. */
         bool checkbox_value(int idc);
         float slider_value(int idc, int mi, int ma);
@@ -78,9 +78,9 @@ namespace dc
         //!@}
 
         //!@{
-        /*! 
-         * \brief Save/Load dialog to dump current renderer state. 
-         * 
+        /*!
+         * \brief Save/Load dialog to dump current renderer state.
+         *
          * Each renderer has some runtime settings which can be saved or loaded. Since each parameter in the
          * GUI, be it a slider or a checkbox, is synchronized to the responsible object (for instance an LPV),
          * each objects state can be saved or retreived from disk. To do this, these function calls open
@@ -93,9 +93,9 @@ namespace dc
          *
          * > void save_f(dune::serializer& s)
          * > {
-		 * >     s << lpv;
-		 * > 	 s << dir_light;
-		 * >     ...
+         * >     s << lpv;
+         * >      s << dir_light;
+         * >     ...
          * > }
          *
          */

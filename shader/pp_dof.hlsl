@@ -1,5 +1,5 @@
-/* 
- * Depth of field effect by Tobias Alexander Franke (tob@cyberhead.de) 2012
+/*
+ * The Dirtchamber - Tobias Alexander Franke 2012
  * For copyright and license see LICENSE
  * http://www.tobias-franke.eu
  */
@@ -8,7 +8,7 @@
 
 float blur_factor(in float depth)
 {
-	return smoothstep(0, dof_focal_plane, abs(depth));
+    return smoothstep(0, dof_focal_plane, abs(depth));
 }
 
 float4 ps_depth_of_field(in PS_INPUT inp) : SV_Target

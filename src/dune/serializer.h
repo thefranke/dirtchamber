@@ -1,5 +1,5 @@
 /*
- * dune::serializer by Tobias Alexander Franke (tob@cyberhead.de) 2014
+ * Dune D3D library - Tobias Alexander Franke 2014
  * For copyright and license see LICENSE
  * http://www.tobias-franke.eu
  */
@@ -32,7 +32,7 @@ namespace dune
      * can be expressed with the following keys
      *
      * > foo.bar.baz
-     * 
+     *
      * > foo.bar1.baz
      *
      * The serializer is used to save information about Dune objects into
@@ -64,13 +64,13 @@ namespace dune
         T get(const tstring& key) const
         {
             auto i = properties_.find(key);
-                
+
             if (i == properties_.end())
                 throw dune::exception(L"Unknown key: " + key);
 
             T value;
             tstringstream ss(i->second);
-            
+
             ss >> std::boolalpha >> value;
             return value;
         }
