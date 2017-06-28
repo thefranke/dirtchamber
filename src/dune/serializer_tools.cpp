@@ -142,9 +142,9 @@ namespace dune
         return s;
     }
 
-    serializer& operator<<(serializer& s, const sparse_voxel_octree& lpv)
+    serializer& operator<<(serializer& s, const sparse_voxel_octree& svo)
     {
-        auto& p = lpv.parameters().data();
+        auto& p = svo.parameters().data();
         {
             s.put(L"gi.scale", p.gi_scale);
             s.put(L"gi.debug", p.debug_gi);
@@ -154,11 +154,11 @@ namespace dune
         return s;
     }
 
-    const serializer& operator>>(const serializer& s, sparse_voxel_octree& lpv)
+    const serializer& operator>>(const serializer& s, sparse_voxel_octree& svo)
     {
         try
         {
-            auto& p = lpv.parameters().data();
+            auto& p = svo.parameters().data();
             {
                 p.gi_scale = s.get<float>(L"gi.scale");
                 p.debug_gi = s.get<bool>(L"gi.debug");

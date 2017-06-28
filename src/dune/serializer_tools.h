@@ -41,8 +41,8 @@ namespace dune
 
     //!@{
     /*! \brief Read/write sparse_voxel_octree parameters from/to a serializer. */
-    serializer& operator<<(serializer& s, const sparse_voxel_octree& lpv);
-    const serializer& operator>>(const serializer& s, sparse_voxel_octree& lpv);
+    serializer& operator<<(serializer& s, const sparse_voxel_octree& svo);
+    const serializer& operator>>(const serializer& s, sparse_voxel_octree& svo);
     //!@}
 }
 
