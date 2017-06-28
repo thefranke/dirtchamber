@@ -15,6 +15,11 @@
 
 namespace dune
 {
+    class gbuffer;
+}
+
+namespace dune
+{
     class video_recorder
     {
     protected:
@@ -37,6 +42,9 @@ namespace dune
         void add_frame(ID3D11DeviceContext* context, ID3D11RenderTargetView* rtv);
         void add_frame(ID3D11DeviceContext* context, ID3D11Resource* resource);
     };
+
+    void dump_rtv(ID3D11Device* device, ID3D11DeviceContext* context, UINT width, UINT height, DXGI_FORMAT format, ID3D11RenderTargetView* rtv, const tstring& name);
+    void dump_gbuffer(ID3D11Device* device, ID3D11DeviceContext* context, gbuffer& g, const tstring& name);
 }
 
 #endif

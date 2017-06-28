@@ -11,6 +11,10 @@
 
 #include "d3d_tools.h"
 #include "common_tools.h"
+#include "gbuffer.h"
+
+#define STB_IMAGE_WRITE_IMPLEMENTATION
+#include "ext/stb/stb_image_write.h"
 
 namespace dune
 {
@@ -123,5 +127,91 @@ namespace dune
     {
         stop_recording();
         safe_release(ffmpeg_texture_);
+    }
+
+    void dump_rtv(ID3D11Device* device,
+        ID3D11DeviceContext* context,
+        UINT width, UINT height,
+        DXGI_FORMAT format,
+        ID3D11RenderTargetView* rtv,
+        const dune::tstring& name)
+    {
+        ID3D11Texture2D* texture;
+
+        D3D11_TEXTURE2D_DESC desc;
+        desc.Width = static_cast<UINT>(width);
+        desc.Height = static_cast<UINT>(height);
+        desc.MipLevels = 1;
+        desc.ArraySize = 1;
+        desc.SampleDesc.Count = 1;
+        desc.SampleDesc.Quality = 0;
+        desc.Format = format;
+        desc.Usage = D3D11_USAGE_STAGING;
+        desc.BindFlags = 0;
+        desc.CPUAccessFlags = D3D11_CPU_ACCESS_READ;
+        desc.MiscFlags = 0;
+
+        if (device->CreateTexture2D(&desc, nullptr, &texture) != S_OK)
+        {
+            tcerr << L"Failed to create staging texture for recording" << std::endl;
+            return;
+        }
+
+        ID3D11Resource* resource;
+        rtv->GetResource(&resource);
+
+        context->CopyResource(texture, resource);
+
+        D3D11_MAPPED_SUBRESOURCE msr;
+        UINT subresource = D3D11CalcSubresource(0, 0, 0);
+        context->Map(texture, subresource, D3D11_MAP_READ, 0, &msr);
+
+        if (msr.pData)
+        {
+            if (format == DXGI_FORMAT_R8G8B8A8_UNORM)
+#if 0
+                stbi_write_bmp(dune::to_string(dune::make_absolute_path(name + L".bmp")).c_str(), width, height, 4, msr.pData);
+#else
+                stbi_write_png(dune::to_string(dune::make_absolute_path(name + L".png")).c_str(), width, height, 4, msr.pData, 0);
+#endif
+
+            if (format == DXGI_FORMAT_R32G32B32A32_FLOAT)
+                stbi_write_hdr(dune::to_string(dune::make_absolute_path(name + L".hdr")).c_str(), width, height, 4, reinterpret_cast<float*>(msr.pData));
+
+            if (format == DXGI_FORMAT_R32G32_FLOAT)
+            {
+                std::vector<float> data;
+                data.resize(width * height * 4);
+
+                float* msrf = reinterpret_cast<float*>(msr.pData);
+
+                for (size_t y = 0; y < height; ++y)
+                    for (size_t x = 0; x < width; ++x)
+                    {
+                        size_t index = (y*width + x);
+                        float v = msrf[index * 2 + 0];
+
+                        for (size_t c = 0; c < 3; ++c)
+                            data[index * 4 + c] = v;
+
+                        data[index * 4 + 3] = 1.f;
+                    }
+
+                stbi_write_hdr(dune::to_string(dune::make_absolute_path(name + L".hdr")).c_str(), width, height, 4, &data[0]);
+            }
+
+            context->Unmap(texture, subresource);
+        }
+
+        dune::safe_release(resource);
+        dune::safe_release(texture);
+    }
+
+    void dump_gbuffer(ID3D11Device* device, ID3D11DeviceContext* context, dune::gbuffer& g, const dune::tstring& name)
+    {
+        for (auto& i : g.targets())
+        {
+            dump_rtv(device, context, i.desc().Width, i.desc().Height, i.desc().Format, i.rtv(), name + i.name);
+        }
     }
 }
