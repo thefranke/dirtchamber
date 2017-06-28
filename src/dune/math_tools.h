@@ -18,6 +18,10 @@ namespace dune
 
     /*! \brief Get a number of the Halton sequence. */
     float halton(int index, int base);
+
+    /*! \brief Get a number-pair of the Hammersley sequence. */
+    DirectX::XMFLOAT2 hammersley2d(unsigned int i, unsigned int N);
+
     DirectX::XMMATRIX make_projection(float z_near, float z_far);
 
     /*! \brief Approximate functions namespace. */
