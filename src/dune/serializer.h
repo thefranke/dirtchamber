@@ -21,11 +21,11 @@ namespace dune
     typedef int BOOL;
 
     /*!
-     * \brief Seralizer to read/write Dune objects from/into JSON/XML.
+     * \brief Serializer to read/write Dune objects from/into JSON/XML.
      *
      * This class manages a map of key-value pairs of tstring objects and can
-     * read or write them to XML files. Keys can be structured into subkeys by
-     * dividing them with dots. For instace, the hierarchy
+     * read or write them to XML files. Keys can be structured into sub-keys by
+     * dividing them with dots. For instance, the hierarchy
      *
      * > foo { bar { baz }, bar1 { baz } }
      *

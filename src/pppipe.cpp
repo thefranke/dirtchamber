@@ -219,7 +219,7 @@ void pppipe::bloom(ID3D11DeviceContext* context, render_target& frontbuffer)
 {
     set_viewport(context, bloom_full_);
 
-    // apply treshold
+    // apply threshold
     render(context, bloom_treshold_, frontbuffer, bloom_full_.rtv());
     bloomblur(context, bloom_full_, bloom_full_);
 }
@@ -334,7 +334,7 @@ serializer& operator<<(serializer& s, const pppipe& ppp)
 {
     s.put(L"postprocessing.bloom.enabled",      ppp.parameters().data().bloom_enabled);
     s.put(L"postprocessing.bloom.sigma",        ppp.parameters().data().bloom_sigma);
-    s.put(L"postprocessing.bloom.treshold",     ppp.parameters().data().bloom_treshold);
+    s.put(L"postprocessing.bloom.threshold",     ppp.parameters().data().bloom_treshold);
 
     s.put(L"postprocessing.crt.enabled",        ppp.parameters().data().crt_enabled);
     s.put(L"postprocessing.film_grain.enabled", ppp.parameters().data().film_grain_enabled);
@@ -364,7 +364,7 @@ const serializer& operator>>(const serializer& s, pppipe& ppp)
     {
         ppp.parameters().data().bloom_enabled       = s.get<bool>(L"postprocessing.bloom.enabled");
         ppp.parameters().data().bloom_sigma         = s.get<float>(L"postprocessing.bloom.sigma");
-        ppp.parameters().data().bloom_treshold      = s.get<float>(L"postprocessing.bloom.treshold");
+        ppp.parameters().data().bloom_treshold      = s.get<float>(L"postprocessing.bloom.threshold");
 
         ppp.parameters().data().crt_enabled         = s.get<bool>(L"postprocessing.crt.enabled");
         ppp.parameters().data().film_grain_enabled  = s.get<bool>(L"postprocessing.film_grain.enabled");

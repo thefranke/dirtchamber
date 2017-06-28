@@ -20,10 +20,10 @@ namespace dune
     /*!
      * \brief A base interface for a postprocessor pipeline.
      *
-     * This class defines a base interface for a postprocessing pipeline. A postprocessing pipline is activated
-     * by a deferred_renderer after the deferred render pass. It receives the deferred output as intial image and
-     * is expected to render its end result into a backbuffer render target view. Everything inbetween is
-     * dependend on the pipeline and can introduce as many render steps as needed.
+     * This class defines a base interface for a postprocessing pipeline. A postprocessing pipeline is activated
+     * by a deferred_renderer after the deferred render pass. It receives the deferred output as initial image and
+     * is expected to render its end result into a backbuffer render target view. Everything in between is
+     * dependent on the pipeline and can introduce as many render steps as needed.
      */
     class postprocessor
     {

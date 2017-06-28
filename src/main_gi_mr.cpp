@@ -397,7 +397,7 @@ public:
         // set virtual object model view matrix
         synthetic_object_.set_world(tmodel);
 
-        // update snythetic objects
+        // update synthetic objects
         XMMATRIX rot = XMMatrixIdentity();
 
         if (dc::gui::checkbox_value(IDC_TRACK_ANIMATE))

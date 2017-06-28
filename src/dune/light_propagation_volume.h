@@ -20,7 +20,10 @@ namespace dune
 {
     class gbuffer;
     struct d3d_mesh;
+}
 
+namespace dune
+{
     /*!
      * \brief A Light Propagation Volume.
      *
@@ -173,11 +176,11 @@ namespace dune
         /*!
          * \brief Inject VPLs from an RSM into the LPV.
          *
-         * Injects VPLs generated from the parameter rsm into the LPV. The exact method to generate VPLs is implementation-dependend,
-         * but the behaviour can be overwritten.
+         * Injects VPLs generated from the parameter rsm into the LPV. The exact method to generate VPLs is implementation-dependent,
+         * but the behavior can be overwritten.
          *
          * \param context A Direc3D context.
-         * \param rsm A reflective shadow map with colors, normals and lineardepth.
+         * \param rsm A reflective shadow map with colors, normals and linear-depth.
          * \param clear If true, the volume will be cleared before injection.
          */
         virtual void inject(ID3D11DeviceContext* context, gbuffer& rsm, bool clear);
@@ -217,7 +220,7 @@ namespace dune
      * delta is extracted and propagated in the volume.
      *
      * A DLPV also injects direct light to form out rough shadow blobs. Propagation
-     * of direct and indirect injects is independend from one another.
+     * of direct and indirect injects is independent from one another.
      */
     class delta_light_propagation_volume : public light_propagation_volume
     {
@@ -255,7 +258,7 @@ namespace dune
          * \param context A Direct3D context.
          * \param rsm The GBuffer of the RSM.
          * \param clear Set to true if the injected volume should be cleared. If you inject multiple RSMs set this only at the first call to true.
-         * \param is_direct Specifiy if this is a direct or indirect injection.
+         * \param is_direct Specify if this is a direct or indirect injection.
          * \param scale A multiplier for injected VPL intensity
          */
         void inject(ID3D11DeviceContext* context, gbuffer& rsm, bool clear, bool is_direct, float scale);

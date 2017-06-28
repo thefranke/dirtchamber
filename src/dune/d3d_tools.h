@@ -45,7 +45,7 @@ namespace dune
         /*! \brief Stop measuring time. */
         void end();
 
-        /*! \brief Stop measuring time and return the result in miliseconds. */
+        /*! \brief Stop measuring time and return the result in milliseconds. */
         float result();
     };
 
@@ -73,7 +73,7 @@ namespace dune
      * Exchange a pointer to an object with a pointer to a new object of the same type if
      * - The old pointer exists
      * - The old pointer isn't the same as the new pointer
-     * - The new pointe exists
+     * - The new pointer exists
      *
      * This will safe_release whatever the old object was pointing to and replace it's value by
      * a new pointed to object. This function is useful to replace old shader pointer with new
@@ -123,15 +123,12 @@ namespace dune
      * \param context A Direct3D context.
      * \param rtvs An array of render target views.
      * \param num_rtvs The number of RTVs in the rtvs array.
-     * \param clear_color Four float values specifiying the color with wich to clear all RTVs.
+     * \param clear_color Four float values specifying the color with which to clear all RTVs.
      */
     void clear_rtvs(ID3D11DeviceContext* context,
                     ID3D11RenderTargetView** rtvs,
                     size_t num_rtvs,
                     FLOAT* clear_color);
-
-    /*! \brief Returns true of the SRV is an SRGB view. */
-    bool is_srgb(ID3D11ShaderResourceView* rtv);
 
     /*! \brief Returns true of the DXGI_FORMAT descriptor is SRGB. */
     bool is_srgb(DXGI_FORMAT f);

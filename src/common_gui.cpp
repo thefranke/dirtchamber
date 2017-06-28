@@ -287,7 +287,7 @@ namespace dc
             hud_postp2.AddCheckBox(IDC_BLOOM_ENABLED, L"Bloom", x, y += db, w, h, false);
             hud_postp2.AddStatic(-1, L"Bloom sigma:", x, y += db, w, h, true);
             hud_postp2.AddSlider(IDC_BLOOM_SIGMA, x, y += dd, w, h, 50, 150, 80);
-            hud_postp2.AddStatic(-1, L"Bloom treshold:", x, y += db, w, h, true);
+            hud_postp2.AddStatic(-1, L"Bloom threshold:", x, y += db, w, h, true);
             hud_postp2.AddSlider(IDC_BLOOM_TRESHOLD, x, y += dd, w, h, 50, 250, 150);
 
             // Debug panel

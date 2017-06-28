@@ -23,7 +23,7 @@ namespace dc
     /*!
      * \brief Default implementation of DXUT callbacks common to all render samples.
      *
-     * All render samples share common DXUT function callbacks which use identlical code. They all refer to a
+     * All render samples share common DXUT function callbacks which use identical code. They all refer to a
      * common_renderer pointer the_renderer which represents the main implementation and which must be set when initializing
      * the sample
      */

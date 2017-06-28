@@ -19,7 +19,7 @@
  * This class implements an rsm_renderer and enhances it to provide a full scale GI solution.
  * This is done via Light Propagation Volumes or Voxel Cone Tracing. Because both are volumetric
  * solutions and share almost all code, you can switch between both with a define \#LPV. If \#LPV
- * is set, a Light Propagation Volume is used, otherwise a Sparse Voxel Octree will be instaniated.
+ * is set, a Light Propagation Volume is used, otherwise a Sparse Voxel Octree will be instantiated.
  */
 class gi_renderer : public dc::rsm_renderer<dune::directional_light>
 {

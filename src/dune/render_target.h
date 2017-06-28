@@ -22,7 +22,7 @@ namespace dune
      *
      * A render target is a texture that can be "written" to from the outside, whether it be from
      * the GPU or the CPU. A render_target object can be created in several different manners
-     * (from manuel specification to supplying common descriptors) and provides functions
+     * (from manual specification to supplying common descriptors) and provides functions
      * to query views later used to read from or render to it. Furthermore, depending on the
      * parameters supplied to create(), render_target objects can also be CPU mapped to read
      * or write from/to them.
@@ -77,7 +77,7 @@ namespace dune
         }
 
         //!@{
-        /*! \brief Enable caching. If this is true, creating this object will copy the initial subresource to a cache. */
+        /*! \brief Enable caching. If this is true, creating this object will copy the initial sub-resource to a cache. */
         void enable_cached(bool c) { cached_ = c;  }
         bool cached() { return cached_; }
         //!@}

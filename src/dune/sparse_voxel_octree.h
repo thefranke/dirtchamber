@@ -133,7 +133,7 @@ namespace dune
          *
          * This method sets the injection shader, which includes a vertex and pixel shader, and a slot
          * at which register the shader can expect to read a gbuffer of the RSM with colors, normals and
-         * lineardepth.
+         * linear-depth.
          *
          * \param vs The injection vertex shader.
          * \param ps The injection pixel shader.
@@ -173,7 +173,7 @@ namespace dune
      * delta is extracted and propagated in the volume.
      *
      * A DLPV also injects direct light to form out rough shadow blobs. Propagation
-     * of direct and indirect injects is independend from one another.
+     * of direct and indirect injects is independent from one another.
      */
     class delta_sparse_voxel_octree : public sparse_voxel_octree
     {

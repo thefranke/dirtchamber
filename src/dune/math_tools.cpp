@@ -14,6 +14,7 @@ namespace dune
 {
     namespace detail
     {
+        // http://holger.dammertz.org/stuff/notes_HammersleyOnHemisphere.html
         static float radiacal_inverse_vdc(unsigned int bits)
         {
             bits = (bits << 16u) | (bits >> 16u);

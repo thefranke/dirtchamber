@@ -36,7 +36,7 @@ namespace dune
         /*!
          * \brief Initialize the bounding-box with a first point.
          *
-         * Before using the bounding box, it must first be intialized with a single point.
+         * Before using the bounding box, it must first be initialized with a single point.
          *
          * \param p The first point of a larger structure.
          */
@@ -181,7 +181,7 @@ namespace dune
      * \brief Load a model specified by a filename.
      *
      * This is the principal loading function for model data. A model is loaded from the disk and
-     * the correct loader to do so is determined by the file's extension. If loding the model was
+     * the correct loader to do so is determined by the file's extension. If loading the model was
      * successful, a shared_ptr to a d3d_mesh is set.
      *
      * \param device The Direct3D device.

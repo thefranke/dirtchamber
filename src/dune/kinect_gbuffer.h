@@ -35,7 +35,7 @@ namespace dune
      * A thread is spawned which copies images received from the Kinect into two internal render_target objects.
      * Once the render_target objects are written to, flags are raised to indicate this to other threads.
      * The application thread calls the update method to pull data over into the gbuffer
-     * objects. This is neccessary to be able to update buffers without managing two D3D context objects
+     * objects. This is necessary to be able to update buffers without managing two D3D context objects
      * in a multithreading environment, because GBuffers under normal circumstances can only be accessed
      * in the same thread as the renderer.
      */

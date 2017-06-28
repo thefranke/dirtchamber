@@ -100,7 +100,7 @@ namespace dune
         void remove_pattern(size_t id);
 
         /*!
-         * \brief Retreive a model-view matrix for a pattern id.
+         * \brief Retrieve a model-view matrix for a pattern id.
          *
          * This method will construct a model-view matrix necessary to correctly transform 3D geometry according to a
          * tracked pattern. Additionally, rescaling, transformation, and a rotation can be added beforehand. If the pattern

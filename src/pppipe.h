@@ -100,7 +100,7 @@ protected:
     void bloomblur(ID3D11DeviceContext* context, dune::render_target& in, dune::render_target& out);
     //!@}
 
-    /*! \brief Compute godrays on halfsize buffer. */
+    /*! \brief Compute godrays on half size buffer. */
     void godrays(ID3D11DeviceContext* context, dune::render_target& in, dune::render_target& out);
 
     /*! \brief Render the entire pipeline by switching back and forth between a two temporary buffers. */

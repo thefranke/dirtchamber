@@ -72,7 +72,7 @@ namespace dune
      * \brief The principal function to load a texture.
      *
      * This function is used to load textures of any type. The correct loader will be deduced from the filename. Optionally,
-     * a shader resource view can be directly retreived for the file. This function will automatically populate the texture_cache
+     * a shader resource view can be directly retrieved for the file. This function will automatically populate the texture_cache
      * instance.
      *
      * \param device The Direct3D device

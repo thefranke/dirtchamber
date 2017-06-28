@@ -100,7 +100,7 @@ namespace dc
         virtual void resize(UINT width, UINT height);
         virtual void render(ID3D11DeviceContext* context, ID3D11RenderTargetView* backbuffer, ID3D11DepthStencilView* dsv);
 
-        /*! \brief Upload postprocessing paraemters from the postporcessing pipeline. */
+        /*! \brief Upload postprocessing parameters from the postprocessing pipeline. */
         virtual void update_postprocessing_parameters(ID3D11DeviceContext* context);
 
         /*! \brief Update function for everything called once a frame. */

@@ -76,7 +76,7 @@ namespace dune
      * - \\( \\mu \\) is an RSM of the same scene without the additional object
      *
      * Having these two RSMs, the differential indirect bounce can be extracted
-     * by subtracing \\( \\mu \\) from \\( \\rho \\). This class is used to intialize delta_light_propagation_volume
+     * by subtracting \\( \\mu \\) from \\( \\rho \\). This class is used to initialize delta_light_propagation_volume
      * objects or delta_sparse_voxel_octree objects.
      */
     class differential_directional_light : public directional_light

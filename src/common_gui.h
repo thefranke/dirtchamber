@@ -83,13 +83,13 @@ namespace dc
          *
          * Each renderer has some runtime settings which can be saved or loaded. Since each parameter in the
          * GUI, be it a slider or a checkbox, is synchronized to the responsible object (for instance an LPV),
-         * each objects state can be saved or retreived from disk. To do this, these function calls open
+         * each objects state can be saved or retrieved from disk. To do this, these function calls open
          * a window to ask for an XML file to be saved or loaded. Each dune object which can be rendered
          * has a .parameters() function, which is a cbuffer of the parameters necessary to render the object
          * properly. Since each parameters returned cbuffer object keeps a local copy of its data, these entries
          * can be read or written, i.e. saved or loaded. A dune::serializer object manages all values in a big
          * map. Both functions only open and read/write XML files. The behavior of what to write into these
-         * files is supplied as a functor, where stram operators can be used to write to the serializer.
+         * files is supplied as a functor, where stream operators can be used to write to the serializer.
          *
          * > void save_f(dune::serializer& s)
          * > {
