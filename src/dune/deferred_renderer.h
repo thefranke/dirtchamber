@@ -13,11 +13,17 @@
 #include <string>
 #include <map>
 
-#include "gbuffer.h"
-#include "postprocess.h"
+#include "shader_resource.h"
 #include "simple_mesh.h"
 
 #include <D3D11.h>
+
+namespace dune
+{
+    class texture;
+    class gbuffer;
+    class postprocessor;
+}
 
 namespace dune
 {

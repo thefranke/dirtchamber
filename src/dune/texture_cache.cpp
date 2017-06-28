@@ -15,6 +15,7 @@
 #include "../ext/stb/stb_image.h"
 #include "../ext/dds/DDSTextureLoader.h"
 
+#include "texture.h"
 #include "unicode.h"
 #include "exception.h"
 #include "common_tools.h"

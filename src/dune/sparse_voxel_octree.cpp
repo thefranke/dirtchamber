@@ -6,11 +6,11 @@
 
 #include "sparse_voxel_octree.h"
 
-#include "d3d_tools.h"
 #include "mesh.h"
 #include "assimp_mesh.h"
 #include "unicode.h"
 #include "gbuffer.h"
+#include "light.h"
 
 namespace dune
 {

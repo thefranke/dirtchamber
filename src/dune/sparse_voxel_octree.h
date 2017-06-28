@@ -11,19 +11,19 @@
 
 #include <D3D11.h>
 
-#include "render_target.h"
-#include "shader_resource.h"
 #include "cbuffer.h"
-#include "d3d_tools.h"
-#include "composite_mesh.h"
-#include "deferred_renderer.h"
-#include "light.h"
+#include "shader_resource.h"
 
 namespace dune
 {
     struct d3d_mesh;
     class gilga_mesh;
+    class directional_light;
+    class differential_directional_light;
+}
 
+namespace dune
+{
     /*!
      * \brief A sparse voxel octree (SVO).
      *

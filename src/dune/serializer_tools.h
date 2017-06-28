@@ -11,10 +11,13 @@
 
 #include "serializer.h"
 
-#include "camera.h"
-#include "light.h"
-#include "light_propagation_volume.h"
-#include "sparse_voxel_octree.h"
+namespace dune
+{
+    class camera;
+    class directional_light;
+    class light_propagation_volume;
+    class sparse_voxel_octree;
+}
 
 namespace dune
 {

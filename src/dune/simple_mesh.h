@@ -14,7 +14,6 @@
 
 #include "d3d_tools.h"
 #include "mesh.h"
-#include "logger.h"
 
 namespace dune
 {

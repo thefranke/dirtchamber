@@ -11,6 +11,8 @@
 #include <iostream>
 #include <sstream>
 
+#include "gbuffer.h"
+#include "postprocess.h"
 #include "d3d_tools.h"
 #include "unicode.h"
 #include "mesh.h"

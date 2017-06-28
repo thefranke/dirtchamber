@@ -28,6 +28,7 @@ namespace dune {}
 #include "math_tools.h"
 #include "mesh.h"
 #include "postprocess.h"
+#include "record_tools.h"
 #include "render_target.h"
 #include "sdk_mesh.h"
 #include "shader_resource.h"

@@ -15,7 +15,11 @@
 #include <boost/noncopyable.hpp>
 
 #include "unicode.h"
-#include "texture.h"
+
+namespace dune
+{
+    class texture;
+}
 
 namespace dune
 {
