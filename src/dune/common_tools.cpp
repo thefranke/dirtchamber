@@ -52,7 +52,7 @@ namespace dune
 
     tstring absolute_path()
     {
-        // get executbale path
+        // get executable path
         const size_t s = 512;
         TCHAR path[s];
         if (GetModuleFileName(nullptr, path, s) == ERROR_INSUFFICIENT_BUFFER)

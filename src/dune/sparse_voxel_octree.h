@@ -133,7 +133,7 @@ namespace dune
          *
          * This method sets the injection shader, which includes a vertex and pixel shader, and a slot
          * at which register the shader can expect to read a gbuffer of the RSM with colors, normals and
-         * linear-depth.
+         * lineardepth.
          *
          * \param vs The injection vertex shader.
          * \param ps The injection pixel shader.

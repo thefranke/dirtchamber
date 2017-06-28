@@ -122,7 +122,7 @@ namespace dune
             cv::Mat Rm;
             cv::Rodrigues(R, Rm);
 
-            // create DirectX matrix from opencv
+            // create DirectX matrix from OpenCV
             DirectX::XMFLOAT3X3 xmf_rot(&Rm.at<float>(0, 0));
 
             DirectX::XMMATRIX mat_trans = DirectX::XMMatrixTranslation(T.at<float>(0), -T.at<float>(2), -T.at<float>(1));
@@ -188,13 +188,13 @@ namespace dune
         /*!
          * \brief Detect one or more patterns in an image frame.
          *
-         * This function detects one pattern of a vector of patterns in a render_target, given that camera parameters (intrinisc and distortion) are known.
+         * This function detects one pattern of a vector of patterns in a render_target, given that camera parameters (intrinsic and distortion) are known.
          * For each pattern in the vector patterns, the highest correlation is returned, albeit a minimum confidence (set as a constant inside the function)
          * must not be crossed. The function returns a vector of detection_info structures which contain an index to the original pattern vector and further
          * information about the detection including the transformation to world coordinates.
          *
          * \param frame The rendet_target frame which contains the image to track on.
-         * \param cam_intrinsics Camera intrinisc parameters read with OpenCV.
+         * \param cam_intrinsics Camera intrinsic parameters read with OpenCV.
          * \param cam_distorition Camera distortion parameters read with OpenCV.
          * \param patterns A vector of patterns which should be detected in an image (one to MAX_PATTERNS).
          * \return A vector of detected pattern information blocks.
@@ -278,7 +278,7 @@ namespace dune
 
                         cv::Point2f rect[4];
 
-                        // rotate vertices based on upper left vertex; this gives you the most trivial homogrpahy
+                        // rotate vertices based on upper left vertex; this gives you the most trivial homography
                         for (int j = 0; j < 4; ++j)
                             rect[j] = cv::Point2f(float_vertices[(4 + v1 - j) % 4].x - pMinX, float_vertices[(4 + v1 - j) % 4].y - pMinY);
 

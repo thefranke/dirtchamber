@@ -180,7 +180,7 @@ namespace dune
          * but the behavior can be overwritten.
          *
          * \param context A Direc3D context.
-         * \param rsm A reflective shadow map with colors, normals and linear-depth.
+         * \param rsm A reflective shadow map with colors, normals and lineardepth.
          * \param clear If true, the volume will be cleared before injection.
          */
         virtual void inject(ID3D11DeviceContext* context, gbuffer& rsm, bool clear);

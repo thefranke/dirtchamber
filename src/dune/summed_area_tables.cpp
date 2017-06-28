@@ -37,7 +37,7 @@ namespace dune
         {
             A.create(x_, y_, w, h_, sat_);
 
-            // if region left has approximately half the energy of the entire thing stahp
+            // if region left has approximately half the energy of the entire thing stop
             if (A.sum_*2.f >= sum_)
                 break;
         }
@@ -55,7 +55,7 @@ namespace dune
         {
             A.create(x_, y_, w_, h, sat_);
 
-            // if region top has approximately half the energy of the entire thing stahp
+            // if region top has approximately half the energy of the entire thing stop
             if (A.sum_*2.f >= sum_)
                 break;
         }

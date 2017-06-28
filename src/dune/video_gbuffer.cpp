@@ -227,7 +227,7 @@ namespace dune
         assert_hr(graph_->QueryInterface(IID_IMediaControl, (void**) &control_));
         assert_hr(capture_->SetFiltergraph(graph_));
 
-        // create null renderer to supress window output
+        // create null renderer to suppress window output
         assert_hr(CoCreateInstance(CLSID_NullRenderer, nullptr, CLSCTX_INPROC_SERVER, IID_IBaseFilter, (void**)&nullf_));
         assert_hr(graph_->AddFilter(nullf_, L"Null Renderer"));
 
